@@ -1,4 +1,5 @@
 import requests
+import find_credit_requirements_h3
 from bs4 import BeautifulSoup
 
 def run(url):
@@ -6,7 +7,7 @@ def run(url):
     print(f"Fetching degree programs from: {url}")
 
     # Target degree name to search for
-    target_degree = "Exercise Science (B.S.)" #this will change to reading from a csv file but will need to have some conversion from EXSC
+    target_degree = "Computer Science (B.S.)" #this will change to reading from a csv file but will need to have some conversion from EXSC
 
     # Send a GET request
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -40,5 +41,9 @@ def run(url):
 
         if not found:
             print(f"Degree '{target_degree}' not found.")
+        else:
+            find_credit_requirements_h3.run(full_url)
+            print("\n\n\n\n")
+            find_credit_requirements_h3.scrape_courses(full_url)
     else:
         print(f"Failed to fetch the page. Status code: {response.status_code}")

@@ -20,7 +20,7 @@ def run():
     }
 
     # Change this variable to select the desired catalog year
-    selected_year = "2020-2021" #this will pull from the students csv file !!!!!!!!!!!!!!!!!!!!
+    selected_year = "2021-2022" #this will pull from the students csv file !!!!!!!!!!!!!!!!!!!!
 
     # Get the corresponding `catoid`
     catoid = catalog_years.get(selected_year)
