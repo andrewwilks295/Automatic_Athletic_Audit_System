@@ -1,5 +1,4 @@
 import requests
-# import pull_catalog_year_test
 import find_degree
 from bs4 import BeautifulSoup
 

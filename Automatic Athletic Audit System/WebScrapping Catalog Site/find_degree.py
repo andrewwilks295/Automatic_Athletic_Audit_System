@@ -6,7 +6,7 @@ def run(url):
     print(f"Fetching degree programs from: {url}")
 
     # Target degree name to search for
-    target_degree = "Exercise Science (B.S.)"
+    target_degree = "Exercise Science (B.S.)" #this will change to reading from a csv file but will need to have some conversion from EXSC
 
     # Send a GET request
     headers = {"User-Agent": "Mozilla/5.0"}
