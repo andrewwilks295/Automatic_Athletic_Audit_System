@@ -3,7 +3,7 @@ import find_degree
 from bs4 import BeautifulSoup
 
 # URL to scrape
-def run(url):
+def run(url, major):
     print("\n\nStarting find_all_programs_link.py\n----------------------------")
     # url = pull_catalog_year_test.catalog_url
 
@@ -24,8 +24,9 @@ def run(url):
             href = link['href']
             full_url = f"https://catalog.suu.edu{href}"
             print(f"Found Link: {full_url}")
-            find_degree.run(full_url)
+            find_degree.run(full_url, major)
         else:
             print("No link with 'All Programs' found.")
     else:
         print(f"Failed to fetch the page. Status code: {response.status_code}")
+

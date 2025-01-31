@@ -2,7 +2,7 @@ import requests
 import find_all_programs_link
 from bs4 import BeautifulSoup
 
-def run():
+def run(year, major):
     print("\n\nStarting_catalog_year_test\n----------------------------")
     # Base URL of SUU catalog
     base_url = "https://www.suu.edu/academics/catalog/"
@@ -20,7 +20,7 @@ def run():
     }
 
     # Change this variable to select the desired catalog year
-    selected_year = "2021-2022" #this will pull from the students csv file !!!!!!!!!!!!!!!!!!!!
+    selected_year = year #this will pull from the students csv file !!!!!!!!!!!!!!!!!!!!
 
     # Get the corresponding `catoid`
     catoid = catalog_years.get(selected_year)
@@ -46,7 +46,7 @@ def run():
             # Print the selected catalog link
             print(f"Selected Year: {selected_year}")
             print(f"Catalog URL: {catalog_url}")
-            find_all_programs_link.run(catalog_url)
+            find_all_programs_link.run(catalog_url, major)
 
         else:
             print(f"Failed to fetch the page. Status code: {response.status_code}")
