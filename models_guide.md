@@ -3,10 +3,10 @@
 1. **Set up your models**  
    In `src/models.py`, create or update your model classes.
 
-2. **Generate migration files**  
+2. **Generate migration files for src app**  
    Open your terminal and run:
    ```bash
-   python manage.py makemigrations
+   python manage.py makemigrations src
    ```
    This command scans your models and creates new migration files in the `migrations` directory.
 
