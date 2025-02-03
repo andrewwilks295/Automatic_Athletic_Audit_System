@@ -17,3 +17,7 @@ python -m pip install -r requirements.txt
 ```bash
 python main.py
 ```
+
+
+> ### Contributors
+Aidan Brown, Andrew Wilks, CJ Torgerson, Nathaniel Sarles, Ewurabena Damptey
