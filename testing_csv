@@ -1,0 +1,22 @@
+import csv
+import os
+
+major = "data"
+filename = f'{major}.csv'
+
+# Check if the file already exists
+file_exists = os.path.exists(filename)
+
+if file_exists:
+    print(f"'{filename}' already exists.")
+else:
+    data = [
+        ['Name', 'Age', 'City'],
+        ['John', 25, 'New York'],
+        ['Mary', 30, 'London']
+    ]
+
+    with open(filename, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(data)
+    print(f"'{filename}' has been created.")
