@@ -37,7 +37,7 @@ def run(url):
         print(f"Failed to fetch the page. Status code: {response.status_code}")     
 
 def scrape_courses(url):
-    data = "waffle"
+    # data = "waffle"
     print(f"\nScraping course listings from: {url}")
 
     # Send a GET request to the website
@@ -48,12 +48,24 @@ def scrape_courses(url):
     if response.status_code == 200:
         # Parse the HTML content
         soup = BeautifulSoup(response.text, "html.parser")
+        
+        h1_tags = soup.find_all("h1")
+        # print(h1_tags)  # Print all found <h1> elements
+        if h1_tags:  # Check if any <h1> elements were found
+            title = h1_tags[0].get_text(strip=True)  # Get the text of the first <h1>
+            print("Extracted Title:", title)
+        else:
+            title = "Unknown_Title"  # Fallback if no <h1> exists
+
+        # csv_filename = f"{title}.csv"  # Format as a CSV filename
+        # print("CSV Filename:", csv_filename)
+
 
         # Find all course listings (li elements with class "acalog-course")
         course_elements = soup.find_all("li", class_="acalog-course")
         # Extract and print course names
         if course_elements:
-            filename = f'{data}.csv'
+            filename = f'{title}.csv'
             file_exists = os.path.exists(filename)
             print("\nFound Courses:\n----------------------------")
             courses = []
