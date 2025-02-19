@@ -38,6 +38,13 @@ def run(url):
     else:
         print(f"Failed to fetch the page. Status code: {response.status_code}")     
 
+
+import requests
+from bs4 import BeautifulSoup
+import csv
+import os
+import re
+
 def scrape_courses(url):
     print(f"\nScraping course listings from: {url}")
 
@@ -69,13 +76,24 @@ def scrape_courses(url):
                 for course in course_elements:
                     course_text = course.get_text(separator=" ", strip=True)
 
-                    # Regex pattern to extract subject, course number, name, and credits
-                    pattern = re.compile(r"(\w+)\s(\d+)\s-\s(.+?)\s(\d+)\sCredit")
-                    match = pattern.search(course_text)
+                    # Split by " or " to handle multiple course options
+                    course_options = course_text.split(" or ")
 
-                    if match:
-                        subject, course_number, name, credits = match.groups()
-                        courses.append([subject, course_number, name, credits])
+                    # Extract only the numeric credit value
+                    credit_match = re.search(r"(\d+)\sCredit\(s\)", course_text)
+                    credits = credit_match.group(1) if credit_match else "Unknown"
+
+                    for option in course_options:
+                        # Remove "Credit(s)" from the course name if present
+                        option = re.sub(r"\s\d+\sCredit\(s\)", "", option).strip()
+
+                        # Regex pattern to extract subject, course number, and name
+                        pattern = re.compile(r"(\w+)\s(\d+)\s-\s(.+)")
+                        match = pattern.search(option)
+
+                        if match:
+                            subject, course_number, name = match.groups()
+                            courses.append([subject, course_number, name, credits])
 
                 # Write to CSV
                 with open(filename, "w", newline="") as file:
@@ -92,3 +110,6 @@ def scrape_courses(url):
 
 # Example usage
 # scrape_courses("https://your-university-course-listing-page.com")
+
+
+
