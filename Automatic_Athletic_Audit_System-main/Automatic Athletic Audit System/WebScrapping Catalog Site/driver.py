@@ -1,6 +1,6 @@
 import pull_catalog_year_test
 def main():
-    year = "2024-2025"
-    major = "Exercise Science (B.S.)"
+    year = "2023-2024"
+    major = "Elementary Education (B.A., B.S.)"
     pull_catalog_year_test.run(year, major)
 main()

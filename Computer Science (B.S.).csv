@@ -1,0 +1,48 @@
+Subject,Course Number,Name,Credits
+CS,2300,Discrete Structures,3
+MATH,1210,Calculus I,4
+MATH,2170,Applied Linear Algebra,3
+MATH,1100,Applied Calculus,3
+MATH,1220,Calculus II,4
+MATH,2900,Mathematical Software: [TOPIC],1
+MATH,3700,Probability and Statistics,4
+BIOL,1610,General Biology I,3
+BIOL,1615,General Biology Lab I,1
+BIOL,1620,General Biology II,3
+BIOL,1625,General Biology Lab II,1
+CHEM,1210,Principles of Chemistry I,4
+CHEM,1215,Principles of Chemistry I Lab,1
+CHEM,1220,Principles of Chemistry II,4
+CHEM,1225,Principles of Chemistry II Lab,1
+PHYS,2210,Physics for Scientists and Engineers I,4
+PHYS,2215,Physics for Scientists and Engineers I Lab,1
+PHYS,2220,Physics for Scientists and Engineers II,4
+PHYS,2225,Physics for Scientists and Engineers II Lab,1
+CSCY,1200,Critical Thinking for Logic and Design,3
+CS,1400,Fundamentals of Programming,3
+CS,1410,Object Oriented Programming,3
+CSCY,2000,Web Development,3
+CSCY,2400,Technology and Ethics,3
+CS,2420,Introduction to Algorithms and Data Structures,3
+CS,2450,Software Engineering,3
+CS,2810,Computer Organization and Architecture,3
+CS,3000,Advanced Algorithms and Data Structures,3
+CS,3550,Foundations of Computation Theory,3
+CS,3600,Operating Systems,3
+CS,4550,Programming Languages,3
+CS,4800,Computer Science Capstone Project,3
+CSCY,1450,Security Scripting,3
+CSCY,3200,Database Design and Management,3
+CS,3150,C and C++ Programming,3
+CS,3250,Java Programming,3
+CS,3150,C and C++ Programming,3
+CS,3250,Java Programming,3
+CS,3300,Mobile App Development for Android,3
+CS,3350,Game Design and Development,3
+CS,4100,Virtual Reality Programming,3
+CS,4150,Machine Learning,3
+CS,4200,Big Data Analytics,3
+CS,4300,Mobile App Development for iOS,3
+CS,4350,Web Programming,3
+CS,4720,Artificial Intelligence,3
+CSCY,1100,Outreach Computing Projects,1
