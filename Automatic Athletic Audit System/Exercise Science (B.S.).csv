@@ -1,35 +1,36 @@
-PE 1098 - Wellness Dynamics 3 Credit(s)
-KIN 2000 - Introduction to Exercise Science 1 Credit(s)
-KIN 2020 - Functional Kinesiology 2 Credit(s)
-KIN 3050 - Motor Learning 3 Credit(s)
-KIN 3060 - Sport and Exercise Biomechanics 3 Credit(s)
-KIN 3065 - Sport and Exercise Biomechanics Lab 1 Credit(s)
-KIN 3070 - Exercise Physiology 3 Credit(s)
-KIN 3075 - Exercise Physiology Lab 1 Credit(s)
-KIN 3080 - Athletic Training and Sports Medicine 3 Credit(s)
-KIN 3085 - Athletic Training and Sports Medicine Lab 1 Credit(s)
-KIN 4010 - Methods of Sports Conditioning 3 Credit(s)
-KIN 4020 - Research Methods and Statistics in Exercise Science 3 Credit(s)
-KIN 4030 - Clinical Applications of Exercise Science 3 Credit(s)
-KIN 4035 - Clinical Applications of Exercise Science Lab 1 Credit(s)
-KIN 4040 - Exercise Testing and Prescription 3 Credit(s)
-PE 1543 - Advanced First Aid-Emergency Care-CPR 1 Credit(s) (must either take class or have current card of completion at graduation)
-BIOL 1020 - Human Biology 3 Credit(s)
-BIOL 1025 - Human Biology Lab 1 Credit(s)
-BIOL 1610 - General Biology I 3 Credit(s)
-BIOL 1615 - General Biology Lab I 1 Credit(s)
-BIOL 2320 - Human Anatomy 3 Credit(s)
-BIOL 2325 - Human Anatomy Lab 1 Credit(s) or BIOL 2323 - Human Anatomy Lab (Online) 1 Credit(s)
-BIOL 2420 - Human Physiology 3 Credit(s)
-BIOL 2425 - Human Physiology Lab 1 Credit(s) or BIOL 2423 - Human Physiology Lab (Online) 1 Credit(s)
-KIN 4070 - Advanced Exercise Physiology 3 Credit(s)
-KIN 4080 - Obesity and Weight Management 3 Credit(s)
-KIN 4100 - ECG Interpretation 3 Credit(s)
-KIN 4400 - Evaluation of Musculoskeletal Injuries 3 Credit(s)
-KIN 4410 - Therapeutic Exercise and Rehabilitation 3 Credit(s)
-KIN 4450 - Therapeutic Modalities 3 Credit(s)
-KIN 4800 - Studies in Exercise Sciences 3 Credit(s)
-KIN 4890 - Internship 1-8 Credit(s) (student must obtain 3 credits from this course to meet course requirements) 3 Credit(s)
-NFS 3020 - Nutrition as Related to Fitness and Sports 3 Credit(s)
-PE 4740 - Coaching Leadership and Administration 3 Credit(s)
-PE 4750 - Psycho-Social Aspects of Athletics 3 Credit(s)
+Subject,Course Number,Name,Credits
+PE,1098,Wellness Dynamics,3
+KIN,2000,Introduction to Exercise Science,1
+KIN,2020,Functional Kinesiology,2
+KIN,3050,Motor Learning,3
+KIN,3060,Sport and Exercise Biomechanics,3
+KIN,3065,Sport and Exercise Biomechanics Lab,1
+KIN,3070,Exercise Physiology,3
+KIN,3075,Exercise Physiology Lab,1
+KIN,3080,Athletic Training and Sports Medicine,3
+KIN,3085,Athletic Training and Sports Medicine Lab,1
+KIN,4010,Methods of Sports Conditioning,3
+KIN,4020,Research Methods and Statistics in Exercise Science,3
+KIN,4030,Clinical Applications of Exercise Science,3
+KIN,4035,Clinical Applications of Exercise Science Lab,1
+KIN,4040,Exercise Testing and Prescription,3
+PE,1543,Advanced First Aid-Emergency Care-CPR,1
+BIOL,1020,Human Biology,3
+BIOL,1025,Human Biology Lab,1
+BIOL,1610,General Biology I,3
+BIOL,1615,General Biology Lab I,1
+BIOL,2320,Human Anatomy,3
+BIOL,2325,Human Anatomy Lab,1
+BIOL,2420,Human Physiology,3
+BIOL,2425,Human Physiology Lab,1
+KIN,4070,Advanced Exercise Physiology,3
+KIN,4080,Obesity and Weight Management,3
+KIN,4100,ECG Interpretation,3
+KIN,4400,Evaluation of Musculoskeletal Injuries,3
+KIN,4410,Therapeutic Exercise and Rehabilitation,3
+KIN,4450,Therapeutic Modalities,3
+KIN,4800,Studies in Exercise Sciences,3
+KIN,4890,Internship 1-8 Credit(s) (student must obtain 3 credits from this course to meet course requirements),3
+NFS,3020,Nutrition as Related to Fitness and Sports,3
+PE,4740,Coaching Leadership and Administration,3
+PE,4750,Psycho-Social Aspects of Athletics,3

@@ -1,7 +1,9 @@
 import requests
 import csv
 import os
+import re
 from bs4 import BeautifulSoup
+
 
 def run(url):
     print(f"\nScraping H3 tags from: {url}")
@@ -37,7 +39,6 @@ def run(url):
         print(f"Failed to fetch the page. Status code: {response.status_code}")     
 
 def scrape_courses(url):
-    # data = "waffle"
     print(f"\nScraping course listings from: {url}")
 
     # Send a GET request to the website
@@ -46,50 +47,48 @@ def scrape_courses(url):
 
     # Check if the request was successful
     if response.status_code == 200:
-        # Parse the HTML content
         soup = BeautifulSoup(response.text, "html.parser")
-        
+
+        # Extract page title for naming the CSV
         h1_tags = soup.find_all("h1")
-        # print(h1_tags)  # Print all found <h1> elements
-        if h1_tags:  # Check if any <h1> elements were found
-            title = h1_tags[0].get_text(strip=True)  # Get the text of the first <h1>
-            print("Extracted Title:", title)
-        else:
-            title = "Unknown_Title"  # Fallback if no <h1> exists
+        title = h1_tags[0].get_text(strip=True) if h1_tags else "Unknown_Title"
 
-        # csv_filename = f"{title}.csv"  # Format as a CSV filename
-        # print("CSV Filename:", csv_filename)
-
-
-        # Find all course listings (li elements with class "acalog-course")
+        # Find all course listings
         course_elements = soup.find_all("li", class_="acalog-course")
-        # Extract and print course names
+
         if course_elements:
-            filename = f'{title}.csv'
+            filename = f"{title}.csv"
             file_exists = os.path.exists(filename)
+
             print("\nFound Courses:\n----------------------------")
             courses = []
+
             if file_exists:
                 print(f"'{filename}' already exists.")
             else:
-                for index, course in enumerate(course_elements, start=1):
-                    course_text = course.get_text(separator=" ", strip=True)  # Extract text with spaces
-                    # print(type(course_text))
-                    courses.append([course_text])
-                    # print(f"{index}. {course_text}")  # Print course information
-                with open(filename, 'w', newline='') as file:
+                for course in course_elements:
+                    course_text = course.get_text(separator=" ", strip=True)
+
+                    # Regex pattern to extract subject, course number, name, and credits
+                    pattern = re.compile(r"(\w+)\s(\d+)\s-\s(.+?)\s(\d+)\sCredit")
+                    match = pattern.search(course_text)
+
+                    if match:
+                        subject, course_number, name, credits = match.groups()
+                        courses.append([subject, course_number, name, credits])
+
+                # Write to CSV
+                with open(filename, "w", newline="") as file:
                     writer = csv.writer(file)
+                    writer.writerow(["Subject", "Course Number", "Name", "Credits"])
                     writer.writerows(courses)
-                    
-                    # outrow = row # row is already a list
-                    # outrow.append(output.split('\t'))
-                    # csvout.writerow(outrow)
-                    
-                print(f"'{filename}' has been created.")
-                
-                # for course in courses:
-                #     print(course)
+
+                print(f"'{filename}' has been created successfully.")
+
         else:
             print("No course listings found.")
     else:
         print(f"Failed to fetch the page. Status code: {response.status_code}")
+
+# Example usage
+# scrape_courses("https://your-university-course-listing-page.com")
