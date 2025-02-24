@@ -2,7 +2,7 @@ import requests
 import find_credit_requirements_h3
 from bs4 import BeautifulSoup
 
-def run(url, major):
+def run(url, major, year):
     print("\n\nStarting find_degree.py\n----------------------------")
     print(f"Fetching degree programs from: {url}")
 
@@ -44,6 +44,6 @@ def run(url, major):
         else:
             find_credit_requirements_h3.run(full_url)
             print("\n\n\n\n")
-            find_credit_requirements_h3.scrape_courses(full_url)
+            find_credit_requirements_h3.scrape_courses(full_url, year)
     else:
         print(f"Failed to fetch the page. Status code: {response.status_code}")

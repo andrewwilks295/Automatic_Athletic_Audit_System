@@ -1,3 +1,5 @@
+#  This module is for Django settings only
+
 INSTALLED_APPS = [
     'src'
 ]

@@ -38,14 +38,7 @@ def run(url):
     else:
         print(f"Failed to fetch the page. Status code: {response.status_code}")     
 
-
-import requests
-from bs4 import BeautifulSoup
-import csv
-import os
-import re
-
-def scrape_courses(url):
+def scrape_courses(url, year):
     print(f"\nScraping course listings from: {url}")
 
     # Send a GET request to the website
@@ -64,14 +57,28 @@ def scrape_courses(url):
         course_elements = soup.find_all("li", class_="acalog-course")
 
         if course_elements:
+            # Get the directory where this script is located
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            # Define the folder path within the script's directory
+            school_year_folder = os.path.join(current_dir, year)
+            # Check if the folder exists; if not, create it
+            if not os.path.exists(school_year_folder):
+                os.makedirs(school_year_folder)
+                print(f"Created folder: {school_year_folder}")
+            else:
+                print(f"Folder already exists: {school_year_folder}")
+
+            # Define the CSV file path within the school year folder
             filename = f"{title}.csv"
-            file_exists = os.path.exists(filename)
+            csv_file_path = os.path.join(school_year_folder, filename)
+
+            file_exists = os.path.exists(csv_file_path)
 
             print("\nFound Courses:\n----------------------------")
             courses = []
 
             if file_exists:
-                print(f"'{filename}' already exists.")
+                print(f"'{csv_file_path}' already exists.")
             else:
                 for course in course_elements:
                     course_text = course.get_text(separator=" ", strip=True)
@@ -95,21 +102,20 @@ def scrape_courses(url):
                             subject, course_number, name = match.groups()
                             courses.append([subject, course_number, name, credits])
 
-                # Write to CSV
-                with open(filename, "w", newline="") as file:
+                # Write courses data to CSV in the designated folder
+                with open(csv_file_path, "w", newline="") as file:
                     writer = csv.writer(file)
                     writer.writerow(["Subject", "Course Number", "Name", "Credits"])
                     writer.writerows(courses)
 
-                print(f"'{filename}' has been created successfully.")
+                print(f"'{csv_file_path}' has been created successfully.")
 
         else:
             print("No course listings found.")
     else:
         print(f"Failed to fetch the page. Status code: {response.status_code}")
 
-# Example usage
-# scrape_courses("https://your-university-course-listing-page.com")
+
 
 
 
