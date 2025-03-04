@@ -1,13 +1,16 @@
+import os.path
+
 import requests
 import find_credit_requirements_h3
 from bs4 import BeautifulSoup
+
 
 def run(url, major, year):
     print("\n\nStarting find_degree.py\n----------------------------")
     print(f"Fetching degree programs from: {url}")
 
     # Target degree name to search for
-    target_degree = major #this will change to reading from a csv file but will need to have some conversion from EXSC
+    target_degree = major  # this will change to reading from a csv file but will need to have some conversion from EXSC
 
     # Send a GET request
     headers = {"User-Agent": "Mozilla/5.0"}
