@@ -2,6 +2,7 @@ import requests
 import find_degree
 from bs4 import BeautifulSoup
 
+
 # URL to scrape
 def run(url, major, year):
     print("\n\nStarting find_all_programs_link.py\n----------------------------")
@@ -29,4 +30,3 @@ def run(url, major, year):
             print("No link with 'All Programs' found.")
     else:
         print(f"Failed to fetch the page. Status code: {response.status_code}")
-

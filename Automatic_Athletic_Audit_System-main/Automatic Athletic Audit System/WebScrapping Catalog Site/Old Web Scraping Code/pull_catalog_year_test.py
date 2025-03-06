@@ -24,6 +24,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
+
 def get_catalog_years(base_url):
     """
     Scrapes the catalog homepage for links containing catalog years.
@@ -32,7 +33,7 @@ def get_catalog_years(base_url):
     response = requests.get(base_url)
     soup = BeautifulSoup(response.text, 'html.parser')
     catalog_years = {}
-    
+
     # Find all links on the page
     for a in soup.find_all('a', href=True):
         text = a.get_text(strip=True)
@@ -48,16 +49,23 @@ def get_catalog_years(base_url):
                 print(f"No catoid found in link for year {year_str}")
     return catalog_years
 
+
+catalog_years: dict[str, str] | None = None
+base_url = "https://www.suu.edu/academics/catalog/"
+
+
+def startup():
+    global catalog_years
+    if catalog_years is None:
+        catalog_years = get_catalog_years(base_url)
+        print("Catalog years found:", catalog_years)
+
+
 def run(year, major):
     print("\n\nStarting_catalog_year_test\n----------------------------")
-    base_url = "https://www.suu.edu/academics/catalog/"
-    
-    # Dynamically generate the catalog_years mapping by scraping the homepage.
-    catalog_years = get_catalog_years(base_url)
-    
-    # Print available years for debugging purposes
-    print("Catalog years found:", catalog_years)
-    
+
+    startup()
+
     if year in catalog_years:
         catoid = catalog_years[year]
         # Proceed using catoid and major as needed for further processing
@@ -66,7 +74,7 @@ def run(year, major):
         print(f"Catalog year '{year}' not found! Available years: {list(catalog_years.keys())}")
 
     # Change this variable to select the desired catalog year
-    selected_year = year #this will pull from the students csv file !!!!!!!!!!!!!!!!!!!!
+    selected_year = year  # this will pull from the students csv file !!!!!!!!!!!!!!!!!!!!
 
     # Get the corresponding `catoid`
     catoid = catalog_years.get(selected_year)
