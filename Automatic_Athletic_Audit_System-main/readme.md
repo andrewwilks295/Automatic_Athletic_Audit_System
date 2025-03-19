@@ -19,5 +19,5 @@ python main.py
 ```
 
 
-> ### Contributors
-Aidan Brown, Andrew Wilks, CJ Torgerson, Nathaniel Sarles, Ewurabena Damptey
+> ## Contributors
+> Aidan Brown, Andrew Wilks, CJ Torgerson, Nathaniel Sarles, Ewurabena Damptey

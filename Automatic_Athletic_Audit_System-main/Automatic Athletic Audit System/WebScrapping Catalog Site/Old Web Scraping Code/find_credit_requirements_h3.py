@@ -28,7 +28,7 @@ def run(url):
                 print(f"{index}. {tag.get_text(strip=True)}")  # Extract and print text inside <h3>
         else:
             print("No <h3> tags found.")
-            
+
         if h2_tags:
             print("\nFound <h2> tags:\n----------------------------")
             for index, tag in enumerate(h2_tags, start=1):
@@ -36,7 +36,8 @@ def run(url):
         else:
             print("No <h3> tags found.")
     else:
-        print(f"Failed to fetch the page. Status code: {response.status_code}")     
+        print(f"Failed to fetch the page. Status code: {response.status_code}")
+
 
 def scrape_courses(url, year):
     print(f"\nScraping course listings from: {url}")
@@ -70,6 +71,10 @@ def scrape_courses(url, year):
 
             # Define the CSV file path within the school year folder
             filename = f"{title}.csv"
+
+            # sanitize filename
+            filename = filename.replace("/", ",")
+
             csv_file_path = os.path.join(school_year_folder, filename)
 
             file_exists = os.path.exists(csv_file_path)
@@ -114,8 +119,3 @@ def scrape_courses(url, year):
             print("No course listings found.")
     else:
         print(f"Failed to fetch the page. Status code: {response.status_code}")
-
-
-
-
-

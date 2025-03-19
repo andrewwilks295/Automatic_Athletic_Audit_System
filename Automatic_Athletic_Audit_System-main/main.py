@@ -5,8 +5,19 @@ import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 django.setup()
 
-def run():
-    # start app here
-    pass
+from src.data import import_student_data_from_csv
+from src.models import MajorMapping
 
-run()
+
+def run():
+    # filepath = "Automatic Athletic Audit System/cleaned_bogus_data.csv"
+    # print(import_student_data_from_csv(filepath))
+    majors = MajorMapping.objects.all()
+    with open('majors.txt', 'w') as mtxt:
+        for major in majors:
+            mtxt.write(major.major_name_web + "\n")
+
+
+if __name__ == '__main__':
+    run()
+    print("Goodbye.")
