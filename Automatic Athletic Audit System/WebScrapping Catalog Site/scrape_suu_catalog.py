@@ -23,16 +23,18 @@ def main():
     for year in years:
         for major in majors:
             # if we already have it, skip it
-            if os.path.exists(f"./{year}/{major.replace('/',',')}.csv"):
+            if os.path.exists(f"./{year}/{major.replace('/', ',')}.csv"):
                 print(f"Skipping {year}/{major}")
                 continue
             # else scrape it
             catalog_url = pull_catalog_year(year)
             all_programs_link = find_all_programs_link(catalog_url)
             full_url = find_degree(all_programs_link, major)
-            # scrape_h2_h3(full_url) this gets the header requirements which I don't think we need but might as well keep the code
+            # scrape_h2_h3(full_url) this gets the header requirements which I don't think we need but might as well
+            # keep the code
             scrape_courses(full_url, year)
-            
+
+
 def pull_catalog_year(year):
     print("\n\nStarting_catalog_year_test\n----------------------------")
 
@@ -77,6 +79,7 @@ def pull_catalog_year(year):
         else:
             print(f"Failed to fetch the page. Status code: {response.status_code}")
 
+
 def get_catalog_years(base_url):
     """
     Scrapes the catalog homepage for links containing catalog years.
@@ -101,11 +104,13 @@ def get_catalog_years(base_url):
                 print(f"No catoid found in link for year {year_str}")
     return catalog_years
 
+
 def startup():
     global catalog_years
     if catalog_years is None:
         catalog_years = get_catalog_years(base_url)
         print("Catalog years found:", catalog_years)
+
 
 def find_all_programs_link(url):
     print("\n\nStarting find_all_programs_link.py\n----------------------------")
@@ -133,6 +138,7 @@ def find_all_programs_link(url):
             print("No link with 'All Programs' found.")
     else:
         print(f"Failed to fetch the page. Status code: {response.status_code}")
+
 
 def find_degree(url, major):
     print("\n\nStarting find_degree.py\n----------------------------")
@@ -177,7 +183,8 @@ def find_degree(url, major):
             return full_url
     else:
         print(f"Failed to fetch the page. Status code: {response.status_code}")
-        
+
+
 def scrape_h2_h3(url):
     print(f"\nScraping H3 tags from: {url}")
 
@@ -210,6 +217,7 @@ def scrape_h2_h3(url):
             print("No <h3> tags found.")
     else:
         print(f"Failed to fetch the page. Status code: {response.status_code}")
+
 
 def scrape_courses(url, year):
     print(f"\nScraping course listings from: {url}")
@@ -291,5 +299,6 @@ def scrape_courses(url, year):
             print("No course listings found.")
     else:
         print(f"Failed to fetch the page. Status code: {response.status_code}")
+
 
 main()

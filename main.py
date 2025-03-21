@@ -6,9 +6,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 django.setup()
 
 from src.data import import_student_data_from_csv, update_major_course_associations
-
-import pandas as pd
-from django.db import transaction
+from src.eligibility import run_eligibility_audit
 from src.models import Course, MajorMapping, MajorCourse
 
 
@@ -22,7 +20,6 @@ def run():
 
 
 if __name__ == '__main__':
-    ...
-    # TODO: fix course association code to populate MajorCourse table. Run code below after.
-    # file_path = "Automatic Athletic Audit System/WebScrapping Catalog Site/2024-2025/Exercise Science (B.S.).csv"
-    # update_major_course_associations(file_path)
+    import_student_data_from_csv('/Users/charles/Desktop/capstone/Automatic_Athletic_Audit_System/Automatic Athletic Audit System/cleaned_bogus_data.csv')
+    update_major_course_associations('./Automatic Athletic Audit System/WebScrapping Catalog Site/')
+    run_eligibility_audit(202210)

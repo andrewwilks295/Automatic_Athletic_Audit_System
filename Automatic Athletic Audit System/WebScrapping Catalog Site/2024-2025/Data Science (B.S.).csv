@@ -1,0 +1,27 @@
+Subject,Course Number,Name,Credits
+ANLY,2500,Introduction to Business Analytics,3
+ANLY,4100,Data Analytics I,3
+ANLY,4110,Data Analytics II,3
+CS,1400,Fundamentals of Programming,3
+CS,1410,Object Oriented Programming,3
+CS,2420,Introduction to Algorithms and Data Structures,3
+CS,4200,Big Data Analytics,3
+CSCY,2400,Technology and Ethics (can be used to fulfill General Education Social & Behavioral Sciences requirement),3
+MATH,1210,Calculus I * (can be used to fulfill General Education Quantitative Literacy requirement),4
+MATH,1220,Calculus II,4
+MATH,2170,Applied Linear Algebra,3
+MATH,3150,Applied Statistics,3
+MATH,3190,Fundamentals of Data Science,3
+MATH,3700,Probability and Statistics,4
+MATH,4810,Data Science Capstone Project,3
+MATH,1040,Statistical Inference,4
+MATH,1190,Introduction to Data Science,3
+CS,2300,Discrete Structures,3
+MATH,2210,Calculus III,4
+MATH,3770,Mathematical Modeling,3
+ANLY,3250,Data Management and Organization,3
+CSCY,3200,Database Design and Management,3
+CS,4150,Machine Learning,3
+ME,3600,Introduction to AI and Machine Learning for Engineers,3
+CS,2450,Software Engineering,3
+CSCY,2000,Web Development,3

@@ -2,7 +2,8 @@ from django.db import models
 
 
 class StudentRecord(models.Model):
-    student_id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
+    student_id = models.IntegerField()
     high_school_grad = models.IntegerField()
     first_term = models.IntegerField()  # First term of full-time college enrollment
     term = models.IntegerField()  # Current term
@@ -74,6 +75,7 @@ class StudentAudit(models.Model):
     major_credits = models.IntegerField()  # Credits applicable to major
     ptc_major = models.DecimalField(max_digits=5, decimal_places=2)  # % toward degree
     eligible = models.BooleanField()  # Final eligibility status
+    gpa = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
 
     class Meta:
         unique_together = ('student', 'term')  # Each student should only have one audit per term
