@@ -16,7 +16,7 @@ class StudentRecord(models.Model):
     counts_toward_major = models.BooleanField(default=False)  # for PTD calculations
 
     def __str__(self):
-        return f"{self.student_id} - {self.course.course_name} ({self.grade})"
+        return f"{self.student_id} - {self.course.course_id} ({self.grade})"
 
 
 class MajorMapping(models.Model):

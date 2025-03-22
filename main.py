@@ -20,6 +20,4 @@ def run():
 
 
 if __name__ == '__main__':
-    import_student_data_from_csv('/Users/charles/Desktop/capstone/Automatic_Athletic_Audit_System/Automatic Athletic Audit System/cleaned_bogus_data.csv')
-    update_major_course_associations('./Automatic Athletic Audit System/WebScrapping Catalog Site/')
-    run_eligibility_audit(202210)
+    run_eligibility_audit(202430)

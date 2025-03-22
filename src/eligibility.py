@@ -89,7 +89,7 @@ def run_eligibility_audit(term):
     )
 
     for sid in student_ids:
-        print(f"\n👤 Auditing student ID: {sid}")
+        print(f"\nAuditing student ID: {sid}")
 
         all_terms = (
             StudentRecord.objects
@@ -100,22 +100,22 @@ def run_eligibility_audit(term):
         sorted_terms = sorted(t for t in all_terms if t >= StudentRecord.objects.filter(student_id=sid).first().first_term)
 
         if term not in sorted_terms:
-            print(f"⚠️ Term {term} not found in student's active terms. Skipping.")
+            print(f"Term {term} not found in student's active terms. Skipping.")
             continue
 
         semester_number = sorted_terms.index(term) + 1
-        print(f"🧮 Full-time semester number: {semester_number}")
+        print(f"Full-time semester number: {semester_number}")
 
         records = StudentRecord.objects.filter(student_id=sid, term=term)
         student = records.first()
         gpa = calculate_gpa(records)
-        print(f"📊 Calculated GPA: {gpa:.2f}")
+        print(f"Calculated GPA: {gpa:.2f}")
 
         eligible = False
         for semesters, rule_fn in ELIGIBILITY_RULES:
             if semester_number in semesters:
                 eligible = rule_fn(student, records)
-                print(f"🎯 Applied rule for semesters {list(semesters)} → Eligible: {eligible}")
+                print(f"Applied rule for semesters {list(semesters)} → Eligible: {eligible}")
                 break
 
         total_credits = sum(r.credits for r in records if passed(r.grade))
@@ -135,4 +135,4 @@ def run_eligibility_audit(term):
                 }
             )
             status = "created" if created else "updated"
-            print(f"💾 StudentAudit {status}: {audit}")
+            print(f"StudentAudit {status}: {audit}")
