@@ -1,0 +1,125 @@
+Subject,Course Number,Name,Credits
+ENVS,1000,Introduction to Environmental Science and Sustainability,3
+GEO,1020,Dinosaurs and the History of Life,3
+GEO,1030,"Earthquakes, Volcanoes, and Natural Hazards",3
+GEO,1050,Geology of National Parks,3
+GEO,1055,Geology National Parks Lab,1
+GEO,1090,How the Earth Works,3
+GEO,1095,How the Earth Works Lab,1
+GEO,1110,Exploring Earth: Introduction to Geology,3
+GEO,1115,Fundamentals of Geology Lab,1
+GEO,2210,Geology of Southern Utah,3
+GEO,2215,Geology of Southern Utah Lab,1
+GEOG,1000,Earth’s Natural Environments: Physical Geography,3
+GEOG,1005,Earth’s Natural Environments: Physical Geography Lab,1
+BIOL,2500,Environmental Biology (can be used to fulfill General Education Life Sciences requirement),3
+CHEM,1210,Principles of Chemistry I,4
+CHEM,1215,Principles of Chemistry I Lab,1
+GEO,3010,Environmental Geology,3
+GEO,3015,Environmental Geology Lab,1
+GEOG,1400,Human Geography (can be used to fulfill General Education Social/Behavioral Sciences requirement),3
+GEOG,2800,Introduction to GIS and Cartography,4
+GEOG,3400,Environmental Geography,3
+MATH,1040,Statistical Inference * (can be used to fulfill General Education Quantitative Literacy requirement),4
+MATH,1050,College Algebra * (can be used to fulfill General Education Quantitative Literacy requirement),4
+ENVS,4800,Senior Capstone,3
+ENVS,4890,Environmental Science Internship 1-8 Credit(s),8
+GEO,4800,Senior Project,3
+GEOG,4500,Geospatial Research Project (Capstone Project),3
+AGSC,3560,Soil Science,3
+AGSC,3565,Soil Science Lab,1
+CHEM,3700,Environmental Chemistry (requires additional prerequisites),3
+ENVS,4000,Selected Field Trips 0.5-3 Credit(s) (up to 3 credits maximum),3
+GEO,3170,Oceanography,3
+GEO,3175,Oceanography Lab (requires additional prerequisite),1
+GEO,3610,Hydrology,3
+GEO,3615,Hydrology Lab,1
+GEOG,3110,The Earth from Space: Intro to Remote Sensing,4
+GEOG,3220,Weather and Climate,3
+GEOG,3225,Weather and Climate Lab,1
+GEOG,3270,Biogeography,3
+GEOG,3350,Geomorphology,3
+GEOG,3355,Geomorphology Lab,1
+GEOG,3550,Spatial Analysis,4
+RANG,4200,Wildland Ecology (requires additional prerequisite),3
+AGSC,1010,Agriculture and Society,3
+ANTH,3001,Native American Cultures,3
+ANTH,3500,Environmental Anthropology (requires additional prerequisite),3
+ENVS,3000,Research Methods in Environmental Science,3
+ENVS,4900,Environmental Policy: NEPA,3
+GEOG,1300,Globalization in the 21st Century: World Regional Geography,3
+GEOG,3600,Geography of Utah,3
+HSS,1200,Introduction to Sustainability Studies,3
+NR,1010,Introduction to Natural Resources Management,3
+NR,3000,Wildlife Ecology and Management,3
+ORPT,3030,Foundations of Recreation Resources Management,3
+ORPT,3060,Behavioral Aspects of Outdoor Recreation,3
+ORPT,4600,Outdoor Recreation Policy and Planning,3
+POLS,3410,Public Administration,3
+PSY,3500,Environmental Psychology (requires additional prerequisite),3
+RANG,3600,Range Management,3
+RANG,3605,Range Management Lab,1
+SOC,3410,Environmental Sociology,3
+RANG,4400,Wildland Restoration,3
+RANG,4405,Wildland Restoration Lab,1
+ANTH,2030,Introduction to Archaeology,3
+ANTH,3360,Introduction to Forensic Anthropology,3
+ANTH,3010,"Language, Thought, and Culture",3
+ANTH,4187,Humanitarian Aid and Development,3
+BIOL,3030,Ecology,3
+BIOL,3035,Ecology Lab,1
+BIOL,3060,Genetics,3
+BIOL,3065,Genetics Lab,1
+BIOL,3630,Freshwater Biology,3
+BIOL,3635,Freshwater Biology Lab,1
+COMM,1070,Introduction to Visual Communication Graphics,3
+COMM,1130,Writing for Communication,3
+COMM,1270,Critical Thinking and Message Analysis,3
+COMM,4240,Technical Writing,3
+CS,1400,Fundamentals of Programming,3
+CS,1410,Object Oriented Programming,3
+CS,2420,Introduction to Algorithms and Data Structures,3
+CS,3000,Advanced Algorithms and Data Structures,3
+CSCY,3200,Database Design and Management,3
+ENGL,2040,Writing in Professional Contexts,3
+ENGL,3120,Grant and Technical Writing,3
+GEO,1225,Historical Geology Lab,1
+GEO,1220,Historical Geology,3
+GEO,3120,Tectonics,3
+GEO,4000,Selected Field Trips 0.5-3 Credit(s),3
+GEO,4070,Applied Geochemistry,3
+GEOG,2860,Open Source GIS,3
+GEOG,2900,Geospatial Field Methods: GPS and Drones,3
+GEOG,2950,Web GIS,3
+GEOG,2920,Workshop 1-3 Credit(s),3
+GEOG,2980,Geospatial Programming with Python,3
+GEOG,4150,Advanced Geographic Information Systems Methods,4
+GEOG,4890,GIS Internship 2-8 Credit(s),8
+GEOG,4920,Geography Workshop 1-3 Credit(s),3
+HIST,3810,History of American West,3
+HIST,3820,History of the National Parks,3
+HIST,3870,History of Utah,3
+HIST,3880,History of the American Southwest,3
+ORPT,2040,Americans in the Outdoors,3
+ORPT,3030,Foundations of Recreation Resources Management,3
+ORPT,3040,Leadership in Outdoor Recreation,3
+ORPT,3050,Risk Management and Safety for Outdoor Recreation,3
+ORPT,3060,Behavioral Aspects of Outdoor Recreation,3
+ORPT,4020,Interpretation,3
+ORPT,4030,Interdisciplinary Outdoor Education,3
+ORPT,4500,Recreation Ecology,3
+PHIL,3350,History and Philosophy of Science,3
+PHIL,3500,Ethics,3
+POLS,2000,Research Methods in Political Science,3
+POLS,2005,Research Methods in Political Science Lab,1
+POLS,3030,State and Local Government,3
+POLS,3520,Civil Rights and Liberties,3
+PSY,3200,Psychology of Culture,3
+SOC,3000,Social Inequality and Justice,3
+SOC,3030,"Civic Engagement, Service Learning, and Leadership",3
+SOC,3370,Gender and Society in Global Perspectives,3
+SOC,3450,Applied Research Methods,3
+SOC,3900,Social Movements,3
+SOC,4000,Political Sociology,3
+SOC,4100,Sociology of Health and Medicine,3
+SOC,4187,Humanitarian Aid and Development,3

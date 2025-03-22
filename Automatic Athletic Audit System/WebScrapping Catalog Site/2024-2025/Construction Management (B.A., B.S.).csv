@@ -1,0 +1,55 @@
+Subject,Course Number,Name,Credits
+CM,1000,Construction Plans,3
+CM,1290,Electrical Systems,3
+CM,2020,Residential Construction Materials and Methods,3
+CM,2030,Commercial Construction Materials,3
+CM,2040,Construction Materials and Testing,3
+CM,2050,Concrete and Masonry,3
+CM,3240,Estimating and Bidding,3
+CM,3270,Building Codes and Ethics,3
+CM,3880,Planning and Scheduling,3
+CM,4000,Sustainable Practices and Design,3
+CM,4150,Soils and Foundations Design and Construction,3
+CM,4240,Advanced Estimating and Bidding,3
+CM,4300,Construction Project Management Leadership,3
+CM,4400,Mechanical Systems,3
+CM,4550,Construction Safety,3
+CM,4600,"Heavy Civil Construction Design, Methods, and Equipment",3
+CM,4880,Construction Documents and Administration,3
+CM,4900,Capstone Project,3
+CCET,1040,Introduction to Residential Architecture Using AutoCAD,3
+CCET,2240,Plane Surveying and GPS,2
+CCET,2245,Plane Surveying and GPS Lab,1
+ENGR,2000,Statics and Strength of Materials,3
+CCET,3610,Architectural Design,3
+CCET,3650,Advanced Residential and Commercial Design,3
+CE,3200,Hydraulic Engineering and Hydrology,3
+CE,3300,Introduction to Transportation Engineering,3
+CE,4410,Water and Wastewater,3
+MATH,1040,Statistical Inference * (can be used to fulfill General Education Quantitative Literacy),4
+MATH,1050,College Algebra * (can be used to fulfill General Education Quantitative Literacy),4
+MATH,1060,Trigonometry * (can be used to fulfill General Education Quantitative Literacy),3
+MATH,1100,Applied Calculus,3
+MATH,1210,Calculus I,4
+ACCT,2010,Accounting Principles,3
+ACCT,3350,Business Law and Ethics (recommended for non-international students),3
+MGMT,3050,International Business (recommended for international students),3
+MGMT,3340,Employment Law (recommended for non-international students),3
+ENTR,3100,Basic Entrepreneurship Skills,3
+ENTR,3210,Entrepreneurship,3
+FIN,3250,Managerial Finance I,3
+MGMT,3100,Operations Management,3
+MGMT,3180,Management and Organizations,3
+MGMT,3240,Human Resource Management,3
+MGMT,4100,Organizational Behavior and Leadership,3
+ACCT,2010,Accounting Principles,3
+ACCT,3350,Business Law and Ethics (recommended for non-international students),3
+MGMT,3050,International Business (recommended for international students),3
+MGMT,3340,Employment Law (recommended for non-international students),3
+ENTR,3100,Basic Entrepreneurship Skills,3
+ENTR,3210,Entrepreneurship,3
+FIN,3250,Managerial Finance I,3
+MGMT,3100,Operations Management,3
+MGMT,3180,Management and Organizations,3
+MGMT,3240,Human Resource Management,3
+MGMT,4100,Organizational Behavior and Leadership,3

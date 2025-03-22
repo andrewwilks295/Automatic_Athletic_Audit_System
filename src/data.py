@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 from django.db import transaction
 from django.core.exceptions import ValidationError
 from src.models import StudentRecord, StudentMajor, Course, MajorMapping, MajorCourse
@@ -115,3 +116,69 @@ def import_student_data_from_csv(file_path):
     except Exception as e:
         print(type(e), e)
         return {"success": False, "message": f"Unexpected error: {e}"}
+
+
+def update_major_course_associations(base_catalog_dir):
+    for year_dir in os.listdir(base_catalog_dir):
+        year_path = os.path.join(base_catalog_dir, year_dir)
+        if not os.path.isdir(year_path):
+            continue
+
+        for filename in os.listdir(year_path):
+            if not filename.endswith(".csv"):
+                continue
+
+            major_name_web = filename.replace(".csv", "").strip()
+            file_path = os.path.join(year_path, filename)
+
+            try:
+                major = MajorMapping.objects.get(major_name_web=major_name_web)
+            except MajorMapping.DoesNotExist:
+                print(f"Major not found: {major_name_web}. Skipping.")
+                continue
+
+            try:
+                # Fallback encoding for web-scraped files
+                try:
+                    df = pd.read_csv(file_path, encoding='utf-8-sig')
+                except UnicodeDecodeError:
+                    df = pd.read_csv(file_path, encoding='ISO-8859-1')
+
+                df = df.dropna(subset=["Subject", "Course Number", "Credits"])  # drop incomplete rows
+
+            except Exception as e:
+                print(f"Failed to read {file_path}: {e}")
+                continue
+
+            for _, row in df.iterrows():
+                subject = str(row.get("Subject", "")).strip().upper()
+                course_number = str(row.get("Course Number", "")).strip()
+                course_id = f"{subject}{course_number}"
+                credits = int(row.get("Credits", 0))
+
+                if not subject or not course_number:
+                    print(f"Invalid course info in {file_path}: {row}")
+                    continue
+
+                # Try to get or create the course
+                course, created = Course.objects.get_or_create(
+                    course_id=course_id,
+                    defaults={
+                        "subject": subject,
+                        "course_number": course_number,
+                        "credits": credits,
+                    }
+                )
+
+                if created:
+                    print(f"Created new course: {course_id}")
+
+                try:
+                    with transaction.atomic():
+                        MajorCourse.objects.get_or_create(
+                            major=major,
+                            course=course,
+                            defaults={"requirement_type": "Core"}  # Default classification
+                        )
+                except Exception as e:
+                    print(f"Failed to link {course_id} with {major_name_web}: {e}")

@@ -5,8 +5,9 @@ import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 django.setup()
 
-from src.data import import_student_data_from_csv
-from src.models import MajorMapping
+from src.data import import_student_data_from_csv, update_major_course_associations
+from src.eligibility import run_eligibility_audit
+from src.models import Course, MajorMapping, MajorCourse
 
 
 def run():
@@ -19,5 +20,4 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
-    print("Goodbye.")
+    run_eligibility_audit(202430)
