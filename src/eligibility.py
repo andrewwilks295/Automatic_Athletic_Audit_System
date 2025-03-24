@@ -2,10 +2,9 @@ from django.db import transaction
 
 from src.models import StudentRecord, StudentAudit
 
-"""
-Define rules for particular semesters in a function decorated with @rule.
-@rule() decorator takes an argument 
-"""
+
+# Define rules for particular semesters in a function decorated with @rule.
+
 ELIGIBILITY_RULES = []
 GRADE_POINTS = {
     'A': 4.0,   'A-': 3.7,
@@ -79,7 +78,7 @@ def get_semester_number(student_id: int, current_term: int, first_term: int) -> 
 
 
 def run_eligibility_audit(term):
-    print(f"\n📋 Starting eligibility audit for term {term}...\n")
+    print(f"\nStarting eligibility audit for term {term}...\n")
 
     student_ids = (
         StudentRecord.objects
