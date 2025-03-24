@@ -4,6 +4,21 @@ from django.db import transaction
 from django.core.exceptions import ValidationError
 from src.models import StudentRecord, StudentMajor, Course, MajorMapping, MajorCourse
 
+#  Helper Functions
+def is_duplicate_record(student_id, term, course_id, institution=None):
+    query = StudentRecord.objects.filter(
+        student_id=student_id,
+        term=term,
+        course__course_id=course_id,
+    )
+
+    if institution:
+        query = query.filter(institution=institution)
+
+    return query.exists()
+
+
+### Data Import Functions ###
 
 def import_student_data_from_csv(file_path):
     """
@@ -60,6 +75,7 @@ def import_student_data_from_csv(file_path):
                 student_id = row[readable_to_col["student_id"]]
                 major_code = row[readable_to_col["major"]]
                 catalog_year = row[readable_to_col["catalog_year"]]
+                term = row[readable_to_col["term"]]
 
                 # Ensure major exists
                 major_obj = existing_majors.get(major_code)
@@ -77,6 +93,10 @@ def import_student_data_from_csv(file_path):
                     )
                     courses_to_create.append(course_obj)
                     existing_courses[course_id] = course_obj  # Cache the new course
+
+                # Check if student record was previously uploaded
+                if is_duplicate_record(student_id, term, course_id):
+                    continue
 
                 # Create student record
                 student_record = StudentRecord(
@@ -102,7 +122,7 @@ def import_student_data_from_csv(file_path):
                     student_majors_to_create.append(
                         StudentMajor(student_id=student_id, major=major_obj, catalog_year=catalog_year))
 
-            # Bulk insert to improve efficiency
+            # Bulk insert
             Course.objects.bulk_create(courses_to_create, ignore_conflicts=True)
             StudentMajor.objects.bulk_create(student_majors_to_create, ignore_conflicts=True)
             StudentRecord.objects.bulk_create(student_records_to_create, ignore_conflicts=True)
