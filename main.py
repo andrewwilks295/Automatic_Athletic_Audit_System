@@ -8,6 +8,7 @@ django.setup()
 from src.data import import_student_data_from_csv, update_major_course_associations
 from src.eligibility import run_eligibility_audit
 from src.models import Course, MajorMapping, MajorCourse
+from src.output import output_to_csv
 
 
 def run():
@@ -21,3 +22,5 @@ def run():
 
 if __name__ == '__main__':
     run_eligibility_audit(202430)
+    output_to_csv(202430)
+    
