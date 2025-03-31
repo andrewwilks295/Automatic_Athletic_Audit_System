@@ -81,9 +81,9 @@ class StudentDetailView(tk.Tk):
         back_btn.pack(pady=15)
 
 
-# ---------- Run ----------
+
 if __name__ == "__main__":
-    # Replace this with any valid student ID in your DB
+    # Replace this with ID
     student_id_input = 1001
     app = StudentDetailView(student_id_input)
     app.mainloop()
