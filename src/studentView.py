@@ -1,15 +1,12 @@
 import os
 import django
+import tkinter as tk
+from tkinter import ttk
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')
 django.setup()
 
-import tkinter as tk
-from tkinter import ttk
-from collections import defaultdict
-
-from your_app.models import StudentRecord  #Replace 'your_app' with  Django app name
-
+from your_app.models import StudentRecord  # Replace 'your_app' with the actual Django app name
 
 class StudentDetailViewModel:
     def __init__(self, student_id):
@@ -30,7 +27,6 @@ class StudentDetailViewModel:
             "num_terms": len(terms),
             "total_credits": total_credits
         }
-
 
 class StudentDetailView(tk.Tk):
     def __init__(self, student_id):
@@ -77,13 +73,10 @@ class StudentDetailView(tk.Tk):
         tree.pack(pady=10)
 
         # Back button
-        back_btn = tk.Button(self, text="Back to Audit", command=self.destroy)
+        back_btn = tk.Button(self, text="Exit", command=self.destroy)
         back_btn.pack(pady=15)
 
-
-
 if __name__ == "__main__":
-    # Replace this with ID
-    student_id_input = 1001
+    student_id_input = int(input("Enter Student ID: "))
     app = StudentDetailView(student_id_input)
     app.mainloop()
