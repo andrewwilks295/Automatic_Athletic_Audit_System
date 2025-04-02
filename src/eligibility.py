@@ -49,9 +49,10 @@ def upperclass_rule(student, records):
     return sum(r.credits for r in records if passed(r.grade) and r.counts_toward_major) >= 6
 
 
-def calculate_gpa(records):
+def calculate_gpa(sid):
     total_points = 0.0
     total_credits = 0
+    records = StudentRecord.objects.filter(student_id=sid)
 
     for record in records:
         points = get_grade_points(record.grade)
@@ -109,7 +110,7 @@ def run_eligibility_audit(term):
 
         records = StudentRecord.objects.filter(student_id=sid, term=term)
         student = records.first()
-        gpa = calculate_gpa(records)
+        gpa = calculate_gpa(sid)
         print(f"Calculated GPA: {gpa:.2f}")
 
         eligible = False

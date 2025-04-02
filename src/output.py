@@ -1,5 +1,13 @@
 from src.models import StudentRecord, StudentAudit, StudentMajor
+from src.eligibility import get_semester_number
 import pandas as pd 
+
+
+def check_PTC():
+    return False
+
+def check_GPA():
+    return False
 
 def output_to_csv(term):
 
@@ -28,12 +36,15 @@ def output_to_csv(term):
         sd.append(sa.get('major_credits')) # Degree Applicable Credits 8
         sd.append(120) # Total Needed Credits 9
         sd.append(sa.get('ptc_major')) # Percent towards completion 10
-        sd.append(sa.get('gpa')) # GPA 11
-        sd.append(sd[10] >= 2.0) # Eligible? GPA 12
-        sd.append("") # Eligible? PTC 13
+        sd.append(sa.get('total_credits') >= 6) # 6 credits taken 11
+        sd.append(sa.get('total_credits') >= 9) # 9 credits taken 12
+        sd.append(sa.get('gpa')) # GPA 13
+        sd.append(sd[13] >= 2.0) # Eligible? GPA 14
+        sd.append("") # Eligible? PTC 15
+        sd.append(sa.get('major_credits'))
         data_to_output.append(sd)
 
     df = pd.DataFrame(data_to_output)
-    df.columns = ["Valid","", "T#", "Name", "Sport", "First FT Term" , "Degree", "Program", "DA Credits", "Total", "PTC", "GPA", "GPA check", "PTC check"]
+    df.columns = ["Valid","", "T#", "Name", "Sport", "First FT Term" , "Degree", "Program", "DA Credits", "Total", "PTC","6", "9" , "GPA", "GPA check", "PTC check","6 DA"]
     df.set_index("T#",inplace=True)
     df.to_csv(str(term) + ".csv")
