@@ -1,0 +1,8 @@
+__pycache__
+*/__pycache__
+.venv
+.DS_Store
+.idea
+
+*/scratch.py
+scratch.py

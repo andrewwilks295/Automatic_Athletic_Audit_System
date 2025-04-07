@@ -8,18 +8,20 @@ catalog_years: dict[str, str] | None = None
 base_url = "https://www.suu.edu/academics/catalog/"
 
 years = [
-    "2024-2025",
-    "2023-2024",
-    "2022-2023",
-    "2021-2022",
+    "2024-2025"
+    # "2023-2024",
+    # "2022-2023",
+    # "2021-2022",
 ]
 
-with open('../../majors.txt', 'r') as f:
+with open('majors.txt', 'r') as f:
     majors = [x.strip() for x in f.readlines()]
 
 
 def main():
     global years, majors
+    # year = "2024-2025"
+    # major = "Exercise Science (B.S.)"
     for year in years:
         for major in majors:
             # if we already have it, skip it
@@ -30,9 +32,26 @@ def main():
             catalog_url = pull_catalog_year(year)
             all_programs_link = find_all_programs_link(catalog_url)
             full_url = find_degree(all_programs_link, major)
-            # scrape_h2_h3(full_url) this gets the header requirements which I don't think we need but might as well
+            # scrape_h2_h3(full_url) #this gets the header requirements which I don't think we need but might as well
             # keep the code
-            scrape_courses(full_url, year)
+            scrape_total_credits(full_url, year, major)
+            scrape_courses(full_url, year, major)
+            
+def main_tester():
+    # global years, majors
+    year = "2024-2025"
+    major = "Exercise Science (B.S.)"
+
+    if os.path.exists(f"./{year}/{major.replace('/', ',')}.csv"):
+        print(f"Skipping {year}/{major}")
+    # else scrape it
+    catalog_url = pull_catalog_year(year)
+    all_programs_link = find_all_programs_link(catalog_url)
+    full_url = find_degree(all_programs_link, major)
+    # scrape_h2_h3(full_url) #this gets the header requirements which I don't think we need but might as well
+    # keep the code
+    scrape_courses(full_url, year, major)
+    scrape_total_credits(full_url, year, major)
 
 def pull_catalog_year(year):
     print("\n\nStarting_catalog_year_test\n----------------------------")
@@ -184,120 +203,168 @@ def find_degree(url, major):
         print(f"Failed to fetch the page. Status code: {response.status_code}")
 
 
-def scrape_h2_h3(url):
-    print(f"\nScraping H3 tags from: {url}")
+def extract_credits(text):
+    text = text.lower()
 
-    # Send a GET request to the website
-    headers = {"User-Agent": "Mozilla/5.0"}
-    response = requests.get(url, headers=headers)
+    match = re.search(r"(\d+)\s*-\s*(\d+)\s*credits?", text)
+    if match:
+        # print("Dash match:", match.groups())
+        return int(match.group(1))
 
-    # Check if the request was successful
-    if response.status_code == 200:
-        # Parse the HTML content
-        soup = BeautifulSoup(response.text, "html.parser")
+    match = re.search(r"(\d+)\s*or\s*(\d+)\s*credits?", text)
+    if match:
+        # print("Or match:", match.groups())
+        return f"{match.group(1)} or {match.group(2)}"
 
-        # Find all <h3> elements
-        h3_tags = soup.find_all("h3")
-        # h2_tags = soup.find_all("h2")
+    match = re.search(r"(\d+)\s*credits?", text)
+    if match:
+        # print("Single credit match:", match.group(1))
+        return int(match.group(1))
 
-        # Print the extracted <h3> content
-        if h3_tags:
-            print("\nFound <h3> tags:\n----------------------------")
-            for index, tag in enumerate(h3_tags, start=1):
-                print(f"{index}. {tag.get_text(strip=True)}")  # Extract and print text inside <h3>
-        else:
-            print("No <h3> tags found.")
+    return "Unknown"
 
-        # if h2_tags:
-        #     print("\nFound <h2> tags:\n----------------------------")
-        #     for index, tag in enumerate(h2_tags, start=1):
-        #         print(f"{index}. {tag.get_text(strip=True)}")  # Extract and print text inside <h3>
-        # else:
-        #     print("No <h3> tags found.")
+
+def sanitize(text, max_len=45):
+    text = re.sub(r'[<>:"/\\|?*]', '', text)
+    return text[:max_len].strip()
+
+def shorten_heading(tag):
+    parts = list(tag.stripped_strings)
+    selected = None
+
+    # Prefer the last one with 'Credits'
+    for s in reversed(parts):
+        if 'credit' in s.lower():
+            selected = s
+            break
     else:
-        print(f"Failed to fetch the page. Status code: {response.status_code}")
+        selected = parts[-1] if parts else "General"
+
+    words = selected.split()
+    short_part = ' '.join(words[:2])
+
+    # Handle "or" credits explicitly
+    or_match = re.search(r'(\d+\s*or\s*\d+)\s*credits?', selected, re.IGNORECASE)
+    dash_match = re.search(r'(\d+)\s*-\s*(\d+)\s*credits?', selected, re.IGNORECASE)
+    single_match = re.search(r'(\d+)\s*credits?', selected, re.IGNORECASE)
+
+    if or_match:
+        credit_part = f"({or_match.group(1)} Credits)"
+    elif dash_match:
+        credit_part = f"({dash_match.group(1)} Credits)"
+    elif single_match:
+        credit_part = f"({single_match.group(1)} Credits)"
+    else:
+        credit_part = None
+
+    return sanitize(f"{short_part} {credit_part}" if credit_part else short_part)
 
 
-def scrape_courses(url, year):
+def scrape_courses(url, year, major):
     print(f"\nScraping course listings from: {url}")
-
-    # Send a GET request to the website
     headers = {"User-Agent": "Mozilla/5.0"}
     response = requests.get(url, headers=headers)
 
-    # Check if the request was successful
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.text, "html.parser")
-
-        # Extract page title for naming the CSV
-        h1_tags = soup.find_all("h1")
-        title = h1_tags[0].get_text(strip=True) if h1_tags else "Unknown_Title"
-
-        # Find all course listings
-        course_elements = soup.find_all("li", class_="acalog-course")
-
-        if course_elements:
-            # Get the directory where this script is located
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            # Define the folder path within the script's directory
-            school_year_folder = os.path.join(current_dir, year)
-            # Check if the folder exists; if not, create it
-            if not os.path.exists(school_year_folder):
-                os.makedirs(school_year_folder)
-                print(f"Created folder: {school_year_folder}")
-            else:
-                print(f"Folder already exists: {school_year_folder}")
-
-            # Define the CSV file path within the school year folder
-            filename = f"{title}.csv"
-
-            # sanitize filename
-            filename = filename.replace("/", ",")
-
-            csv_file_path = os.path.join(school_year_folder, filename)
-
-            file_exists = os.path.exists(csv_file_path)
-
-            print("\nFound Courses:\n----------------------------")
-            courses = []
-
-            if file_exists:
-                print(f"'{csv_file_path}' already exists.")
-            else:
-                for course in course_elements:
-                    course_text = course.get_text(separator=" ", strip=True)
-
-                    # Split by " or " to handle multiple course options
-                    course_options = course_text.split(" or ")
-
-                    # Extract only the numeric credit value
-                    credit_match = re.search(r"(\d+)\sCredit\(s\)", course_text)
-                    credits = credit_match.group(1) if credit_match else "Unknown"
-
-                    for option in course_options:
-                        # Remove "Credit(s)" from the course name if present
-                        option = re.sub(r"\s\d+\sCredit\(s\)", "", option).strip()
-
-                        # Regex pattern to extract subject, course number, and name
-                        pattern = re.compile(r"(\w+)\s(\d+)\s-\s(.+)")
-                        match = pattern.search(option)
-
-                        if match:
-                            subject, course_number, name = match.groups()
-                            courses.append([subject, course_number, name, credits])
-
-                # Write courses data to CSV in the designated folder
-                with open(csv_file_path, "w", newline="") as file:
-                    writer = csv.writer(file)
-                    writer.writerow(["Subject", "Course Number", "Name", "Credits"])
-                    writer.writerows(courses)
-
-                print(f"'{csv_file_path}' has been created successfully.")
-
-        else:
-            print("No course listings found.")
-    else:
+    if response.status_code != 200:
         print(f"Failed to fetch the page. Status code: {response.status_code}")
+        return
+
+    soup = BeautifulSoup(response.text, "html.parser")
+    degree_name = sanitize(major.replace("/", ","))
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    base_path = os.path.join(current_dir, year, degree_name)
+    os.makedirs(base_path, exist_ok=True)
+
+    current_h3 = None
+    current_h4 = None
+    current_h5 = None
+    course_map = {}
+
+    for tag in soup.find_all(['h3', 'h4', 'h5', 'li']):
+        raw_text = ' '.join(tag.stripped_strings)
+
+        if tag.name == 'h3':
+            if 'acalog-location' in tag.get('class', []):
+                continue
+            current_h3 = shorten_heading(tag)
+            current_h4 = None
+            current_h5 = None
+
+        elif tag.name == 'h4':
+            current_h4 = shorten_heading(tag)
+            current_h5 = None
+
+        elif tag.name == 'h5':
+            current_h5 = shorten_heading(tag)
+
+        elif tag.name == 'li' and 'acalog-course' in tag.get('class', []):
+            credits = extract_credits(tag.get_text())
+            course_text = tag.get_text(separator=" ", strip=True)
+            course_options = course_text.split(" or ")
+            pattern = re.compile(r"(\w+)\s(\d+)\s-\s(.+)")
+
+            for option in course_options:
+                option = re.sub(r"\s\d+\sCredit\(s\)", "", option).strip()
+                match = pattern.search(option)
+                if match:
+                    subject, course_number, name = match.groups()
+                    row = [subject, course_number, name, credits]
+
+                    folder = os.path.join(base_path, current_h3 or "General")
+                    if current_h4:
+                        folder = os.path.join(folder, current_h4)
+                    if current_h5:
+                        folder = os.path.join(folder, current_h5)
+
+                    os.makedirs(folder, exist_ok=True)
+                    filename = os.path.join(folder, f"{sanitize(current_h5 or current_h4 or current_h3 or 'General')}.csv")
+
+                    if filename not in course_map:
+                        course_map[filename] = []
+                    course_map[filename].append(row)
+
+    for filepath, rows in course_map.items():
+        with open(filepath, "w", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow(["Subject", "Course Number", "Name", "Credits"])
+            writer.writerows(rows)
+        print(f"Saved {len(rows)} course(s) to {filepath}")
+        
+def scrape_total_credits(url, year, major):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    for tag in soup.find_all('h2'):
+        if "Total Credits" in tag.get_text():
+            match = re.search(r'(\d+)', tag.get_text())
+            if match:
+                total_credits = int(match.group(1))
+
+                # Prepare file path
+                degree_name = major.replace("/", ",")
+                current_dir = os.path.dirname(os.path.abspath(__file__))
+                folder_path = os.path.join(current_dir, year)
+                os.makedirs(folder_path, exist_ok=True)
+                csv_path = os.path.join(folder_path, "total_credits.csv")
+
+                # Check if file exists to avoid writing the header multiple times
+                file_exists = os.path.exists(csv_path)
+
+                # Write to CSV (append mode)
+                with open(csv_path, "a", newline="") as f:
+                    writer = csv.writer(f)
+                    if not file_exists:
+                        writer.writerow(["Degree", "Total Credits"])
+                    writer.writerow([major, total_credits])
+
+                print(f"Saved total credits for {major} to {csv_path}")
+                return total_credits
+
+    print("Total credits not found.")
+    return None
+
+
 
 
 main()
+# main_tester()
