@@ -3,14 +3,8 @@ from src.eligibility import get_semester_number
 import pandas as pd 
 
 
-def check_PTC():
-    return False
 
-def check_GPA():
-    return False
-
-def output_to_csv(term):
-
+def create_dataframe(term):
     student_ids = (
         StudentRecord.objects
         .filter(term=term)
@@ -43,8 +37,18 @@ def output_to_csv(term):
         sd.append("") # Eligible? PTC 15
         sd.append(sa.get('major_credits'))
         data_to_output.append(sd)
-
+    
     df = pd.DataFrame(data_to_output)
     df.columns = ["Valid","", "T#", "Name", "Sport", "First FT Term" , "Degree", "Program", "DA Credits", "Total", "PTC","6", "9" , "GPA", "GPA check", "PTC check","6 DA"]
     df.set_index("T#",inplace=True)
+
+    return df   
+
+def output_to_csv(term):
+    df = create_dataframe(term)
     df.to_csv(str(term) + ".csv")
+
+#def output_to_xlsx(term):
+ #   df = create_dataframe(term)
+  #  with pd.ExcelWriter(path=(str(term) + ".xlsx"), engine='xlsxwriter') as writer:
+   #     df.to_excel(writer, sheet_name='Audit', index=False)
