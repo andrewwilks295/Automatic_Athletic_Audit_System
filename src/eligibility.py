@@ -3,17 +3,24 @@ from django.db import transaction
 from src.models import StudentRecord, StudentAudit
 
 
-# Define rules for particular semesters in a function decorated with @rule.
-
-ELIGIBILITY_RULES = []
-
-# TODO: account for remaining grade values: ['TC', 'A*', 'B-*', 'TA', 'TB+', 'TP', 'TC-', 'TB', 'TD-', 'TA-']
+# Define the grade points mapping
+# This mapping is based on the provided grading system.
 GRADE_POINTS = {
     'A': 4.0,   'A-': 3.7,
     'B+': 3.3,  'B': 3.0,  'B-': 2.7,
     'C+': 2.3,  'C': 2.0,  'C-': 1.7,
     'D+': 1.3,  'D': 1.0,  'D-': 0.7,
     'F': 0.0,
+    'TA': 4.0,   'TA-': 3.7,
+    'TB+': 3.3,  'TB': 3.0,  'TB-': 2.7,
+    'TC+': 2.3,  'TC': 2.0,  'TC-': 1.7,
+    'TD+': 1.3,  'TD': 1.0,  'TD-': 0.7,
+    'TF': 0.0,
+    'A*': None,   'A-*': None,
+    'B+*': None,  'B*': None,  'B-*': None,
+    'C+*': None,  'C*': None,  'C-*': None,
+    'D+*': None,  'D*': None,  'D-*': None,
+    'F*': 0.0,
     'P': None,   # Pass (no GPA impact)
     'NP': 0.0,   # Not Pass
     'W': None,   # Withdrawn
@@ -30,6 +37,10 @@ def passed(grade: str) -> bool:
     points = get_grade_points(grade)
     return points is not None and points >= 2.0
 
+
+# Define rules for particular semesters in a function decorated with @rule.
+
+ELIGIBILITY_RULES = []
 
 def rule(semesters):
     def decorator(func):
