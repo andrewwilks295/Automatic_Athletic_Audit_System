@@ -2,18 +2,18 @@ import pandas as pd
 import os
 from django.db import transaction
 from django.core.exceptions import ValidationError
-from src.models import StudentRecord, StudentMajor, Course, MajorMapping, MajorCourse
 from pathlib import Path
+from src.models import StudentRecord, StudentMajor, Course, MajorMapping, MajorCourse, RequirementGroup, RequirementSubgroup
 from src.utils import (
     extract_credits_from_name,
     parse_course_csv,
-    populate_catalog_from_payload,
     split_courses_by_credit_blocks,
     match_major_name_web_to_registrar,
-    normalize_major_name_web
 )
 
 #  Helper Functions
+
+
 def is_duplicate_record(student_id, term, course_id, institution=None):
     query = StudentRecord.objects.filter(
         student_id=student_id,
@@ -72,7 +72,8 @@ def import_student_data_from_csv(file_path):
         existing_majors = {m.major_code: m for m in MajorMapping.objects.all()}
         existing_courses = {c.course_id: c for c in Course.objects.all()}
 
-        print(f"existing_majors: {len(existing_majors)}, existing_courses: {len(existing_courses)}")
+        print(
+            f"existing_majors: {len(existing_majors)}, existing_courses: {len(existing_courses)}")
 
         students_to_create = []
         courses_to_create = []
@@ -101,7 +102,8 @@ def import_student_data_from_csv(file_path):
                         credits=row[readable_to_col["credits"]]
                     )
                     courses_to_create.append(course_obj)
-                    existing_courses[course_id] = course_obj  # Cache the new course
+                    # Cache the new course
+                    existing_courses[course_id] = course_obj
 
                 # Check if student record was previously uploaded
                 if is_duplicate_record(student_id, term, course_id):
@@ -116,7 +118,8 @@ def import_student_data_from_csv(file_path):
                     course=existing_courses[course_id],
                     grade=row[readable_to_col["grade"]],
                     credits=row[readable_to_col["credits"]],
-                    course_attributes=row.get(readable_to_col["course_attributes"]),
+                    course_attributes=row.get(
+                        readable_to_col["course_attributes"]),
                     institution=row[readable_to_col["institution"]],
                     counts_toward_major=False  # Default to False, will update below
                 )
@@ -132,9 +135,12 @@ def import_student_data_from_csv(file_path):
                         StudentMajor(student_id=student_id, major=major_obj, catalog_year=catalog_year))
 
             # Bulk insert
-            Course.objects.bulk_create(courses_to_create, ignore_conflicts=True)
-            StudentMajor.objects.bulk_create(student_majors_to_create, ignore_conflicts=True)
-            StudentRecord.objects.bulk_create(student_records_to_create, ignore_conflicts=True)
+            Course.objects.bulk_create(
+                courses_to_create, ignore_conflicts=True)
+            StudentMajor.objects.bulk_create(
+                student_majors_to_create, ignore_conflicts=True)
+            StudentRecord.objects.bulk_create(
+                student_records_to_create, ignore_conflicts=True)
 
         return {"success": True, "message": "CSV import completed successfully!"}
 
@@ -147,7 +153,7 @@ def import_student_data_from_csv(file_path):
         return {"success": False, "message": f"Unexpected error: {e}"}
 
 
-def prepare_django_inserts(parsed_structure, major_code, major_name_web, major_name_registrar):
+def prepare_django_inserts(parsed_structure, major_code, major_name_web, major_name_registrar, total_credits_required):
     """
     Converts the parsed import structure into Django model-ready dicts.
     Returns a dict with keys: major, courses, groups, subgroups, major_courses.
@@ -158,7 +164,8 @@ def prepare_django_inserts(parsed_structure, major_code, major_name_web, major_n
     major_record = {
         "major_code": major_code,
         "major_name_web": major_name_web,
-        "major_name_registrar": major_name_registrar
+        "major_name_registrar": major_name_registrar,
+        "total_credits_required": total_credits_required,
     }
 
     # Prepare unique courses
@@ -236,12 +243,9 @@ def prepare_django_inserts(parsed_structure, major_code, major_name_web, major_n
     }
 
 
-
-def import_major_from_folder(base_path, major_name_web, catalog_year, major_code_df):
+def import_major_from_folder(base_path, major_name_web, catalog_year, major_code_df, total_credits_map):
     """
     Parses a major folder's structure to identify and classify its requirement groups.
-
-    Automatically resolves major_code and major_name_registrar using fuzzy match.
 
     Returns:
         parsed_structure (list),
@@ -251,11 +255,14 @@ def import_major_from_folder(base_path, major_name_web, catalog_year, major_code
     parsed_structure = []
 
     # Step 1: Match major_name_web to registrar data
-    major_code, major_name_registrar, score = match_major_name_web_to_registrar(major_name_web, major_code_df)
+    major_code, major_name_registrar, score = match_major_name_web_to_registrar(
+        major_name_web, major_code_df)
+    total_credits_required = total_credits_map.get(major_name_web, None)
     major_info = {
         "major_code": major_code,
         "major_name_web": major_name_web,
         "major_name_registrar": major_name_registrar,
+        "total_credits_required": total_credits_required,
         "match_score": score
     }
 
@@ -267,12 +274,14 @@ def import_major_from_folder(base_path, major_name_web, catalog_year, major_code
 
             if isinstance(credit_info, list):  # choose group in flat csv
                 courses = parse_course_csv(entry)
-                course_blocks = split_courses_by_credit_blocks(courses, credit_info)
+                course_blocks = split_courses_by_credit_blocks(
+                    courses, credit_info)
                 parsed_structure.append({
                     "type": "choose_csv",
                     "group_name": group_name,
                     "subgroups": [
-                        {"name": f"Group {chr(65+i)}", "credits": credit_info[i], "courses": block}
+                        {"name": f"Group {chr(65+i)}",
+                         "credits": credit_info[i], "courses": block}
                         for i, block in enumerate(course_blocks)
                     ]
                 })
@@ -320,7 +329,94 @@ def import_major_from_folder(base_path, major_name_web, catalog_year, major_code
     return parsed_structure, major_info
 
 
-def batch_import_catalog_year(catalog_folder, major_code_df, threshold=85, dry_run=False):
+def populate_catalog_from_payload(payload):
+    """
+    Populates the Django database with the given payload produced by import_major_from_folder().
+    """
+    with transaction.atomic():
+        # Create or get major
+        major_data = payload["major"]
+        major, _ = MajorMapping.objects.update_or_create(
+            major_code=major_data["major_code"],
+            defaults={
+                "major_name_web": major_data["major_name_web"],
+                "major_name_registrar": major_data["major_name_registrar"],
+                "total_credits_required": major_data["total_credits_required"],
+            }
+        )
+
+        # Create courses
+        course_objs = []
+        existing_course_ids = set(Course.objects.filter(
+            course_id__in=[c["course_id"] for c in payload["courses"]]
+        ).values_list("course_id", flat=True))
+
+        for c in payload["courses"]:
+            if c["course_id"] not in existing_course_ids:
+                course_objs.append(Course(**c))
+        Course.objects.bulk_create(course_objs)
+
+        # Create requirement groups
+        group_name_to_obj = {}
+        group_objs = []
+        for g in payload["groups"]:
+            obj = RequirementGroup(
+                major=major,
+                name=g["name"],
+                group_type=g["group_type"],
+                required_credits=g.get("required_credits")
+            )
+            group_objs.append(obj)
+        created_groups = RequirementGroup.objects.bulk_create(group_objs)
+
+        for obj in created_groups:
+            group_name_to_obj[obj.name] = obj
+
+        # Create subgroups
+        subgroup_objs = []
+        subgroup_map = {}
+        for sg in payload["subgroups"]:
+            parent = group_name_to_obj[sg["group_name"]]
+            obj = RequirementSubgroup(
+                group=parent,
+                name=sg["name"],
+                required_credits=sg["required_credits"]
+            )
+            subgroup_objs.append(obj)
+        created_subgroups = RequirementSubgroup.objects.bulk_create(
+            subgroup_objs)
+
+        for obj in created_subgroups:
+            subgroup_map[(obj.group.name, obj.name)] = obj
+
+        # Create major-course mappings
+        major_course_objs = []
+        course_map = {c.course_id: c for c in Course.objects.filter(
+            course_id__in=[c["course_id"] for c in payload["courses"]]
+        )}
+        for mc in payload["major_courses"]:
+            course = course_map[mc["course_id"]]
+            group = group_name_to_obj.get(
+                mc["group_name"]) if mc["subgroup_name"] is None else None
+            subgroup = subgroup_map.get(
+                (mc["group_name"], mc["subgroup_name"])) if mc["subgroup_name"] else None
+            major_course_objs.append(MajorCourse(
+                course=course,
+                group=group,
+                subgroup=subgroup
+            ))
+        MajorCourse.objects.bulk_create(major_course_objs)
+
+        return {
+            "major": major,
+            "courses_created": len(course_objs),
+            "groups_created": len(group_objs),
+            "subgroups_created": len(subgroup_objs),
+            "major_courses_created": len(major_course_objs)
+        }
+
+
+def batch_import_catalog_year(catalog_folder, major_code_df, total_credits_map, threshold=85, dry_run=False):
     """
     Imports all majors from a given catalog folder (e.g., '2024-2025').
 
@@ -347,14 +443,15 @@ def batch_import_catalog_year(catalog_folder, major_code_df, threshold=85, dry_r
             continue
 
         major_name_web = major_dir.name
-        print(f"\n📁 Processing: {major_name_web}")
+        print(f"\nProcessing: {major_name_web}")
 
         try:
             parsed_structure, major_info = import_major_from_folder(
                 base_path=major_dir,
                 major_name_web=major_name_web,
                 catalog_year=catalog_path.name,
-                major_code_df=major_code_df
+                major_code_df=major_code_df,
+                total_credits_map=total_credits_map
             )
 
             if major_info["match_score"] < threshold:
@@ -366,14 +463,16 @@ def batch_import_catalog_year(catalog_folder, major_code_df, threshold=85, dry_r
                     "status": "skipped",
                     "reason": f"Low confidence match ({major_info['match_score']}%)"
                 })
-                print(f"⚠️  Skipped: Low confidence match ({major_info['match_score']}%)")
+                print(
+                    f"WARN: Skipped: Low confidence match ({major_info['match_score']}%)")
                 continue
 
             payload = prepare_django_inserts(
                 parsed_structure,
                 major_info["major_code"],
                 major_info["major_name_web"],
-                major_info["major_name_registrar"]
+                major_info["major_name_registrar"],
+                major_info["total_credits_required"]
             )
 
             if not dry_run:
@@ -383,11 +482,13 @@ def batch_import_catalog_year(catalog_folder, major_code_df, threshold=85, dry_r
                 "major_name_web": major_info["major_name_web"],
                 "major_code": major_info["major_code"],
                 "major_name_registrar": major_info["major_name_registrar"],
+                "total_credits_required": major_info["total_credits_required"],
                 "match_score": major_info["match_score"],
                 "status": "imported" if not dry_run else "parsed"
             })
 
-            print(f"✅ {'Parsed' if dry_run else 'Imported'}: {major_info['major_code']} ({major_info['match_score']}%)")
+            print(
+                f"INFO: {'Parsed' if dry_run else 'Imported'}: {major_info['major_code']} ({major_info['match_score']}%)")
 
         except Exception as e:
             results.append({
@@ -395,6 +496,6 @@ def batch_import_catalog_year(catalog_folder, major_code_df, threshold=85, dry_r
                 "status": "failed",
                 "reason": str(e)
             })
-            print(f"❌ Failed to import {major_name_web}: {e}")
+            print(f"ERROR: Failed to import {major_name_web}: {e}")
 
     return results
