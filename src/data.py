@@ -237,7 +237,7 @@ def prepare_django_inserts(parsed_structure, major_code, major_name_web, major_n
 
 
 
-def import_major_from_folder_fixed(base_path, major_name_web, catalog_year, major_code_df):
+def import_major_from_folder(base_path, major_name_web, catalog_year, major_code_df):
     """
     Parses a major folder's structure to identify and classify its requirement groups.
 
@@ -350,7 +350,7 @@ def batch_import_catalog_year(catalog_folder, major_code_df, threshold=85, dry_r
         print(f"\n📁 Processing: {major_name_web}")
 
         try:
-            parsed_structure, major_info = import_major_from_folder_fixed(
+            parsed_structure, major_info = import_major_from_folder(
                 base_path=major_dir,
                 major_name_web=major_name_web,
                 catalog_year=catalog_path.name,

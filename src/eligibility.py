@@ -3,6 +3,14 @@ from django.db import transaction
 from src.models import StudentRecord, StudentAudit
 
 
+"""
+TODO: Eligibility
+We need the following data for output:
+- total DA credits
+- cumulative GPA
+- percent towards completion (completed / total for degree) - still need total degree credits
+"""
+
 # Define the grade points mapping
 # This mapping is based on the provided grading system.
 GRADE_POINTS = {

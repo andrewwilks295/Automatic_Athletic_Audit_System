@@ -29,6 +29,7 @@ class MajorMapping(models.Model):
     major_code = models.CharField(max_length=20, primary_key=True)
     major_name_web = models.CharField(max_length=255, unique=True)
     major_name_registrar = models.CharField(max_length=255, unique=True)
+    total_credits_required = models.IntegerField()
 
     def __str__(self):
         return f"{self.major_code} - {self.major_name_registrar}"
@@ -107,9 +108,10 @@ class StudentAudit(models.Model):
     total_credits = models.IntegerField()
     major_credits = models.IntegerField()
     ptc_major = models.DecimalField(max_digits=5, decimal_places=2)
+    satisfactory_ptc_major = models.BooleanField()
     eligible = models.BooleanField()
     gpa = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
-
+    satisfactory_gpa = models.BooleanField()
     class Meta:
         unique_together = ('student', 'term')
 
