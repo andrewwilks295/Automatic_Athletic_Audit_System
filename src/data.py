@@ -3,6 +3,15 @@ import os
 from django.db import transaction
 from django.core.exceptions import ValidationError
 from src.models import StudentRecord, StudentMajor, Course, MajorMapping, MajorCourse
+from pathlib import Path
+from src.utils import (
+    extract_credits_from_name,
+    parse_course_csv,
+    populate_catalog_from_payload,
+    split_courses_by_credit_blocks,
+    match_major_name_web_to_registrar,
+    normalize_major_name_web
+)
 
 #  Helper Functions
 def is_duplicate_record(student_id, term, course_id, institution=None):
@@ -138,67 +147,254 @@ def import_student_data_from_csv(file_path):
         return {"success": False, "message": f"Unexpected error: {e}"}
 
 
-def update_major_course_associations(base_catalog_dir):
-    for year_dir in os.listdir(base_catalog_dir):
-        year_path = os.path.join(base_catalog_dir, year_dir)
-        if not os.path.isdir(year_path):
+def prepare_django_inserts(parsed_structure, major_code, major_name_web, major_name_registrar):
+    """
+    Converts the parsed import structure into Django model-ready dicts.
+    Returns a dict with keys: major, courses, groups, subgroups, major_courses.
+    """
+    from collections import defaultdict
+
+    # MajorMapping object
+    major_record = {
+        "major_code": major_code,
+        "major_name_web": major_name_web,
+        "major_name_registrar": major_name_registrar
+    }
+
+    # Prepare unique courses
+    courses = {}
+    groups = []
+    subgroups = []
+    major_courses = []
+
+    for group in parsed_structure:
+        group_name = group["group_name"]
+
+        if group["type"] == "credits":
+            # RequirementGroup (credits)
+            group_obj = {
+                "name": group_name,
+                "group_type": "credits",
+                "required_credits": group["credits"]
+            }
+            groups.append(group_obj)
+
+            for course in group["courses"]:
+                course_id = f"{course.subject}-{course.number}"
+                courses[course_id] = {
+                    "course_id": course_id,
+                    "subject": course.subject,
+                    "course_number": course.number,
+                    "course_name": course.name,
+                    "credits": course.credits
+                }
+                major_courses.append({
+                    "course_id": course_id,
+                    "group_name": group_name,
+                    "subgroup_name": None
+                })
+
+        elif group["type"] in ["choose_dir", "choose_csv"]:
+            # RequirementGroup (choose)
+            group_obj = {
+                "name": group_name,
+                "group_type": "choose",
+                "required_credits": None
+            }
+            groups.append(group_obj)
+
+            for sg in group["subgroups"]:
+                # Subgroup record
+                sg_obj = {
+                    "group_name": group_name,
+                    "name": sg["name"],
+                    "required_credits": sg["credits"]
+                }
+                subgroups.append(sg_obj)
+
+                for course in sg["courses"]:
+                    course_id = f"{course.subject}-{course.number}"
+                    courses[course_id] = {
+                        "course_id": course_id,
+                        "subject": course.subject,
+                        "course_number": course.number,
+                        "course_name": course.name,
+                        "credits": course.credits
+                    }
+                    major_courses.append({
+                        "course_id": course_id,
+                        "group_name": group_name,
+                        "subgroup_name": sg["name"]
+                    })
+
+    return {
+        "major": major_record,
+        "courses": list(courses.values()),
+        "groups": groups,
+        "subgroups": subgroups,
+        "major_courses": major_courses
+    }
+
+
+
+def import_major_from_folder(base_path, major_name_web, catalog_year, major_code_df):
+    """
+    Parses a major folder's structure to identify and classify its requirement groups.
+
+    Automatically resolves major_code and major_name_registrar using fuzzy match.
+
+    Returns:
+        parsed_structure (list),
+        major_info: dict with {major_code, major_name_web, major_name_registrar}
+    """
+    base_path = Path(base_path)
+    parsed_structure = []
+
+    # Step 1: Match major_name_web to registrar data
+    major_code, major_name_registrar, score = match_major_name_web_to_registrar(major_name_web, major_code_df)
+    major_info = {
+        "major_code": major_code,
+        "major_name_web": major_name_web,
+        "major_name_registrar": major_name_registrar,
+        "match_score": score
+    }
+
+    # Step 2: Walk directory structure and parse requirement groups
+    for entry in base_path.iterdir():
+        if entry.is_file() and entry.suffix.lower() == ".csv":
+            group_name = entry.stem
+            credit_info = extract_credits_from_name(group_name)
+
+            if isinstance(credit_info, list):  # choose group in flat csv
+                courses = parse_course_csv(entry)
+                course_blocks = split_courses_by_credit_blocks(courses, credit_info)
+                parsed_structure.append({
+                    "type": "choose_csv",
+                    "group_name": group_name,
+                    "subgroups": [
+                        {"name": f"Group {chr(65+i)}", "credits": credit_info[i], "courses": block}
+                        for i, block in enumerate(course_blocks)
+                    ]
+                })
+            else:
+                courses = parse_course_csv(entry)
+                parsed_structure.append({
+                    "type": "credits",
+                    "group_name": group_name,
+                    "credits": credit_info,
+                    "courses": courses
+                })
+
+        elif entry.is_dir():
+            group_name = entry.name
+            subgroup_entries = list(entry.glob("*/*.csv"))
+
+            if subgroup_entries:
+                subgroups = []
+                for csv_path in subgroup_entries:
+                    subgroup_name = csv_path.parent.name
+                    subgroup_credits = extract_credits_from_name(subgroup_name)
+                    courses = parse_course_csv(csv_path)
+                    subgroups.append({
+                        "name": subgroup_name,
+                        "credits": subgroup_credits,
+                        "courses": courses
+                    })
+                parsed_structure.append({
+                    "type": "choose_dir",
+                    "group_name": group_name,
+                    "subgroups": subgroups
+                })
+            else:
+                for subgroup_file in entry.glob("*.csv"):
+                    subgroup_name = subgroup_file.stem
+                    subgroup_credit = extract_credits_from_name(subgroup_name)
+                    courses = parse_course_csv(subgroup_file)
+                    parsed_structure.append({
+                        "type": "credits",
+                        "group_name": subgroup_name,
+                        "credits": subgroup_credit,
+                        "courses": courses
+                    })
+
+    return parsed_structure, major_info
+
+
+def batch_import_catalog_year(catalog_folder, major_code_df, threshold=85, dry_run=False):
+    """
+    Imports all majors from a given catalog folder (e.g., '2024-2025').
+
+    Args:
+        catalog_folder (str or Path): Path to the catalog year folder containing major subfolders.
+        major_code_df (pd.DataFrame): The dataframe from parsed major_codes.csv.
+        threshold (int): Minimum acceptable match confidence (0–100) for fuzzy matching.
+        dry_run (bool): If True, data is parsed but not committed to the database.
+
+    Returns:
+        List of import result dicts with keys:
+            - major_name_web
+            - major_code
+            - major_name_registrar
+            - match_score
+            - status ('imported', 'skipped', 'failed')
+            - reason (optional)
+    """
+    results = []
+    catalog_path = Path(catalog_folder)
+
+    for major_dir in catalog_path.iterdir():
+        if not major_dir.is_dir():
             continue
 
-        for filename in os.listdir(year_path):
-            if not filename.endswith(".csv"):
+        major_name_web = major_dir.name
+        print(f"\n📁 Processing: {major_name_web}")
+
+        try:
+            parsed_structure, major_info = import_major_from_folder(
+                base_path=major_dir,
+                major_name_web=major_name_web,
+                catalog_year=catalog_path.name,
+                major_code_df=major_code_df
+            )
+
+            if major_info["match_score"] < threshold:
+                results.append({
+                    "major_name_web": major_info["major_name_web"],
+                    "major_code": major_info["major_code"],
+                    "major_name_registrar": major_info["major_name_registrar"],
+                    "match_score": major_info["match_score"],
+                    "status": "skipped",
+                    "reason": f"Low confidence match ({major_info['match_score']}%)"
+                })
+                print(f"⚠️  Skipped: Low confidence match ({major_info['match_score']}%)")
                 continue
 
-            major_name_web = filename.replace(".csv", "").strip()
-            file_path = os.path.join(year_path, filename)
+            payload = prepare_django_inserts(
+                parsed_structure,
+                major_info["major_code"],
+                major_info["major_name_web"],
+                major_info["major_name_registrar"]
+            )
 
-            try:
-                major = MajorMapping.objects.get(major_name_web=major_name_web)
-            except MajorMapping.DoesNotExist:
-                print(f"Major not found: {major_name_web}. Skipping.")
-                continue
+            if not dry_run:
+                populate_catalog_from_payload(payload)
 
-            try:
-                # Fallback encoding for web-scraped files
-                try:
-                    df = pd.read_csv(file_path, encoding='utf-8-sig')
-                except UnicodeDecodeError:
-                    df = pd.read_csv(file_path, encoding='ISO-8859-1')
+            results.append({
+                "major_name_web": major_info["major_name_web"],
+                "major_code": major_info["major_code"],
+                "major_name_registrar": major_info["major_name_registrar"],
+                "match_score": major_info["match_score"],
+                "status": "imported" if not dry_run else "parsed"
+            })
 
-                df = df.dropna(subset=["Subject", "Course Number", "Credits"])  # drop incomplete rows
+            print(f"✅ {'Parsed' if dry_run else 'Imported'}: {major_info['major_code']} ({major_info['match_score']}%)")
 
-            except Exception as e:
-                print(f"Failed to read {file_path}: {e}")
-                continue
+        except Exception as e:
+            results.append({
+                "major_name_web": major_name_web,
+                "status": "failed",
+                "reason": str(e)
+            })
+            print(f"❌ Failed to import {major_name_web}: {e}")
 
-            for _, row in df.iterrows():
-                subject = str(row.get("Subject", "")).strip().upper()
-                course_number = str(row.get("Course Number", "")).strip()
-                course_id = f"{subject}{course_number}"
-                credits = int(row.get("Credits", 0))
-
-                if not subject or not course_number:
-                    print(f"Invalid course info in {file_path}: {row}")
-                    continue
-
-                # Try to get or create the course
-                course, created = Course.objects.get_or_create(
-                    course_id=course_id,
-                    defaults={
-                        "subject": subject,
-                        "course_number": course_number,
-                        "credits": credits,
-                    }
-                )
-
-                if created:
-                    print(f"Created new course: {course_id}")
-
-                try:
-                    with transaction.atomic():
-                        MajorCourse.objects.get_or_create(
-                            major=major,
-                            course=course,
-                            defaults={"requirement_type": "Core"}  # Default classification
-                        )
-                except Exception as e:
-                    print(f"Failed to link {course_id} with {major_name_web}: {e}")
+    return results

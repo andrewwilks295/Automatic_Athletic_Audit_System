@@ -8,10 +8,10 @@ catalog_years: dict[str, str] | None = None
 base_url = "https://www.suu.edu/academics/catalog/"
 
 years = [
-    "2024-2025"
-    # "2023-2024",
-    # "2022-2023",
-    # "2021-2022",
+    "2024-2025",
+    "2023-2024",
+    "2022-2023",
+    "2021-2022",
 ]
 
 with open('majors.txt', 'r') as f:
@@ -34,6 +34,9 @@ def main():
             full_url = find_degree(all_programs_link, major)
             # scrape_h2_h3(full_url) #this gets the header requirements which I don't think we need but might as well
             # keep the code
+            if full_url is None:
+                print(f"Could not find {major} in {year}")
+                continue
             scrape_total_credits(full_url, year, major)
             scrape_courses(full_url, year, major)
             
@@ -158,7 +161,7 @@ def find_all_programs_link(url):
         print(f"Failed to fetch the page. Status code: {response.status_code}")
 
 
-def find_degree(url, major):
+def find_degree(url, major) -> str | None:
     print("\n\nStarting find_degree.py\n----------------------------")
     print(f"Fetching degree programs from: {url}")
 
@@ -197,6 +200,7 @@ def find_degree(url, major):
 
         if not found:
             print(f"Degree '{target_degree}' not found.")
+            return None  # No match found
         else:
             return full_url
     else:

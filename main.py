@@ -1,3 +1,6 @@
+
+from pathlib import Path
+import pandas as pd
 import django
 import os
 
@@ -5,22 +8,48 @@ import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 django.setup()
 
-from src.data import import_student_data_from_csv, update_major_course_associations
-from src.eligibility import run_eligibility_audit
-from src.models import Course, MajorMapping, MajorCourse
-from src.output import output_to_csv
+from src.data import batch_import_catalog_year
+
+def load_major_code_lookup(path: str) -> pd.DataFrame:
+    """
+    Load and clean the unified major_codes.csv for fuzzy matching.
+    """
+    df = pd.read_csv(path)
+    df = df.rename(columns={
+        "Major Code": "major_code",
+        "Major Name Registrar": "major_name_registrar"
+    })[["major_code", "major_name_registrar"]]
+    return df.dropna(subset=["major_code", "major_name_registrar"])
 
 
-def run():
-    # filepath = "Automatic Athletic Audit System/cleaned_bogus_data.csv"
-    # print(import_student_data_from_csv(filepath))
-    majors = MajorMapping.objects.all()
-    with open('majors.txt', 'w') as mtxt:
-        for major in majors:
-            mtxt.write(major.major_name_web + "\n")
+def main():
+    catalog_dir = Path("2024-2025")
+    major_code_path = Path("major_codes.csv")
+
+    if not catalog_dir.exists() or not major_code_path.exists():
+        print("❌ Error: Required paths do not exist.")
+        return
+
+    # Load the major code lookup table
+    major_code_df = load_major_code_lookup(major_code_path)
+
+    # Run the dry-run batch import
+    results = batch_import_catalog_year(
+        catalog_folder=catalog_dir,
+        major_code_df=major_code_df,
+        threshold=85,
+        dry_run=True
+    )
+
+    # Print summary
+    print("\n📋 Dry Run Summary:")
+    for result in results:
+        status = result.get("status")
+        name = result.get("major_name_web")
+        code = result.get("major_code", "N/A")
+        score = result.get("match_score", "N/A")
+        print(f" - [{status.upper()}] {name} → {code} ({score}%)")
 
 
-if __name__ == '__main__':
-    run_eligibility_audit(202430)
-    output_to_csv(202430)
-    
+if __name__ == "__main__":
+    main()
