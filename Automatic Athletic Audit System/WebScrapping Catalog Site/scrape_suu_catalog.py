@@ -9,9 +9,6 @@ base_url = "https://www.suu.edu/academics/catalog/"
 
 years = [
     "2024-2025",
-    "2023-2024",
-    "2022-2023",
-    "2021-2022",
 ]
 
 with open('majors.txt', 'r') as f:
