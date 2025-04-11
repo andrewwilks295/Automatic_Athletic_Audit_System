@@ -3,10 +3,12 @@ import os
 from django.db import transaction
 from django.core.exceptions import ValidationError
 from pathlib import Path
-from src.models import StudentRecord, StudentMajor, Course, MajorMapping, MajorCourse, RequirementGroup, RequirementSubgroup
+from src.models import StudentRecord, StudentMajor, Course, MajorMapping, MajorCourse
 from src.utils import (
     extract_credits_from_name,
     parse_course_csv,
+    populate_catalog_from_payload,
+    prepare_django_inserts,
     split_courses_by_credit_blocks,
     match_major_name_web_to_registrar,
 )
@@ -153,96 +155,6 @@ def import_student_data_from_csv(file_path):
         return {"success": False, "message": f"Unexpected error: {e}"}
 
 
-def prepare_django_inserts(parsed_structure, major_code, major_name_web, major_name_registrar, total_credits_required):
-    """
-    Converts the parsed import structure into Django model-ready dicts.
-    Returns a dict with keys: major, courses, groups, subgroups, major_courses.
-    """
-    from collections import defaultdict
-
-    # MajorMapping object
-    major_record = {
-        "major_code": major_code,
-        "major_name_web": major_name_web,
-        "major_name_registrar": major_name_registrar,
-        "total_credits_required": total_credits_required,
-    }
-
-    # Prepare unique courses
-    courses = {}
-    groups = []
-    subgroups = []
-    major_courses = []
-
-    for group in parsed_structure:
-        group_name = group["group_name"]
-
-        if group["type"] == "credits":
-            # RequirementGroup (credits)
-            group_obj = {
-                "name": group_name,
-                "group_type": "credits",
-                "required_credits": group["credits"]
-            }
-            groups.append(group_obj)
-
-            for course in group["courses"]:
-                course_id = f"{course.subject}-{course.number}"
-                courses[course_id] = {
-                    "course_id": course_id,
-                    "subject": course.subject,
-                    "course_number": course.number,
-                    "course_name": course.name,
-                    "credits": course.credits
-                }
-                major_courses.append({
-                    "course_id": course_id,
-                    "group_name": group_name,
-                    "subgroup_name": None
-                })
-
-        elif group["type"] in ["choose_dir", "choose_csv"]:
-            # RequirementGroup (choose)
-            group_obj = {
-                "name": group_name,
-                "group_type": "choose",
-                "required_credits": None
-            }
-            groups.append(group_obj)
-
-            for sg in group["subgroups"]:
-                # Subgroup record
-                sg_obj = {
-                    "group_name": group_name,
-                    "name": sg["name"],
-                    "required_credits": sg["credits"]
-                }
-                subgroups.append(sg_obj)
-
-                for course in sg["courses"]:
-                    course_id = f"{course.subject}-{course.number}"
-                    courses[course_id] = {
-                        "course_id": course_id,
-                        "subject": course.subject,
-                        "course_number": course.number,
-                        "course_name": course.name,
-                        "credits": course.credits
-                    }
-                    major_courses.append({
-                        "course_id": course_id,
-                        "group_name": group_name,
-                        "subgroup_name": sg["name"]
-                    })
-
-    return {
-        "major": major_record,
-        "courses": list(courses.values()),
-        "groups": groups,
-        "subgroups": subgroups,
-        "major_courses": major_courses
-    }
-
-
 def import_major_from_folder(base_path, major_name_web, catalog_year, major_code_df, total_credits_map):
     """
     Parses a major folder's structure to identify and classify its requirement groups.
@@ -327,93 +239,6 @@ def import_major_from_folder(base_path, major_name_web, catalog_year, major_code
                     })
 
     return parsed_structure, major_info
-
-
-def populate_catalog_from_payload(payload):
-    """
-    Populates the Django database with the given payload produced by import_major_from_folder().
-    """
-    with transaction.atomic():
-        # Create or get major
-        major_data = payload["major"]
-        major, _ = MajorMapping.objects.update_or_create(
-            major_code=major_data["major_code"],
-            defaults={
-                "major_name_web": major_data["major_name_web"],
-                "major_name_registrar": major_data["major_name_registrar"],
-                "total_credits_required": major_data["total_credits_required"],
-            }
-        )
-
-        # Create courses
-        course_objs = []
-        existing_course_ids = set(Course.objects.filter(
-            course_id__in=[c["course_id"] for c in payload["courses"]]
-        ).values_list("course_id", flat=True))
-
-        for c in payload["courses"]:
-            if c["course_id"] not in existing_course_ids:
-                course_objs.append(Course(**c))
-        Course.objects.bulk_create(course_objs)
-
-        # Create requirement groups
-        group_name_to_obj = {}
-        group_objs = []
-        for g in payload["groups"]:
-            obj = RequirementGroup(
-                major=major,
-                name=g["name"],
-                group_type=g["group_type"],
-                required_credits=g.get("required_credits")
-            )
-            group_objs.append(obj)
-        created_groups = RequirementGroup.objects.bulk_create(group_objs)
-
-        for obj in created_groups:
-            group_name_to_obj[obj.name] = obj
-
-        # Create subgroups
-        subgroup_objs = []
-        subgroup_map = {}
-        for sg in payload["subgroups"]:
-            parent = group_name_to_obj[sg["group_name"]]
-            obj = RequirementSubgroup(
-                group=parent,
-                name=sg["name"],
-                required_credits=sg["required_credits"]
-            )
-            subgroup_objs.append(obj)
-        created_subgroups = RequirementSubgroup.objects.bulk_create(
-            subgroup_objs)
-
-        for obj in created_subgroups:
-            subgroup_map[(obj.group.name, obj.name)] = obj
-
-        # Create major-course mappings
-        major_course_objs = []
-        course_map = {c.course_id: c for c in Course.objects.filter(
-            course_id__in=[c["course_id"] for c in payload["courses"]]
-        )}
-        for mc in payload["major_courses"]:
-            course = course_map[mc["course_id"]]
-            group = group_name_to_obj.get(
-                mc["group_name"]) if mc["subgroup_name"] is None else None
-            subgroup = subgroup_map.get(
-                (mc["group_name"], mc["subgroup_name"])) if mc["subgroup_name"] else None
-            major_course_objs.append(MajorCourse(
-                course=course,
-                group=group,
-                subgroup=subgroup
-            ))
-        MajorCourse.objects.bulk_create(major_course_objs)
-
-        return {
-            "major": major,
-            "courses_created": len(course_objs),
-            "groups_created": len(group_objs),
-            "subgroups_created": len(subgroup_objs),
-            "major_courses_created": len(major_course_objs)
-        }
 
 
 def batch_import_catalog_year(catalog_folder, major_code_df, total_credits_map, threshold=85, dry_run=False):

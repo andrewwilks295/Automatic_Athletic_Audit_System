@@ -4,54 +4,53 @@ import re
 import csv
 from bs4 import BeautifulSoup
 
+from src.course_parser import parse_course_structure_from_html
+
 catalog_years: dict[str, str] | None = None
 base_url = "https://www.suu.edu/academics/catalog/"
 
-years = [
-    "2024-2025",
-]
 
-with open('majors.txt', 'r') as f:
-    majors = [x.strip() for x in f.readlines()]
-
-
-def main():
-    global years, majors
-    # year = "2024-2025"
-    # major = "Exercise Science (B.S.)"
-    for year in years:
-        for major in majors:
-            # if we already have it, skip it
-            if os.path.exists(f"./{year}/{major.replace('/', ',')}.csv"):
-                print(f"Skipping {year}/{major}")
-                continue
-            # else scrape it
-            catalog_url = pull_catalog_year(year)
-            all_programs_link = find_all_programs_link(catalog_url)
-            full_url = find_degree(all_programs_link, major)
-            # scrape_h2_h3(full_url) #this gets the header requirements which I don't think we need but might as well
-            # keep the code
-            if full_url is None:
-                print(f"Could not find {major} in {year}")
-                continue
-            scrape_total_credits(full_url, year, major)
-            scrape_courses(full_url, year, major)
-            
-def main_tester():
-    # global years, majors
-    year = "2024-2025"
-    major = "Exercise Science (B.S.)"
-
-    if os.path.exists(f"./{year}/{major.replace('/', ',')}.csv"):
-        print(f"Skipping {year}/{major}")
-    # else scrape it
+def scrape_catalog_year(year, majors, major_code_df, threshold=85, dry_run=False):
     catalog_url = pull_catalog_year(year)
     all_programs_link = find_all_programs_link(catalog_url)
-    full_url = find_degree(all_programs_link, major)
-    # scrape_h2_h3(full_url) #this gets the header requirements which I don't think we need but might as well
-    # keep the code
-    scrape_courses(full_url, year, major)
-    scrape_total_credits(full_url, year, major)
+
+    for major_name_web in majors:
+        print(f"\nProcessing: {major_name_web}")
+        program_url = find_degree(all_programs_link, major_name_web)
+        if program_url is None:
+            print(f"ERROR: Could not find program for {major_name_web}")
+            continue
+
+        try:
+            html = requests.get(program_url).text
+            total_credits = fetch_total_credits(html)
+            structure = parse_course_structure_from_html(html)
+
+            # fuzzy match
+            from src.utils import match_major_name_web_to_registrar, prepare_django_inserts, populate_catalog_from_payload
+
+            major_code, major_name_registrar, score = match_major_name_web_to_registrar(major_name_web, major_code_df)
+
+            if score < threshold:
+                print(f"WARN: Skipping {major_name_web} due to low match score: {score}")
+                continue
+
+            payload = prepare_django_inserts(
+                parsed_structure=structure,
+                major_code=major_code,
+                major_name_web=major_name_web,
+                major_name_registrar=major_name_registrar,
+                total_credits_required=total_credits
+            )
+
+            if not dry_run:
+                populate_catalog_from_payload(payload)
+
+            print(f"INFO: Successfully {'Parsed' if dry_run else 'Imported'}: {major_code} ({score}% confidence)")
+            print(payload)
+
+        except Exception as e:
+            print(f"ERROR: Error while processing {major_name_web}: {e}")
 
 def pull_catalog_year(year):
     print("\n\nStarting_catalog_year_test\n----------------------------")
@@ -261,111 +260,19 @@ def shorten_heading(tag):
     return sanitize(f"{short_part} {credit_part}" if credit_part else short_part)
 
 
-def scrape_courses(url, year, major):
-    print(f"\nScraping course listings from: {url}")
-    headers = {"User-Agent": "Mozilla/5.0"}
-    response = requests.get(url, headers=headers)
-
-    if response.status_code != 200:
-        print(f"Failed to fetch the page. Status code: {response.status_code}")
-        return
-
-    soup = BeautifulSoup(response.text, "html.parser")
-    degree_name = sanitize(major.replace("/", ","))
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    base_path = os.path.join(current_dir, year, degree_name)
-    os.makedirs(base_path, exist_ok=True)
-
-    current_h3 = None
-    current_h4 = None
-    current_h5 = None
-    course_map = {}
-
-    for tag in soup.find_all(['h3', 'h4', 'h5', 'li']):
-        raw_text = ' '.join(tag.stripped_strings)
-
-        if tag.name == 'h3':
-            if 'acalog-location' in tag.get('class', []):
-                continue
-            current_h3 = shorten_heading(tag)
-            current_h4 = None
-            current_h5 = None
-
-        elif tag.name == 'h4':
-            current_h4 = shorten_heading(tag)
-            current_h5 = None
-
-        elif tag.name == 'h5':
-            current_h5 = shorten_heading(tag)
-
-        elif tag.name == 'li' and 'acalog-course' in tag.get('class', []):
-            credits = extract_credits(tag.get_text())
-            course_text = tag.get_text(separator=" ", strip=True)
-            course_options = course_text.split(" or ")
-            pattern = re.compile(r"(\w+)\s(\d+)\s-\s(.+)")
-
-            for option in course_options:
-                option = re.sub(r"\s\d+\sCredit\(s\)", "", option).strip()
-                match = pattern.search(option)
-                if match:
-                    subject, course_number, name = match.groups()
-                    row = [subject, course_number, name, credits]
-
-                    folder = os.path.join(base_path, current_h3 or "General")
-                    if current_h4:
-                        folder = os.path.join(folder, current_h4)
-                    if current_h5:
-                        folder = os.path.join(folder, current_h5)
-
-                    os.makedirs(folder, exist_ok=True)
-                    filename = os.path.join(folder, f"{sanitize(current_h5 or current_h4 or current_h3 or 'General')}.csv")
-
-                    if filename not in course_map:
-                        course_map[filename] = []
-                    course_map[filename].append(row)
-
-    for filepath, rows in course_map.items():
-        with open(filepath, "w", newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow(["Subject", "Course Number", "Name", "Credits"])
-            writer.writerows(rows)
-        print(f"Saved {len(rows)} course(s) to {filepath}")
-        
-def scrape_total_credits(url, year, major):
+def fetch_and_parse_structure(url):
     response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
+    if response.status_code != 200:
+        raise Exception(f"Failed to fetch program page: {url}")
+    return parse_course_structure_from_html(response.text)
 
+        
+def fetch_total_credits(html):
+    soup = BeautifulSoup(html, 'html.parser')
     for tag in soup.find_all('h2'):
         if "Total Credits" in tag.get_text():
             match = re.search(r'(\d+)', tag.get_text())
             if match:
-                total_credits = int(match.group(1))
-
-                # Prepare file path
-                degree_name = major.replace("/", ",")
-                current_dir = os.path.dirname(os.path.abspath(__file__))
-                folder_path = os.path.join(current_dir, year)
-                os.makedirs(folder_path, exist_ok=True)
-                csv_path = os.path.join(folder_path, "total_credits.csv")
-
-                # Check if file exists to avoid writing the header multiple times
-                file_exists = os.path.exists(csv_path)
-
-                # Write to CSV (append mode)
-                with open(csv_path, "a", newline="") as f:
-                    writer = csv.writer(f)
-                    if not file_exists:
-                        writer.writerow(["Degree", "Total Credits"])
-                    writer.writerow([major, total_credits])
-
-                print(f"Saved total credits for {major} to {csv_path}")
-                return total_credits
-
-    print("Total credits not found.")
-    return None
-
-
-
-
-main()
-# main_tester()
+                return int(match.group(1))
+    print("WARN: Total credits not found in page — defaulting to 120.")
+    return 120  # Default value if not found
