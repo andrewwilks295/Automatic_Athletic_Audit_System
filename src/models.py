@@ -105,13 +105,15 @@ class MajorCourse(models.Model):
 class StudentAudit(models.Model):
     student = models.ForeignKey(StudentRecord, on_delete=models.CASCADE)
     term = models.IntegerField()
-    total_credits = models.IntegerField()
-    major_credits = models.IntegerField()
+    total_term_credits = models.IntegerField()
+    da_credits = models.IntegerField()
+    total_academic_year_credits = models.IntegerField()
     ptc_major = models.DecimalField(max_digits=5, decimal_places=2)
     satisfactory_ptc_major = models.BooleanField()
     eligible = models.BooleanField()
     gpa = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
     satisfactory_gpa = models.BooleanField()
+
     class Meta:
         unique_together = ('student', 'term')
 
