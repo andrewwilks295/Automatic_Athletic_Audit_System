@@ -9,6 +9,7 @@ django.setup()
 
 from src.batch import batch_scrape_all_catalogs
 from src.utils import print_requirement_tree
+from src.models import MajorMapping
 
 
 def main():
@@ -24,6 +25,8 @@ def main():
 
 if __name__ == "__main__":
     start = datetime.now()
+    start_ct = MajorMapping.objects.all().count()
     main()
     elapsed = datetime.now() - start
-    print(elapsed)
+    diff_ct = MajorMapping.objects.all().count() - start_ct
+    print(f"created: {diff_ct} in {elapsed.total_seconds()} seconds")

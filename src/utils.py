@@ -2,7 +2,6 @@ import re
 import pandas as pd
 from collections import namedtuple
 from rapidfuzz import process, fuzz
-import unicodedata
 
 from src.models import RequirementNode
 
@@ -29,21 +28,13 @@ CourseData = namedtuple("CourseData", ["subject", "number", "name", "credits"])
 
 
 def match_major_name_web_to_registrar(web_name, major_code_df, scorer=fuzz.WRatio):
-    """
-    Match a major_name_web to the closest major_name_registrar using RapidFuzz.
-
-    Returns:
-        (major_code, major_name_registrar, score)
-    """
     web_name = normalize_major_name_web(web_name)
-    choices = major_code_df["major_name_registrar"].tolist()
 
-    # Normalize registrar names for comparison
-    normalized_choices = [normalize_major_name_registrar(c) for c in choices]
+    choices = major_code_df.apply(normalize_major_name_registrar, axis=1).tolist()
+    match, score, idx = process.extractOne(web_name, choices, scorer=scorer)
 
-    match, score, idx = process.extractOne(web_name, normalized_choices, scorer=scorer)
     matched_row = major_code_df.iloc[idx]
-    return matched_row["major_code"], matched_row["major_name_registrar"], score
+    return matched_row["Major Code"], match, score
 
 
 def normalize_major_name_web(name):
@@ -63,33 +54,41 @@ def normalize_major_name_web(name):
     return re.sub(r"\s+", " ", name).strip().lower()
 
 
-def normalize_major_name_registrar(name):
+def normalize_major_name_registrar(row: pd.Series) -> str:
     """
-    Normalize registrar names from major_codes.csv for matching.
-
-    Examples:
-        "Sports Communication Concentration" → "Sports Communication"
-        "Major in Software Development" → "Software Development"
+    Normalizes and combines base major name with concentration name (if applicable).
     """
-    # Remove "Major in" prefix and trailing keywords
-    name = re.sub(r"^Major in\s+", "", name, flags=re.IGNORECASE)
-    name = re.sub(r"\b(Emphasis|Concentration|Track|Option|Pathway)\b", "", name, flags=re.IGNORECASE)
+    registrar_name = re.sub(r"^Major in\s+", "", row["Major Name Registrar"], flags=re.IGNORECASE).strip()
+    base_name = re.sub(r"^Major in\s+", "", row.get("base_major_name", ""), flags=re.IGNORECASE).strip()
 
-    return re.sub(r"\s+", " ", name).strip().lower()
+    # Combine for concentrations
+    if "Concentration" in registrar_name and base_name:
+        registrar_name = f"{base_name} - {registrar_name}"
+
+    return re.sub(r"\s+", " ", registrar_name).strip()
 
 
-# Loading functions for major code lookup and total credits map
+# Loading functions for major code lookup
 
 def load_major_code_lookup(path: str) -> pd.DataFrame:
-    """
-    Load and clean the unified major_codes.csv for fuzzy matching.
-    """
     df = pd.read_csv(path)
-    df = df.rename(columns={
-        "Major Code": "major_code",
-        "Major Name Registrar": "major_name_registrar"
-    })[["major_code", "major_name_registrar"]]
-    return df.dropna(subset=["major_code", "major_name_registrar"])
+    return annotate_major_code_base_names(df)
+
+
+def annotate_major_code_base_names(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Adds a 'base_major_name' column to the major_code_df for concentration rows.
+    """
+    base_name = None
+    result = []
+
+    for _, row in df.iterrows():
+        registrar_name = row["Major Name Registrar"]
+        if "Concentration" not in registrar_name:
+            base_name = registrar_name  # update current major
+        result.append({**row, "base_major_name": base_name})
+
+    return pd.DataFrame(result)
 
 
 def prepare_django_inserts(parsed_tree, major_code, major_name_web, major_name_registrar, total_credits_required,
