@@ -1,56 +1,12 @@
-import os
 import requests
 import re
-import csv
 from bs4 import BeautifulSoup
 
-from src.course_parser import parse_course_structure_from_html
+from src.course_parser import parse_course_structure_as_tree
 
 catalog_years: dict[str, str] | None = None
 base_url = "https://www.suu.edu/academics/catalog/"
 
-
-def scrape_catalog_year(year, majors, major_code_df, threshold=85, dry_run=False):
-    catalog_url = pull_catalog_year(year)
-    all_programs_link = find_all_programs_link(catalog_url)
-
-    for major_name_web in majors:
-        print(f"\nProcessing: {major_name_web}")
-        program_url = find_degree(all_programs_link, major_name_web)
-        if program_url is None:
-            print(f"ERROR: Could not find program for {major_name_web}")
-            continue
-
-        try:
-            html = requests.get(program_url).text
-            total_credits = fetch_total_credits(html)
-            structure = parse_course_structure_from_html(html)
-
-            # fuzzy match
-            from src.utils import match_major_name_web_to_registrar, prepare_django_inserts, populate_catalog_from_payload
-
-            major_code, major_name_registrar, score = match_major_name_web_to_registrar(major_name_web, major_code_df)
-
-            if score < threshold:
-                print(f"WARN: Skipping {major_name_web} due to low match score: {score}")
-                continue
-
-            payload = prepare_django_inserts(
-                parsed_structure=structure,
-                major_code=major_code,
-                major_name_web=major_name_web,
-                major_name_registrar=major_name_registrar,
-                total_credits_required=total_credits
-            )
-
-            if not dry_run:
-                populate_catalog_from_payload(payload)
-
-            print(f"INFO: Successfully {'Parsed' if dry_run else 'Imported'}: {major_code} ({score}% confidence)")
-            print(payload)
-
-        except Exception as e:
-            print(f"ERROR: Error while processing {major_name_web}: {e}")
 
 def pull_catalog_year(year):
     print("\n\nStarting_catalog_year_test\n----------------------------")
@@ -203,30 +159,10 @@ def find_degree(url, major) -> str | None:
         print(f"Failed to fetch the page. Status code: {response.status_code}")
 
 
-def extract_credits(text):
-    text = text.lower()
-
-    match = re.search(r"(\d+)\s*-\s*(\d+)\s*credits?", text)
-    if match:
-        # print("Dash match:", match.groups())
-        return int(match.group(1))
-
-    match = re.search(r"(\d+)\s*or\s*(\d+)\s*credits?", text)
-    if match:
-        # print("Or match:", match.groups())
-        return f"{match.group(1)} or {match.group(2)}"
-
-    match = re.search(r"(\d+)\s*credits?", text)
-    if match:
-        # print("Single credit match:", match.group(1))
-        return int(match.group(1))
-
-    return "Unknown"
-
-
 def sanitize(text, max_len=45):
     text = re.sub(r'[<>:"/\\|?*]', '', text)
     return text[:max_len].strip()
+
 
 def shorten_heading(tag):
     parts = list(tag.stripped_strings)
@@ -264,7 +200,7 @@ def fetch_and_parse_structure(url):
     response = requests.get(url)
     if response.status_code != 200:
         raise Exception(f"Failed to fetch program page: {url}")
-    return parse_course_structure_from_html(response.text)
+    return parse_course_structure_as_tree(response.text)
 
         
 def fetch_total_credits(html):

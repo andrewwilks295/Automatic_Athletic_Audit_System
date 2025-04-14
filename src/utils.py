@@ -1,29 +1,30 @@
 import re
-from django.db import transaction
 import pandas as pd
 from collections import namedtuple
 from rapidfuzz import process, fuzz
 import unicodedata
 
-from src.models import Course, MajorCourse, MajorMapping, RequirementGroup, RequirementSubgroup
 
-
-def extract_credits_from_name(name):
+def extract_credits(text, prefer="min"):
     """
-    Extracts single or multiple credit amounts from a requirement group or subgroup name.
-    E.g., "Select One (4 or 12 Credits)" -> [4, 12]
-          "Core Requirements (40 Credits)" -> 40
+    Extracts an integer credit value from a text string.
+    prefer="min" -> choose the smaller of a range or "or" set
+    prefer="max" -> choose the larger of a range or "or" set
     """
-    matches = re.findall(r"\(?(\d+)(?:\s+or\s+(\d+))?\)?\s*Credits?", name, re.IGNORECASE)
-    credits = []
-    for match in matches:
-        for val in match:
-            if val:
-                credits.append(int(val))
-    return credits if len(credits) > 1 else credits[0] if credits else None
+    text = text.lower()
+    if match := re.search(r"(\d+)\s*-\s*(\d+)\s*credits?", text):
+        nums = int(match.group(1)), int(match.group(2))
+        return min(nums) if prefer == "min" else max(nums)
+    if match := re.search(r"(\d+)\s*or\s*(\d+)\s*credits?", text):
+        nums = int(match.group(1)), int(match.group(2))
+        return min(nums) if prefer == "min" else max(nums)
+    if match := re.search(r"(\d+)\s*credits?", text):
+        return int(match.group(1))
+    return None
 
 
 CourseData = namedtuple("CourseData", ["subject", "number", "name", "credits"])
+
 
 def clean_text(text):
     """
@@ -34,6 +35,7 @@ def clean_text(text):
     text = unicodedata.normalize("NFKD", text)
     text = text.encode("ascii", "ignore").decode("ascii")
     return text.strip()
+
 
 def parse_course_csv(file_path):
     """
@@ -66,6 +68,7 @@ def parse_course_csv(file_path):
             continue
 
     return parsed
+
 
 def split_courses_by_credit_blocks(courses, credit_blocks):
     """
@@ -114,6 +117,7 @@ def normalize_major_name_web(name):
     """
     return re.sub(r"\s*\((.*?)\)\s*$", "", name).strip()
 
+
 def normalize_major_name_registrar(name):
     """
     Normalizes the major name from the registrar by removing any extra spaces or special characters and the "Major in" prefix.
@@ -150,41 +154,38 @@ def load_total_credits_map(csv_path):
     return dict(zip(df["Degree"].str.strip(), df["Total Credits"]))
 
 
-def prepare_django_inserts(parsed_structure, major_code, major_name_web, major_name_registrar, total_credits_required):
+def prepare_django_inserts(parsed_tree, major_code, major_name_web, major_name_registrar, total_credits_required, catalog_year):
     """
-    Converts the parsed import structure into Django model-ready dicts.
-    Returns a dict with keys: major, courses, groups, subgroups, major_courses.
+    Converts a nested requirement tree into flat Django model inserts.
     """
-    from collections import defaultdict
 
-    # MajorMapping object
     major_record = {
         "major_code": major_code,
         "major_name_web": major_name_web,
         "major_name_registrar": major_name_registrar,
         "total_credits_required": total_credits_required,
+        "catalog_year": catalog_year
     }
 
-    # Prepare unique courses
     courses = {}
-    groups = []
-    subgroups = []
-    major_courses = []
+    requirement_nodes = []
+    node_courses = []
 
-    for group in parsed_structure:
-        group_name = group["group_name"]
+    def walk(node, parent_id=None):
+        node_id = len(requirement_nodes)
+        node_record = {
+            "id": node_id,  # temporary ID for in-memory linkage
+            "name": node["name"],
+            "type": node["type"],
+            "required_credits": node.get("required_credits"),
+            "parent_id": parent_id
+        }
+        requirement_nodes.append(node_record)
 
-        if group["type"] == "credits":
-            # RequirementGroup (credits)
-            group_obj = {
-                "name": group_name,
-                "group_type": "credits",
-                "required_credits": group["credits"]
-            }
-            groups.append(group_obj)
-
-            for course in group["courses"]:
-                course_id = f"{course.subject}-{course.number}"
+        # Handle courses
+        for course in node.get("courses", []):
+            course_id = f"{course.subject}-{course.number}"
+            if course_id not in courses:
                 courses[course_id] = {
                     "course_id": course_id,
                     "subject": course.subject,
@@ -192,136 +193,23 @@ def prepare_django_inserts(parsed_structure, major_code, major_name_web, major_n
                     "course_name": course.name,
                     "credits": course.credits
                 }
-                major_courses.append({
-                    "course_id": course_id,
-                    "group_name": group_name,
-                    "subgroup_name": None
-                })
+            node_courses.append({
+                "course_id": course_id,
+                "node_id": node_id
+            })
 
-        elif group["type"] in ["choose_dir", "choose_csv"]:
-            # RequirementGroup (choose)
-            group_obj = {
-                "name": group_name,
-                "group_type": "choose",
-                "required_credits": None
-            }
-            groups.append(group_obj)
+        # Recurse into children
+        for child in node.get("children", []):
+            walk(child, parent_id=node_id)
 
-            for sg in group["subgroups"]:
-                # Subgroup record
-                sg_obj = {
-                    "group_name": group_name,
-                    "name": sg["name"],
-                    "required_credits": sg["credits"]
-                }
-                subgroups.append(sg_obj)
-
-                for course in sg["courses"]:
-                    course_id = f"{course.subject}-{course.number}"
-                    courses[course_id] = {
-                        "course_id": course_id,
-                        "subject": course.subject,
-                        "course_number": course.number,
-                        "course_name": course.name,
-                        "credits": course.credits
-                    }
-                    major_courses.append({
-                        "course_id": course_id,
-                        "group_name": group_name,
-                        "subgroup_name": sg["name"]
-                    })
+    for root in parsed_tree:
+        walk(root)
 
     return {
         "major": major_record,
         "courses": list(courses.values()),
-        "groups": groups,
-        "subgroups": subgroups,
-        "major_courses": major_courses
+        "requirement_nodes": requirement_nodes,
+        "node_courses": node_courses
     }
 
 
-def populate_catalog_from_payload(payload):
-    """
-    Populates the Django database with the given payload produced by import_major_from_folder().
-    """
-    with transaction.atomic():
-        # Create or get major
-        major_data = payload["major"]
-        major, _ = MajorMapping.objects.update_or_create(
-            major_code=major_data["major_code"],
-            defaults={
-                "major_name_web": major_data["major_name_web"],
-                "major_name_registrar": major_data["major_name_registrar"],
-                "total_credits_required": major_data["total_credits_required"],
-            }
-        )
-
-        # Create courses
-        course_objs = []
-        existing_course_ids = set(Course.objects.filter(
-            course_id__in=[c["course_id"] for c in payload["courses"]]
-        ).values_list("course_id", flat=True))
-
-        for c in payload["courses"]:
-            if c["course_id"] not in existing_course_ids:
-                course_objs.append(Course(**c))
-        Course.objects.bulk_create(course_objs)
-
-        # Create requirement groups
-        group_name_to_obj = {}
-        group_objs = []
-        for g in payload["groups"]:
-            obj = RequirementGroup(
-                major=major,
-                name=g["name"],
-                group_type=g["group_type"],
-                required_credits=g.get("required_credits")
-            )
-            group_objs.append(obj)
-        created_groups = RequirementGroup.objects.bulk_create(group_objs)
-
-        for obj in created_groups:
-            group_name_to_obj[obj.name] = obj
-
-        # Create subgroups
-        subgroup_objs = []
-        subgroup_map = {}
-        for sg in payload["subgroups"]:
-            parent = group_name_to_obj[sg["group_name"]]
-            obj = RequirementSubgroup(
-                group=parent,
-                name=sg["name"],
-                required_credits=sg["required_credits"]
-            )
-            subgroup_objs.append(obj)
-        created_subgroups = RequirementSubgroup.objects.bulk_create(
-            subgroup_objs)
-
-        for obj in created_subgroups:
-            subgroup_map[(obj.group.name, obj.name)] = obj
-
-        # Create major-course mappings
-        major_course_objs = []
-        course_map = {c.course_id: c for c in Course.objects.filter(
-            course_id__in=[c["course_id"] for c in payload["courses"]]
-        )}
-        for mc in payload["major_courses"]:
-            course = course_map[mc["course_id"]]
-            group = group_name_to_obj.get(
-                mc["group_name"]) if mc["subgroup_name"] is None else None
-            subgroup = subgroup_map.get(
-                (mc["group_name"], mc["subgroup_name"])) if mc["subgroup_name"] else None
-            major_course_objs.append(MajorCourse(
-                course=course,
-                group=group,
-                subgroup=subgroup
-            ))
-        MajorCourse.objects.bulk_create(major_course_objs)
-
-        return {
-            "major": major,
-            "courses_created": len(course_objs),
-            "groups_created": len(group_objs),
-            "subgroups_created": len(subgroup_objs),
-            "major_courses_created": len(major_course_objs)
-        }

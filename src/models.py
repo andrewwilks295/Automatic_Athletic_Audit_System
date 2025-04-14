@@ -13,7 +13,7 @@ class StudentRecord(models.Model):
     course_attributes = models.CharField(max_length=255, blank=True, null=True)
     institution = models.CharField(max_length=255)
     student_attributes = models.BigIntegerField(blank=True, null=True)
-    counts_toward_major = models.BooleanField(default=False)
+    counts_toward_major = models.BooleanField(default=False, null=True)
 
     def __str__(self):
         return f"{self.student_id} - {self.course.course_id} ({self.grade})"
@@ -27,9 +27,13 @@ class StudentRecord(models.Model):
 
 class MajorMapping(models.Model):
     major_code = models.CharField(max_length=20, primary_key=True)
+    catalog_year = models.IntegerField()
     major_name_web = models.CharField(max_length=255, unique=True)
     major_name_registrar = models.CharField(max_length=255, unique=True)
     total_credits_required = models.IntegerField()
+
+    class Meta:
+        unique_together = ("major_code", "catalog_year")
 
     def __str__(self):
         return f"{self.major_code} - {self.major_name_registrar}"
@@ -38,13 +42,12 @@ class MajorMapping(models.Model):
 class StudentMajor(models.Model):
     student = models.ForeignKey(StudentRecord, on_delete=models.CASCADE)
     major = models.ForeignKey(MajorMapping, on_delete=models.CASCADE)
-    catalog_year = models.IntegerField()
 
     class Meta:
         unique_together = ('student', 'major')
 
     def __str__(self):
-        return f"{self.student.student_id} - {self.major.major_name_registrar} ({self.catalog_year})"
+        return f"{self.student.student_id} - {self.major.major_name_registrar}"
 
 
 class Course(models.Model):
@@ -58,48 +61,32 @@ class Course(models.Model):
         return f"{self.course_id}: {self.course_name}"
 
 
-class RequirementGroup(models.Model):
-    major = models.ForeignKey(MajorMapping, on_delete=models.CASCADE, related_name='requirement_groups')
+class RequirementNode(models.Model):
+    major = models.ForeignKey("MajorMapping", on_delete=models.CASCADE)
+    parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE, related_name="children")
+
     name = models.CharField(max_length=255)
-    group_type = models.CharField(max_length=32, choices=[
-        ('credits', 'Complete X Credits'),
-        ('choose', 'Choose One Path'),
+    type = models.CharField(max_length=20, choices=[
+        ("credits", "Credit Requirement"),
+        ("choose", "Choose One Subgroup"),
+        ("header", "Informational Header"),
+        ("group", "General Group"),
     ])
-    required_credits = models.IntegerField(null=True, blank=True)  # Used only for 'credits' type
-
-    def __str__(self):
-        return f"{self.major.major_name_registrar} - {self.name} ({self.group_type})"
-
-
-class RequirementSubgroup(models.Model):
-    group = models.ForeignKey(RequirementGroup, on_delete=models.CASCADE, related_name='subgroups')
-    name = models.CharField(max_length=255)
-    required_credits = models.IntegerField()
-
-    def __str__(self):
-        return f"{self.group.name} → {self.name} ({self.required_credits} credits)"
-
-
-class MajorCourse(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    group = models.ForeignKey(RequirementGroup, on_delete=models.CASCADE, null=True, blank=True)
-    subgroup = models.ForeignKey(RequirementSubgroup, on_delete=models.CASCADE, null=True, blank=True)
+    required_credits = models.IntegerField(null=True, blank=True)
 
     class Meta:
-        unique_together = ('course', 'group', 'subgroup')
-        constraints = [
-            models.CheckConstraint(
-                check=(
-                    models.Q(group__isnull=False, subgroup__isnull=True) |
-                    models.Q(group__isnull=True, subgroup__isnull=False)
-                ),
-                name='majorcourse_group_xor_subgroup'
-            )
-        ]
+        ordering = ["id"]
 
     def __str__(self):
-        ref = self.subgroup.name if self.subgroup else self.group.name
-        return f"{self.course.course_id} in {ref}"
+        return f"{self.name} ({self.type})"
+
+
+class NodeCourse(models.Model):
+    node = models.ForeignKey(RequirementNode, on_delete=models.CASCADE, related_name="courses")
+    course = models.ForeignKey("Course", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.course} in {self.node}"
 
 
 class StudentAudit(models.Model):
@@ -121,12 +108,3 @@ class StudentAudit(models.Model):
         status = "Eligible" if self.eligible else "Ineligible"
         return f"{self.student.student_id} - Term {self.term}: {status} ({self.ptc_major}%)"
 
-
-class StudentGroupResult(models.Model):
-    audit = models.ForeignKey(StudentAudit, on_delete=models.CASCADE)
-    group = models.ForeignKey(RequirementGroup, on_delete=models.CASCADE)
-    satisfied = models.BooleanField()
-    selected_subgroup = models.ForeignKey(RequirementSubgroup, null=True, blank=True, on_delete=models.SET_NULL)
-
-    def __str__(self):
-        return f"{self.group.name} - {'✓' if self.satisfied else '✗'}"

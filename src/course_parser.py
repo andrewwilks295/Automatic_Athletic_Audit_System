@@ -1,67 +1,65 @@
 from bs4 import BeautifulSoup
 import re
-from collections import defaultdict, namedtuple
+from collections import namedtuple
+
+from src.utils import extract_credits
 
 CourseData = namedtuple("CourseData", ["subject", "number", "name", "credits"])
 
 
-def extract_credits(text):
-    text = text.lower()
-    if match := re.search(r"(\d+)\s*-\s*(\d+)\s*credits?", text):
-        return int(match.group(1))
-    if match := re.search(r"(\d+)\s*or\s*(\d+)\s*credits?", text):
-        return f"{match.group(1)} or {match.group(2)}"
-    if match := re.search(r"(\d+)\s*credits?", text):
-        return int(match.group(1))
-    return "Unknown"
-
-
-def normalize_group(tag):
+def normalize_heading(tag):
     return ' '.join(tag.stripped_strings).strip()
 
 
-def parse_course_structure_from_html(html):
+def parse_course_structure_as_tree(html):
     """
-    Parses course requirements from catalog HTML into an in-memory structure.
-    Returns a list of requirement groups/subgroups and their courses.
+    Parses a print-friendly version of the catalog into a nested requirement node tree.
+    Automatically chooses max credit values for 'choose' type groups.
     """
     soup = BeautifulSoup(html, "html.parser")
-    result = []
     course_pattern = re.compile(r"(\w+)\s+(\d+)\s+-\s+(.+)")
+    root_nodes = []
 
-    current_h3 = None
-    current_h4 = None
-    current_group_type = "credits"
-    choose_group_buffer = {}
-    credit_groups = defaultdict(list)
+    current_node = None
+    current_subnode = None
+    current_type = "credits"
 
-    for tag in soup.find_all(['h3', 'h4', 'p', 'li']):
-        if tag.name == 'h3':
-            current_h3 = normalize_group(tag)
-            current_group_type = "credits"
-            current_h4 = None
+    from src.utils import extract_credits  # assuming it is defined in src.utils
 
-        elif tag.name == 'p' and "one of the following" in tag.get_text().lower():
-            current_group_type = "choose_dir"
+    for tag in soup.find_all(["h2", "h3", "p", "li"]):
+        if tag.name == "h2":
+            heading = ' '.join(tag.stripped_strings).strip()
+            current_type = "credits"
+            current_node = {
+                "name": heading,
+                "type": "credits",
+                "required_credits": extract_credits(heading, prefer="min"),
+                "courses": [],
+                "children": []
+            }
+            root_nodes.append(current_node)
+            current_subnode = None
 
-        elif tag.name == 'h4':
-            current_h4 = normalize_group(tag)
-            if current_group_type == "choose_dir":
-                if current_h3 not in choose_group_buffer:
-                    choose_group_buffer[current_h3] = {
-                        "type": "choose_dir",
-                        "group_name": current_h3,
-                        "subgroups": []
-                    }
-                choose_group_buffer[current_h3]["subgroups"].append({
-                    "name": current_h4,
-                    "credits": extract_credits(current_h4),
-                    "courses": []
-                })
+        elif tag.name == "p" and "one of the following" in tag.get_text().lower():
+            current_type = "choose"
 
-        elif tag.name == 'li' and 'acalog-course' in tag.get("class", []):
+        elif tag.name == "h3" and current_node:
+            heading = ' '.join(tag.stripped_strings).strip()
+            prefer = "max" if current_type == "choose" else "min"
+            current_subnode = {
+                "name": heading,
+                "type": "credits",
+                "required_credits": extract_credits(heading, prefer=prefer),
+                "courses": [],
+                "children": []
+            }
+            current_node["type"] = current_type  # upgrade parent type to "choose" if needed
+            current_node["required_credits"] = extract_credits(current_node["name"], prefer="max") if current_type == "choose" else extract_credits(current_node["name"], prefer="min")
+            current_node["children"].append(current_subnode)
+
+        elif tag.name == "li" and "acalog-course" in tag.get("class", []):
             text = tag.get_text(separator=" ", strip=True)
-            credits = extract_credits(text)
+            credits = extract_credits(text, prefer="min")
             course_options = text.split(" or ")
 
             for option in course_options:
@@ -70,19 +68,9 @@ def parse_course_structure_from_html(html):
                 if match:
                     subject, number, name = match.groups()
                     course = CourseData(subject, number, name.strip(), credits)
+                    if current_subnode:
+                        current_subnode["courses"].append(course)
+                    elif current_node:
+                        current_node["courses"].append(course)
 
-                    if current_group_type == "choose_dir":
-                        choose_group_buffer[current_h3]["subgroups"][-1]["courses"].append(course)
-                    else:
-                        credit_groups[current_h3].append(course)
-
-    for name, courses in credit_groups.items():
-        result.append({
-            "type": "credits",
-            "group_name": name,
-            "credits": extract_credits(name),
-            "courses": courses
-        })
-
-    result.extend(choose_group_buffer.values())
-    return result
+    return root_nodes
