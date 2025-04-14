@@ -62,7 +62,7 @@ def normalize_major_name_registrar(row: pd.Series) -> str:
     base_name = re.sub(r"^Major in\s+", "", row.get("base_major_name", ""), flags=re.IGNORECASE).strip()
 
     # Combine for concentrations
-    if "Concentration" in registrar_name and base_name:
+    if "Concentration" in registrar_name:
         registrar_name = f"{base_name} - {registrar_name}"
 
     return re.sub(r"\s+", " ", registrar_name).strip()
