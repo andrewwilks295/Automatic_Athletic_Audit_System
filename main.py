@@ -16,10 +16,10 @@ def main():
     batch_scrape_all_catalogs(
         base_url="https://www.suu.edu/academics/catalog/",
         majors_file="majors.txt",
-        threshold=80,
+        threshold=85,
         dry_run=False,  # Set to True for testing without DB writes
-        selected_years=["2024-2025",],  # Or set to None to select all.
-        max_threads=16
+        selected_years=["2024-2025"],  # Or set to None to select all.
+        max_threads=8
     )
 
 
@@ -30,3 +30,5 @@ if __name__ == "__main__":
     elapsed = datetime.now() - start
     diff_ct = MajorMapping.objects.all().count() - start_ct
     print(f"created: {diff_ct} in {elapsed.total_seconds()} seconds")
+
+    # print_requirement_tree(510)
