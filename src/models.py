@@ -105,3 +105,33 @@ class StudentAudit(models.Model):
     def __str__(self):
         status = "Eligible" if self.eligible else "Ineligible"
         return f"{self.student.student_id} - Term {self.term}: {status} ({self.ptc_major}%)"
+    
+    def add_flag(self, code, level, message=None):
+        return AuditFlag.objects.create(
+            student_audit=self,
+            code=code,
+            level=level,
+            message=message,
+        )
+
+
+class AuditFlag(models.Model):
+    ERROR = "error"
+    WARNING = "warning"
+    INFO = "info"
+
+    LEVEL_CHOICES = [
+        (ERROR, "Error"),
+        (WARNING, "Warning"),
+        (INFO, "Info"),
+    ]
+
+    student_audit = models.ForeignKey("StudentAudit", on_delete=models.CASCADE, related_name="flags")
+    code = models.CharField(max_length=64)
+    level = models.CharField(max_length=10, choices=LEVEL_CHOICES)
+    message = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"[{self.level.upper()}] {self.code}: {self.message or ''}"
+
