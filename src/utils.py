@@ -28,7 +28,7 @@ def extract_credits(text, prefer="min"):
 CourseData = namedtuple("CourseData", ["subject", "number", "name", "credits"])
 
 
-def match_major_name_web_to_registrar(web_name, major_code_df, scorer=fuzz.token_sort_ratio):
+def match_major_name_web_to_registrar(web_name, major_code_df, scorer=fuzz.WRatio):
     """
     Match a major_name_web to the closest major_name_registrar using RapidFuzz.
 
@@ -37,30 +37,45 @@ def match_major_name_web_to_registrar(web_name, major_code_df, scorer=fuzz.token
     """
     web_name = normalize_major_name_web(web_name)
     choices = major_code_df["major_name_registrar"].tolist()
-    match, score, idx = process.extractOne(web_name, [normalize_major_name_registrar(choice) for choice in choices],
-                                           scorer=scorer)
+
+    # Normalize registrar names for comparison
+    normalized_choices = [normalize_major_name_registrar(c) for c in choices]
+
+    match, score, idx = process.extractOne(web_name, normalized_choices, scorer=scorer)
     matched_row = major_code_df.iloc[idx]
-    return matched_row["major_code"], match, score
+    return matched_row["major_code"], matched_row["major_name_registrar"], score
 
 
 def normalize_major_name_web(name):
     """
-    Removes degree suffixes like (B.S.), (A.A.S.), etc. from a major name.
+    Normalize catalog names scraped from the web.
 
     Examples:
-        "Exercise Science (B.S.)" → "Exercise Science"
-        "Computer Science (B.A., B.S.)" → "Computer Science"
+        "Communication - Sports Communication Emphasis (B.A., B.S.)" → "Communication - Sports Communication"
+        "Software Development (B.S.)" → "Software Development"
     """
-    return re.sub(r"\s*\((.*?)\)\s*$", "", name).strip()
+    # Remove degree suffixes (e.g., "(B.S.)")
+    name = re.sub(r"\s*\(.*?\)\s*$", "", name)
+
+    # Remove known trailing descriptors
+    name = re.sub(r"\b(Emphasis|Concentration|Track|Option|Pathway)\b", "", name, flags=re.IGNORECASE)
+
+    return re.sub(r"\s+", " ", name).strip().lower()
 
 
 def normalize_major_name_registrar(name):
     """
-    Normalizes the major name from the registrar by removing any extra spaces or special characters and the "Major in" prefix.
+    Normalize registrar names from major_codes.csv for matching.
+
+    Examples:
+        "Sports Communication Concentration" → "Sports Communication"
+        "Major in Software Development" → "Software Development"
     """
-    # Remove "Major in" prefix and any leading/trailing whitespace
+    # Remove "Major in" prefix and trailing keywords
     name = re.sub(r"^Major in\s+", "", name, flags=re.IGNORECASE)
-    return re.sub(r"\s+", " ", name).strip()
+    name = re.sub(r"\b(Emphasis|Concentration|Track|Option|Pathway)\b", "", name, flags=re.IGNORECASE)
+
+    return re.sub(r"\s+", " ", name).strip().lower()
 
 
 # Loading functions for major code lookup and total credits map

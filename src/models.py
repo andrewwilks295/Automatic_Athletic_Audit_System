@@ -4,6 +4,7 @@ from django.db import models
 class Student(models.Model):
     student_id = models.IntegerField(primary_key=True)  # aligns with "ID" field from CSV
     major = models.ForeignKey("MajorMapping", null=True, blank=True, on_delete=models.SET_NULL)
+    declared_major_code = models.CharField(max_length=20, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

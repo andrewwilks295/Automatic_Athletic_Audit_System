@@ -27,4 +27,3 @@ if __name__ == "__main__":
     main()
     elapsed = datetime.now() - start
     print(elapsed)
-    print_requirement_tree(30)
