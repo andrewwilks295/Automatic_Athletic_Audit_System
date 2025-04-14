@@ -1,50 +1,28 @@
 from django.db import models
 
 
-class StudentRecord(models.Model):
-    id = models.AutoField(primary_key=True)
-    student_id = models.IntegerField()
-    high_school_grad = models.IntegerField()
-    first_term = models.IntegerField()
-    term = models.IntegerField()
-    course = models.ForeignKey('Course', on_delete=models.CASCADE)
-    grade = models.CharField(max_length=2)
-    credits = models.IntegerField()
-    course_attributes = models.CharField(max_length=255, blank=True, null=True)
-    institution = models.CharField(max_length=255)
-    student_attributes = models.BigIntegerField(blank=True, null=True)
-    counts_toward_major = models.BooleanField(default=False)
+class Student(models.Model):
+    student_id = models.IntegerField(primary_key=True)  # aligns with "ID" field from CSV
+    major = models.ForeignKey("MajorMapping", null=True, blank=True, on_delete=models.SET_NULL)
+    declared_major_code = models.CharField(max_length=20, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.student_id} - {self.course.course_id} ({self.grade})"
-
-    class Meta:
-        indexes = [
-            models.Index(fields=['student_id']),
-            models.Index(fields=['term']),
-        ]
+        return str(self.student_id)
 
 
 class MajorMapping(models.Model):
-    major_code = models.CharField(max_length=20, primary_key=True)
-    major_name_web = models.CharField(max_length=255, unique=True)
-    major_name_registrar = models.CharField(max_length=255, unique=True)
+    major_code = models.CharField(max_length=20)
+    catalog_year = models.IntegerField()
+    major_name_web = models.CharField(max_length=255)
+    major_name_registrar = models.CharField(max_length=255)
     total_credits_required = models.IntegerField()
 
-    def __str__(self):
-        return f"{self.major_code} - {self.major_name_registrar}"
-
-
-class StudentMajor(models.Model):
-    student = models.ForeignKey(StudentRecord, on_delete=models.CASCADE)
-    major = models.ForeignKey(MajorMapping, on_delete=models.CASCADE)
-    catalog_year = models.IntegerField()
-
     class Meta:
-        unique_together = ('student', 'major')
+        unique_together = ("major_code", "catalog_year")
 
     def __str__(self):
-        return f"{self.student.student_id} - {self.major.major_name_registrar} ({self.catalog_year})"
+        return f"{self.major_code} ({self.catalog_year})"
 
 
 class Course(models.Model):
@@ -58,52 +36,59 @@ class Course(models.Model):
         return f"{self.course_id}: {self.course_name}"
 
 
-class RequirementGroup(models.Model):
-    major = models.ForeignKey(MajorMapping, on_delete=models.CASCADE, related_name='requirement_groups')
+class RequirementNode(models.Model):
+    major = models.ForeignKey(MajorMapping, on_delete=models.CASCADE)
+    parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE, related_name="children")
     name = models.CharField(max_length=255)
-    group_type = models.CharField(max_length=32, choices=[
-        ('credits', 'Complete X Credits'),
-        ('choose', 'Choose One Path'),
+    type = models.CharField(max_length=20, choices=[
+        ("credits", "Credit Requirement"),
+        ("choose", "Choose One Subgroup"),
+        ("header", "Informational Header"),
+        ("group", "General Group"),
     ])
-    required_credits = models.IntegerField(null=True, blank=True)  # Used only for 'credits' type
-
-    def __str__(self):
-        return f"{self.major.major_name_registrar} - {self.name} ({self.group_type})"
-
-
-class RequirementSubgroup(models.Model):
-    group = models.ForeignKey(RequirementGroup, on_delete=models.CASCADE, related_name='subgroups')
-    name = models.CharField(max_length=255)
-    required_credits = models.IntegerField()
-
-    def __str__(self):
-        return f"{self.group.name} → {self.name} ({self.required_credits} credits)"
-
-
-class MajorCourse(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    group = models.ForeignKey(RequirementGroup, on_delete=models.CASCADE, null=True, blank=True)
-    subgroup = models.ForeignKey(RequirementSubgroup, on_delete=models.CASCADE, null=True, blank=True)
+    required_credits = models.IntegerField(null=True, blank=True)
 
     class Meta:
-        unique_together = ('course', 'group', 'subgroup')
-        constraints = [
-            models.CheckConstraint(
-                check=(
-                    models.Q(group__isnull=False, subgroup__isnull=True) |
-                    models.Q(group__isnull=True, subgroup__isnull=False)
-                ),
-                name='majorcourse_group_xor_subgroup'
-            )
-        ]
+        ordering = ["id"]
 
     def __str__(self):
-        ref = self.subgroup.name if self.subgroup else self.group.name
-        return f"{self.course.course_id} in {ref}"
+        return f"{self.name} ({self.type})"
+
+
+class NodeCourse(models.Model):
+    node = models.ForeignKey(RequirementNode, on_delete=models.CASCADE, related_name="courses")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.course} in {self.node}"
+
+
+class StudentRecord(models.Model):
+    id = models.AutoField(primary_key=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    high_school_grad = models.IntegerField()
+    first_term = models.IntegerField()
+    term = models.IntegerField()
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    grade = models.CharField(max_length=2)
+    credits = models.IntegerField()
+    course_attributes = models.CharField(max_length=255, blank=True, null=True)
+    institution = models.CharField(max_length=255)
+    student_attributes = models.BigIntegerField(blank=True, null=True)
+    counts_toward_major = models.BooleanField(default=False, null=True)
+
+    def __str__(self):
+        return f"{self.student.student_id} - {self.course.course_id} ({self.grade})"
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['student']),
+            models.Index(fields=['term']),
+        ]
 
 
 class StudentAudit(models.Model):
-    student = models.ForeignKey(StudentRecord, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     term = models.IntegerField()
     total_term_credits = models.IntegerField()
     da_credits = models.IntegerField()
@@ -120,13 +105,3 @@ class StudentAudit(models.Model):
     def __str__(self):
         status = "Eligible" if self.eligible else "Ineligible"
         return f"{self.student.student_id} - Term {self.term}: {status} ({self.ptc_major}%)"
-
-
-class StudentGroupResult(models.Model):
-    audit = models.ForeignKey(StudentAudit, on_delete=models.CASCADE)
-    group = models.ForeignKey(RequirementGroup, on_delete=models.CASCADE)
-    satisfied = models.BooleanField()
-    selected_subgroup = models.ForeignKey(RequirementSubgroup, null=True, blank=True, on_delete=models.SET_NULL)
-
-    def __str__(self):
-        return f"{self.group.name} - {'✓' if self.satisfied else '✗'}"

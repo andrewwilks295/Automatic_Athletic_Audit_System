@@ -4,90 +4,31 @@ from collections import namedtuple
 from rapidfuzz import process, fuzz
 import unicodedata
 
+from src.models import RequirementNode
 
-def extract_credits_from_name(name):
+
+def extract_credits(text, prefer="min"):
     """
-    Extracts single or multiple credit amounts from a requirement group or subgroup name.
-    E.g., "Select One (4 or 12 Credits)" -> [4, 12]
-          "Core Requirements (40 Credits)" -> 40
+    Extracts an integer credit value from a text string.
+    prefer="min" -> choose the smallest of a range or "or" set
+    prefer="max" -> choose the largest of a range or "or" set
     """
-    matches = re.findall(r"\(?(\d+)(?:\s+or\s+(\d+))?\)?\s*Credits?", name, re.IGNORECASE)
-    credits = []
-    for match in matches:
-        for val in match:
-            if val:
-                credits.append(int(val))
-    return credits if len(credits) > 1 else credits[0] if credits else None
+    text = text.lower()
+    if match := re.search(r"(\d+)\s*-\s*(\d+)\s*credits?", text):
+        nums = int(match.group(1)), int(match.group(2))
+        return min(nums) if prefer == "min" else max(nums)
+    if match := re.search(r"(\d+)\s*or\s*(\d+)\s*credits?", text):
+        nums = int(match.group(1)), int(match.group(2))
+        return min(nums) if prefer == "min" else max(nums)
+    if match := re.search(r"(\d+)\s*credits?", text):
+        return int(match.group(1))
+    return None
 
 
 CourseData = namedtuple("CourseData", ["subject", "number", "name", "credits"])
 
-def clean_text(text):
-    """
-    Normalizes and strips out problematic unicode characters.
-    """
-    if not isinstance(text, str):
-        return text
-    text = unicodedata.normalize("NFKD", text)
-    text = text.encode("ascii", "ignore").decode("ascii")
-    return text.strip()
 
-def parse_course_csv(file_path):
-    """
-    Parses a course CSV file into a list of CourseData.
-    Tries utf-8 and falls back to ISO-8859-1 if needed.
-    Logs rows that fail during parsing.
-    """
-    df = None
-    try:
-        df = pd.read_csv(file_path, encoding="utf-8", on_bad_lines="skip", engine="python")
-    except UnicodeDecodeError:
-        try:
-            print(f"⚠️ Retrying {file_path.name} with ISO-8859-1 encoding...")
-            df = pd.read_csv(file_path, encoding="ISO-8859-1", on_bad_lines="skip", engine="python")
-        except Exception as e:
-            print(f"❌ Failed to read file with fallback: {file_path}\n   → {e}")
-            return []
-
-    parsed = []
-    for i, row in df.iterrows():
-        try:
-            subject = clean_text(row["Subject"])
-            number = str(row["Course Number"]).strip()
-            name = clean_text(row["Name"])
-            credits = int(row["Credits"])
-            parsed.append(CourseData(subject, number, name, credits))
-        except Exception as e:
-            print(f"⚠️ Row {i+1} in {file_path.name} failed to parse: {e}")
-            print(f"   → Raw Row: {row.to_dict()}")
-            continue
-
-    return parsed
-
-def split_courses_by_credit_blocks(courses, credit_blocks):
-    """
-    Splits a flat course list into subgroups based on target credit block totals.
-    Returns a list of course lists, each corresponding to one block.
-    Assumes course order matches intended grouping.
-    """
-    results = []
-    remaining = courses[:]
-    for target in credit_blocks:
-        group = []
-        total = 0
-        while remaining and total < target:
-            course = remaining.pop(0)
-            group.append(course)
-            total += course.credits
-        if total != target:
-            raise ValueError(f"Unable to match credit block: expected {target}, got {total}")
-        results.append(group)
-    if remaining:
-        print("Warning: extra courses remaining after credit block split.")
-    return results
-
-
-def match_major_name_web_to_registrar(web_name, major_code_df, scorer=fuzz.token_sort_ratio):
+def match_major_name_web_to_registrar(web_name, major_code_df, scorer=fuzz.WRatio):
     """
     Match a major_name_web to the closest major_name_registrar using RapidFuzz.
 
@@ -96,28 +37,45 @@ def match_major_name_web_to_registrar(web_name, major_code_df, scorer=fuzz.token
     """
     web_name = normalize_major_name_web(web_name)
     choices = major_code_df["major_name_registrar"].tolist()
-    match, score, idx = process.extractOne(web_name, [normalize_major_name_registrar(choice) for choice in choices], scorer=scorer)
+
+    # Normalize registrar names for comparison
+    normalized_choices = [normalize_major_name_registrar(c) for c in choices]
+
+    match, score, idx = process.extractOne(web_name, normalized_choices, scorer=scorer)
     matched_row = major_code_df.iloc[idx]
-    return matched_row["major_code"], match, score
+    return matched_row["major_code"], matched_row["major_name_registrar"], score
 
 
 def normalize_major_name_web(name):
     """
-    Removes degree suffixes like (B.S.), (A.A.S.), etc. from a major name.
+    Normalize catalog names scraped from the web.
 
     Examples:
-        "Exercise Science (B.S.)" → "Exercise Science"
-        "Computer Science (B.A., B.S.)" → "Computer Science"
+        "Communication - Sports Communication Emphasis (B.A., B.S.)" → "Communication - Sports Communication"
+        "Software Development (B.S.)" → "Software Development"
     """
-    return re.sub(r"\s*\((.*?)\)\s*$", "", name).strip()
+    # Remove degree suffixes (e.g., "(B.S.)")
+    name = re.sub(r"\s*\(.*?\)\s*$", "", name)
+
+    # Remove known trailing descriptors
+    name = re.sub(r"\b(Emphasis|Concentration|Track|Option|Pathway)\b", "", name, flags=re.IGNORECASE)
+
+    return re.sub(r"\s+", " ", name).strip().lower()
+
 
 def normalize_major_name_registrar(name):
     """
-    Normalizes the major name from the registrar by removing any extra spaces or special characters and the "Major in" prefix.
+    Normalize registrar names from major_codes.csv for matching.
+
+    Examples:
+        "Sports Communication Concentration" → "Sports Communication"
+        "Major in Software Development" → "Software Development"
     """
-    # Remove "Major in" prefix and any leading/trailing whitespace
+    # Remove "Major in" prefix and trailing keywords
     name = re.sub(r"^Major in\s+", "", name, flags=re.IGNORECASE)
-    return re.sub(r"\s+", " ", name).strip()
+    name = re.sub(r"\b(Emphasis|Concentration|Track|Option|Pathway)\b", "", name, flags=re.IGNORECASE)
+
+    return re.sub(r"\s+", " ", name).strip().lower()
 
 
 # Loading functions for major code lookup and total credits map
@@ -134,14 +92,82 @@ def load_major_code_lookup(path: str) -> pd.DataFrame:
     return df.dropna(subset=["major_code", "major_name_registrar"])
 
 
-def load_total_credits_map(csv_path):
+def prepare_django_inserts(parsed_tree, major_code, major_name_web, major_name_registrar, total_credits_required,
+                           catalog_year):
     """
-    Loads a total_credits.csv file and returns a dict:
-    {
-        "Exercise Science (B.S.)": 120,
-        "Management (B.A., B.S.)": 135,
-        ...
+    Converts a nested requirement tree into flat Django model inserts.
+    """
+
+    major_record = {
+        "major_code": major_code,
+        "major_name_web": major_name_web,
+        "major_name_registrar": major_name_registrar,
+        "total_credits_required": total_credits_required,
+        "catalog_year": catalog_year
     }
-    """
-    df = pd.read_csv(csv_path)
-    return dict(zip(df["Degree"].str.strip(), df["Total Credits"]))
+
+    courses = {}
+    requirement_nodes = []
+    node_courses = []
+
+    def walk(node, parent_id=None):
+        node_id = len(requirement_nodes)
+        node_record = {
+            "id": node_id,  # temporary ID for in-memory linkage
+            "name": node.name,
+            "type": node.type,
+            "required_credits": node.required_credits,
+            "parent_id": parent_id
+        }
+        requirement_nodes.append(node_record)
+
+        # Handle courses
+        for course in node.courses:
+            course_id = f"{course.subject}-{course.number}"
+            if course_id not in courses:
+                courses[course_id] = {
+                    "course_id": course_id,
+                    "subject": course.subject,
+                    "course_number": course.number,
+                    "course_name": course.name,
+                    "credits": course.credits
+                }
+            node_courses.append({
+                "course_id": course_id,
+                "node_id": node_id
+            })
+
+        # Recurse into children
+        for child in node.children:
+            walk(child, parent_id=node_id)
+
+    for root in parsed_tree:
+        walk(root)
+
+    return {
+        "major": major_record,
+        "courses": list(courses.values()),
+        "requirement_nodes": requirement_nodes,
+        "node_courses": node_courses
+    }
+
+
+# for debugging requirement trees
+def print_requirement_tree(major):
+    roots = RequirementNode.objects.filter(major=major, parent__isnull=True)
+
+    def print_node(node, depth=0):
+        indent = "  " * depth
+        print(f"{indent}- {node.name} [{node.type}] ({node.required_credits} credits)")
+
+        # Show courses under this node
+        courses = node.courses.all()
+        for course in courses:
+            print(f"{indent}  - {course.course_id}")
+
+        # Recurse to children
+        for child in node.children.all():
+            print_node(child, depth + 1)
+
+    for root in roots:
+        print_node(root)
