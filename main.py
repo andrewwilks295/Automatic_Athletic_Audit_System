@@ -1,9 +1,7 @@
-from pathlib import Path
-import pandas as pd
-import django
 import os
-import requests
+from datetime import datetime
 
+import django
 
 # initialize django (sqlite ORM only)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
@@ -24,5 +22,8 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    print_requirement_tree(2)
+    start = datetime.now()
+    main()
+    elapsed = datetime.now() - start
+    print(elapsed)
+    print_requirement_tree(30)

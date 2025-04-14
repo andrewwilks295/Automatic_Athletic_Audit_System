@@ -41,6 +41,22 @@ def parse_course_line(line: str) -> Optional[CourseData]:
     return None
 
 
+def apply_credit_fallbacks(nodes: List[RequirementNodeData]):
+    for node in nodes:
+        # Recurse first
+        apply_credit_fallbacks(node.children)
+
+        # Then apply fallback if needed
+        if node.required_credits is None and node.courses:
+            node.required_credits = sum(c.credits for c in node.courses)
+
+        # Optionally apply to 'choose' parent nodes based on max child requirement
+        if node.type == "choose" and node.required_credits is None and node.children:
+            max_child_credits = max((child.required_credits or 0) for child in node.children)
+            node.required_credits = max_child_credits
+
+
+# Reuse the latest parser and add fallback at the end
 def parse_course_structure_as_tree(html: str) -> List[RequirementNodeData]:
     soup = BeautifulSoup(html, "html.parser")
     root_nodes = []
@@ -74,7 +90,7 @@ def parse_course_structure_as_tree(html: str) -> List[RequirementNodeData]:
                 required_credits=extract_credits_from_text(tag.get_text()),
             )
 
-            # Look ahead a few siblings for "choose" instruction
+            # Look ahead for "choose one of the following"
             lookahead = tag
             for _ in range(4):
                 lookahead = lookahead.find_next_sibling()
@@ -106,5 +122,8 @@ def parse_course_structure_as_tree(html: str) -> List[RequirementNodeData]:
                     current_h3_node.courses.append(course)
                 elif current_h2_node:
                     current_h2_node.courses.append(course)
+
+    # Apply credit fallbacks at the end
+    apply_credit_fallbacks(root_nodes)
 
     return root_nodes
