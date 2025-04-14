@@ -4,12 +4,14 @@ from collections import namedtuple
 from rapidfuzz import process, fuzz
 import unicodedata
 
+from src.models import RequirementNode
+
 
 def extract_credits(text, prefer="min"):
     """
     Extracts an integer credit value from a text string.
-    prefer="min" -> choose the smaller of a range or "or" set
-    prefer="max" -> choose the larger of a range or "or" set
+    prefer="min" -> choose the smallest of a range or "or" set
+    prefer="max" -> choose the largest of a range or "or" set
     """
     text = text.lower()
     if match := re.search(r"(\d+)\s*-\s*(\d+)\s*credits?", text):
@@ -63,7 +65,7 @@ def parse_course_csv(file_path):
             credits = int(row["Credits"])
             parsed.append(CourseData(subject, number, name, credits))
         except Exception as e:
-            print(f"⚠️ Row {i+1} in {file_path.name} failed to parse: {e}")
+            print(f"⚠️ Row {i + 1} in {file_path.name} failed to parse: {e}")
             print(f"   → Raw Row: {row.to_dict()}")
             continue
 
@@ -102,7 +104,8 @@ def match_major_name_web_to_registrar(web_name, major_code_df, scorer=fuzz.token
     """
     web_name = normalize_major_name_web(web_name)
     choices = major_code_df["major_name_registrar"].tolist()
-    match, score, idx = process.extractOne(web_name, [normalize_major_name_registrar(choice) for choice in choices], scorer=scorer)
+    match, score, idx = process.extractOne(web_name, [normalize_major_name_registrar(choice) for choice in choices],
+                                           scorer=scorer)
     matched_row = major_code_df.iloc[idx]
     return matched_row["major_code"], match, score
 
@@ -154,7 +157,8 @@ def load_total_credits_map(csv_path):
     return dict(zip(df["Degree"].str.strip(), df["Total Credits"]))
 
 
-def prepare_django_inserts(parsed_tree, major_code, major_name_web, major_name_registrar, total_credits_required, catalog_year):
+def prepare_django_inserts(parsed_tree, major_code, major_name_web, major_name_registrar, total_credits_required,
+                           catalog_year):
     """
     Converts a nested requirement tree into flat Django model inserts.
     """
@@ -175,15 +179,15 @@ def prepare_django_inserts(parsed_tree, major_code, major_name_web, major_name_r
         node_id = len(requirement_nodes)
         node_record = {
             "id": node_id,  # temporary ID for in-memory linkage
-            "name": node["name"],
-            "type": node["type"],
-            "required_credits": node.get("required_credits"),
+            "name": node.name,
+            "type": node.type,
+            "required_credits": node.required_credits,
             "parent_id": parent_id
         }
         requirement_nodes.append(node_record)
 
         # Handle courses
-        for course in node.get("courses", []):
+        for course in node.courses:
             course_id = f"{course.subject}-{course.number}"
             if course_id not in courses:
                 courses[course_id] = {
@@ -199,7 +203,7 @@ def prepare_django_inserts(parsed_tree, major_code, major_name_web, major_name_r
             })
 
         # Recurse into children
-        for child in node.get("children", []):
+        for child in node.children:
             walk(child, parent_id=node_id)
 
     for root in parsed_tree:
@@ -213,3 +217,22 @@ def prepare_django_inserts(parsed_tree, major_code, major_name_web, major_name_r
     }
 
 
+# for debugging requirement trees
+def print_requirement_tree(major):
+    roots = RequirementNode.objects.filter(major=major, parent__isnull=True)
+
+    def print_node(node, depth=0):
+        indent = "  " * depth
+        print(f"{indent}- {node.name} [{node.type}] ({node.required_credits} credits)")
+
+        # Show courses under this node
+        courses = node.courses.all()
+        for course in courses:
+            print(f"{indent}  - {course.course_id}")
+
+        # Recurse to children
+        for child in node.children.all():
+            print_node(child, depth + 1)
+
+    for root in roots:
+        print_node(root)

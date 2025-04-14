@@ -145,11 +145,10 @@ def import_student_data_from_csv(file_path):
 
 
 def populate_catalog_from_payload(payload):
-    """
-    Populates the Django database with the given payload based on the tree-structured catalog data.
-    """
+    from src.models import MajorMapping, Course, RequirementNode, NodeCourse
+    from django.db import transaction
+
     with transaction.atomic():
-        # Create or get MajorMapping
         major_data = payload["major"]
         major, _ = MajorMapping.objects.update_or_create(
             major_code=major_data["major_code"],
@@ -161,44 +160,39 @@ def populate_catalog_from_payload(payload):
             }
         )
 
-        # Bulk create Course objects
+        # Create courses
         course_objs = []
         existing_ids = set(Course.objects.filter(
             course_id__in=[c["course_id"] for c in payload["courses"]]
         ).values_list("course_id", flat=True))
 
-        for course in payload["courses"]:
-            if course["course_id"] not in existing_ids:
-                course_objs.append(Course(**course))
+        for c in payload["courses"]:
+            if c["course_id"] not in existing_ids:
+                course_objs.append(Course(**c))
         Course.objects.bulk_create(course_objs)
 
-        # Create RequirementNode objects with parent-child relationships
-        node_id_map = {}
-        created_nodes = []
-
-        for node_data in payload["requirement_nodes"]:
-            parent_obj = node_id_map.get(node_data["parent_id"])
-            obj = RequirementNode(
+        # Insert RequirementNodes in correct order
+        id_to_node_obj = {}
+        for i, node_data in enumerate(payload["requirement_nodes"]):
+            parent_obj = id_to_node_obj.get(node_data["parent_id"])
+            db_node = RequirementNode.objects.create(
                 major=major,
                 parent=parent_obj,
                 name=node_data["name"],
                 type=node_data["type"],
                 required_credits=node_data["required_credits"]
             )
-            created_nodes.append(obj)
+            id_to_node_obj[i] = db_node
 
-        inserted_nodes = RequirementNode.objects.bulk_create(created_nodes)
-
-        for i, db_node in enumerate(inserted_nodes):
-            node_id_map[i] = db_node
-
-        # Create NodeCourse objects
+        # Map Course objects
         course_map = {c.course_id: c for c in Course.objects.filter(
             course_id__in=[c["course_id"] for c in payload["courses"]]
         )}
+
+        # Add NodeCourse mappings
         node_course_objs = []
         for nc in payload["node_courses"]:
-            node_obj = node_id_map[nc["node_id"]]
+            node_obj = id_to_node_obj[nc["node_id"]]
             course_obj = course_map[nc["course_id"]]
             node_course_objs.append(NodeCourse(node=node_obj, course=course_obj))
 
@@ -206,8 +200,7 @@ def populate_catalog_from_payload(payload):
 
         return {
             "major": major,
-            "nodes_created": len(inserted_nodes),
+            "nodes_created": len(id_to_node_obj),
             "courses_created": len(course_objs),
             "node_courses_created": len(node_course_objs)
         }
-

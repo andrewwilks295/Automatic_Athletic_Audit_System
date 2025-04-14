@@ -1,76 +1,110 @@
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 import re
-from collections import namedtuple
-
-from src.utils import extract_credits
-
-CourseData = namedtuple("CourseData", ["subject", "number", "name", "credits"])
+from typing import List, Optional
+from dataclasses import dataclass, field
 
 
-def normalize_heading(tag):
-    return ' '.join(tag.stripped_strings).strip()
+@dataclass
+class CourseData:
+    subject: str
+    number: str
+    name: str
+    credits: int
 
 
-def parse_course_structure_as_tree(html):
-    """
-    Parses a print-friendly version of the catalog into a nested requirement node tree.
-    Automatically chooses max credit values for 'choose' type groups.
-    """
+@dataclass
+class RequirementNodeData:
+    name: str
+    type: str  # 'credits' or 'choose'
+    required_credits: Optional[int]
+    courses: List[CourseData] = field(default_factory=list)
+    children: List['RequirementNodeData'] = field(default_factory=list)
+
+
+def extract_credits_from_text(text: str) -> Optional[int]:
+    text = text.lower()
+    if match := re.search(r"(\d+)\s*or\s*(\d+)\s*credits?", text):
+        return max(int(match.group(1)), int(match.group(2)))
+    if match := re.search(r"(\d+)\s*-\s*(\d+)\s*credits?", text):
+        return int(match.group(1))
+    if match := re.search(r"(\d+)\s*credits?", text):
+        return int(match.group(1))
+    return None
+
+
+def parse_course_line(line: str) -> Optional[CourseData]:
+    line = re.sub(r'\s+', ' ', line).strip()
+    match = re.match(r"([A-Z]{2,4}) (\d{4}) - (.+?) (\d+)[ -]?Credit", line)
+    if match:
+        subject, number, name, credits = match.groups()
+        return CourseData(subject, number, name.strip(), int(credits))
+    return None
+
+
+def parse_course_structure_as_tree(html: str) -> List[RequirementNodeData]:
     soup = BeautifulSoup(html, "html.parser")
-    course_pattern = re.compile(r"(\w+)\s+(\d+)\s+-\s+(.+)")
     root_nodes = []
 
-    current_node = None
-    current_subnode = None
-    current_type = "credits"
+    current_h2_node = None
+    current_h3_node = None
+    last_subgroup_node = None
 
-    from src.utils import extract_credits  # assuming it is defined in src.utils
+    program_summary = soup.find('h2', string=re.compile("Program Summary", re.IGNORECASE))
+    if not program_summary:
+        return []
 
-    for tag in soup.find_all(["h2", "h3", "p", "li"]):
+    for tag in program_summary.find_all_next():
+        if not isinstance(tag, Tag):
+            continue
+
         if tag.name == "h2":
-            heading = ' '.join(tag.stripped_strings).strip()
-            current_type = "credits"
-            current_node = {
-                "name": heading,
-                "type": "credits",
-                "required_credits": extract_credits(heading, prefer="min"),
-                "courses": [],
-                "children": []
-            }
-            root_nodes.append(current_node)
-            current_subnode = None
+            node = RequirementNodeData(
+                name=tag.get_text(strip=True),
+                type="credits",
+                required_credits=extract_credits_from_text(tag.get_text()),
+            )
+            root_nodes.append(node)
+            current_h2_node = node
+            current_h3_node = None
 
-        elif tag.name == "p" and "one of the following" in tag.get_text().lower():
-            current_type = "choose"
+        elif tag.name == "h3" and current_h2_node:
+            node = RequirementNodeData(
+                name=tag.get_text(strip=True),
+                type="credits",
+                required_credits=extract_credits_from_text(tag.get_text()),
+            )
 
-        elif tag.name == "h3" and current_node:
-            heading = ' '.join(tag.stripped_strings).strip()
-            prefer = "max" if current_type == "choose" else "min"
-            current_subnode = {
-                "name": heading,
-                "type": "credits",
-                "required_credits": extract_credits(heading, prefer=prefer),
-                "courses": [],
-                "children": []
-            }
-            current_node["type"] = current_type  # upgrade parent type to "choose" if needed
-            current_node["required_credits"] = extract_credits(current_node["name"], prefer="max") if current_type == "choose" else extract_credits(current_node["name"], prefer="min")
-            current_node["children"].append(current_subnode)
+            # Look ahead a few siblings for "choose" instruction
+            lookahead = tag
+            for _ in range(4):
+                lookahead = lookahead.find_next_sibling()
+                if not lookahead:
+                    break
+                if lookahead.name == "p" and "one of the following" in lookahead.get_text().lower():
+                    node.type = "choose"
+                    break
 
-        elif tag.name == "li" and "acalog-course" in tag.get("class", []):
-            text = tag.get_text(separator=" ", strip=True)
-            credits = extract_credits(text, prefer="min")
-            course_options = text.split(" or ")
+            current_h2_node.children.append(node)
+            current_h3_node = node
+            last_subgroup_node = None
 
-            for option in course_options:
-                option = re.sub(r"\s+\d+\s+Credit\(s\)", "", option).strip()
-                match = course_pattern.search(option)
-                if match:
-                    subject, number, name = match.groups()
-                    course = CourseData(subject, number, name.strip(), credits)
-                    if current_subnode:
-                        current_subnode["courses"].append(course)
-                    elif current_node:
-                        current_node["courses"].append(course)
+        elif tag.name == "h4" and current_h3_node and current_h3_node.type == "choose":
+            node = RequirementNodeData(
+                name=tag.get_text(strip=True),
+                type="credits",
+                required_credits=extract_credits_from_text(tag.get_text()),
+            )
+            current_h3_node.children.append(node)
+            last_subgroup_node = node
+
+        elif tag.name == "li" and 'acalog-course' in tag.get("class", []):
+            course = parse_course_line(tag.get_text())
+            if course:
+                if current_h3_node and current_h3_node.type == "choose" and last_subgroup_node:
+                    last_subgroup_node.courses.append(course)
+                elif current_h3_node:
+                    current_h3_node.courses.append(course)
+                elif current_h2_node:
+                    current_h2_node.courses.append(course)
 
     return root_nodes
