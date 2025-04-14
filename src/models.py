@@ -26,10 +26,10 @@ class StudentRecord(models.Model):
 
 
 class MajorMapping(models.Model):
-    major_code = models.CharField(max_length=20, primary_key=True)
+    major_code = models.CharField(max_length=20)
     catalog_year = models.IntegerField()
-    major_name_web = models.CharField(max_length=255, unique=True)
-    major_name_registrar = models.CharField(max_length=255, unique=True)
+    major_name_web = models.CharField(max_length=255)
+    major_name_registrar = models.CharField(max_length=255)
     total_credits_required = models.IntegerField()
 
     class Meta:
