@@ -28,73 +28,6 @@ def extract_credits(text, prefer="min"):
 CourseData = namedtuple("CourseData", ["subject", "number", "name", "credits"])
 
 
-def clean_text(text):
-    """
-    Normalizes and strips out problematic unicode characters.
-    """
-    if not isinstance(text, str):
-        return text
-    text = unicodedata.normalize("NFKD", text)
-    text = text.encode("ascii", "ignore").decode("ascii")
-    return text.strip()
-
-
-def parse_course_csv(file_path):
-    """
-    Parses a course CSV file into a list of CourseData.
-    Tries utf-8 and falls back to ISO-8859-1 if needed.
-    Logs rows that fail during parsing.
-    """
-    df = None
-    try:
-        df = pd.read_csv(file_path, encoding="utf-8", on_bad_lines="skip", engine="python")
-    except UnicodeDecodeError:
-        try:
-            print(f"⚠️ Retrying {file_path.name} with ISO-8859-1 encoding...")
-            df = pd.read_csv(file_path, encoding="ISO-8859-1", on_bad_lines="skip", engine="python")
-        except Exception as e:
-            print(f"❌ Failed to read file with fallback: {file_path}\n   → {e}")
-            return []
-
-    parsed = []
-    for i, row in df.iterrows():
-        try:
-            subject = clean_text(row["Subject"])
-            number = str(row["Course Number"]).strip()
-            name = clean_text(row["Name"])
-            credits = int(row["Credits"])
-            parsed.append(CourseData(subject, number, name, credits))
-        except Exception as e:
-            print(f"⚠️ Row {i + 1} in {file_path.name} failed to parse: {e}")
-            print(f"   → Raw Row: {row.to_dict()}")
-            continue
-
-    return parsed
-
-
-def split_courses_by_credit_blocks(courses, credit_blocks):
-    """
-    Splits a flat course list into subgroups based on target credit block totals.
-    Returns a list of course lists, each corresponding to one block.
-    Assumes course order matches intended grouping.
-    """
-    results = []
-    remaining = courses[:]
-    for target in credit_blocks:
-        group = []
-        total = 0
-        while remaining and total < target:
-            course = remaining.pop(0)
-            group.append(course)
-            total += course.credits
-        if total != target:
-            raise ValueError(f"Unable to match credit block: expected {target}, got {total}")
-        results.append(group)
-    if remaining:
-        print("Warning: extra courses remaining after credit block split.")
-    return results
-
-
 def match_major_name_web_to_registrar(web_name, major_code_df, scorer=fuzz.token_sort_ratio):
     """
     Match a major_name_web to the closest major_name_registrar using RapidFuzz.
@@ -142,19 +75,6 @@ def load_major_code_lookup(path: str) -> pd.DataFrame:
         "Major Name Registrar": "major_name_registrar"
     })[["major_code", "major_name_registrar"]]
     return df.dropna(subset=["major_code", "major_name_registrar"])
-
-
-def load_total_credits_map(csv_path):
-    """
-    Loads a total_credits.csv file and returns a dict:
-    {
-        "Exercise Science (B.S.)": 120,
-        "Management (B.A., B.S.)": 135,
-        ...
-    }
-    """
-    df = pd.read_csv(csv_path)
-    return dict(zip(df["Degree"].str.strip(), df["Total Credits"]))
 
 
 def prepare_django_inserts(parsed_tree, major_code, major_name_web, major_name_registrar, total_credits_required,

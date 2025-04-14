@@ -17,7 +17,8 @@ def main():
         majors_file="majors.txt",
         threshold=85,
         dry_run=False,  # Set to True for testing without DB writes
-        selected_years=["2024-2025",]  # Or set to None to select all.
+        selected_years=["2024-2025",],  # Or set to None to select all.
+        max_threads=16
     )
 
 

@@ -9,41 +9,6 @@ from src.suu_scraper import pull_catalog_year, find_all_programs_link, find_degr
 from src.utils import load_major_code_lookup, match_major_name_web_to_registrar, prepare_django_inserts, print_requirement_tree
 
 
-class CatalogParseTest(TestCase):
-    def test_requirement_node_parent_ids(self):
-        year = "2024-2025"
-        catalog_year = int(year[:4] + "30")
-        major_name_web = "Exercise Science (B.S.)"
-
-        catalog_url = pull_catalog_year(year)
-        programs_url = find_all_programs_link(catalog_url)
-        degree_url = find_degree(programs_url, major_name_web)
-
-        self.assertIsNotNone(degree_url, "Degree URL should not be None")
-
-        html = requests.get(degree_url + "&print").text
-        tree = parse_course_structure_as_tree(html)
-
-        major_code_df = load_major_code_lookup("major_codes.csv")
-        major_code, major_name_registrar, _ = match_major_name_web_to_registrar(major_name_web, major_code_df)
-
-        payload = prepare_django_inserts(
-            parsed_tree=tree,
-            major_code=major_code,
-            major_name_web=major_name_web,
-            major_name_registrar=major_name_registrar,
-            total_credits_required=120,
-            catalog_year=catalog_year
-        )
-
-        node_list = payload["requirement_nodes"]
-        self.assertGreater(len(node_list), 0, "No nodes parsed at all")
-        self.assertTrue(any(n.get("parent_id") is not None for n in node_list),
-                        "No nodes have a parent_id — tree flattening is likely broken")
-
-        print(f"✅ Parsed {len(node_list)} nodes — parent-child relationships are present.")
-
-
 class CatalogDBTest(TestCase):
     def test_parent_links_saved_in_db(self):
         year = "2024-2025"
