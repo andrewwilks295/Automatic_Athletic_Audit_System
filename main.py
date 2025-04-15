@@ -12,7 +12,7 @@ from src.utils import print_requirement_tree
 from src.models import MajorMapping, StudentAudit
 from src.data import import_student_data_from_csv
 from src.eligibility import run_audit
-from src.output import output_to_csv
+from src.output import *
 
 
 def main():
@@ -29,6 +29,7 @@ def main():
     StudentAudit.objects.all().delete()
     run_audit(202430)
     output_to_csv(202430)
+    output_to_xlsx(202430)
 
 if __name__ == "__main__":
     start = datetime.now()
