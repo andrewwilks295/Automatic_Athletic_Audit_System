@@ -54,7 +54,7 @@ def import_student_data_from_csv(file_path):
 
         with transaction.atomic():
             for _, row in df.iterrows():
-                student_id = int(row["ID"])
+                student_id = str(row["ID"])
                 major_code = str(row["MAJOR"]).strip()
                 conc_code = str(row["CONC"]).strip() if "CONC" in row and pd.notna(row["CONC"]) else None
                 effective_major = conc_code or major_code

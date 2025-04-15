@@ -1,15 +1,7 @@
 from django.db import transaction
+from typing import List
+from src.models import *
 
-from src.models import StudentRecord, StudentAudit
-
-
-"""
-TODO: Eligibility
-We need the following data for output:
-- total DA credits
-- cumulative GPA
-- percent towards completion (completed / total for degree) - still need total degree credits
-"""
 
 # Define the grade points mapping
 # This mapping is based on the provided grading system.
@@ -45,7 +37,45 @@ def passed(grade: str) -> bool:
     points = get_grade_points(grade)
     return points is not None and points >= 2.0
 
+# Create requirements class to simplify audit
+class Requirement:
+    def __init__(self, req: RequirementNode):
+        self.__complete = False
+        self.__courses = NodeCourse.objects.filter(node = req)
+        self.__required_credits = req.required_credits
+        self.credits = 0
 
+    def __str__(self):
+        return f"Complete: {self.__complete}, Required Credits: {self.__required_credits}, Current credits: {self.credits}, Courses: {self.__courses}"
+
+    def isComplete(self) -> bool:
+        return self.__complete
+    
+    def completed(self):
+        self.__complete = True
+
+    def isRequiredCourse(self, StuRecCourse: Course) -> bool:
+        for c in self.__courses:
+            if c.course.course_id == StuRecCourse.course_id:
+                self.credits += StuRecCourse.credits
+                if self.__required_credits <= self.credits:
+                    self.completed()
+                return True
+        return False
+
+#Creates list of all requirements for the major with the provided major id
+def create_req_list(major_id):
+    requirements = RequirementNode.objects.filter(major = major_id)
+    return [Requirement(r) for r in requirements if r.required_credits is not None]
+
+def check_if_required(req_list: List[Requirement], course_id) -> bool:
+    for req in req_list:
+        #print("check")
+        if not req.isComplete() and req.isRequiredCourse(course_id):
+            return True
+    return False
+
+#TODO Remove Eligibilty Rules
 # Define rules for particular semesters in a function decorated with @rule.
 
 ELIGIBILITY_RULES = []
@@ -58,14 +88,14 @@ def rule(semesters):
     return decorator
 
 
-@rule(range(1, 5))  # Semesters 1–4
-def freshman_rule(student, records):
-    return sum(r.credits for r in records if passed(r.grade)) >= 6
+@rule(range(1, 11))  # Check if credits are greater than six(The switch between DA credits and normal credits is handeled elsewhere)
+def credits_rule(sid, term):
+    return StudentAudit.objects.filter(student = sid, term = term).first().total_term_credits >= 6
 
-
-@rule(range(5, 11))  # Semesters 5–10
-def upperclass_rule(student, records):
-    return sum(r.credits for r in records if passed(r.grade) and r.counts_toward_major) >= 6
+@rule([2])
+def freshman_check(sid, term):
+    record = StudentAudit.objects.filter(student = sid, term = term).first()
+    return record.total_academic_year_credits >= 24 and record.gpa
 
 
 def calculate_gpa(sid):
@@ -90,69 +120,149 @@ def get_semester_number(student_id: int, current_term: int, first_term: int) -> 
         .values_list('term', flat=True)
         .distinct()
     )
-    sorted_terms = sorted(terms)
+    sorted_terms = list(sorted(terms))
 
-    if current_term not in sorted_terms:
-        raise ValueError(f"Current term {current_term} not found for student {student_id}")
+    #Remove non full time terms
+    terms_to_remove = []
+    records = StudentRecord.objects.filter(student_id=student_id)
+    for term in sorted_terms:
+        count = 0
+        for record in records:
+            if record.term == term:
+                count += record.credits
+        if count < 12:
+            terms_to_remove.append(term)
+    
+    sorted_terms = [item for item in sorted_terms if item not in terms_to_remove]
 
     # 1-based semester index
-    return sorted_terms.index(current_term) + 1
+    return len(sorted_terms)
 
-
-def run_eligibility_audit(term):
-    print(f"\nStarting eligibility audit for term {term}...\n")
-
+def run_audit(current_term: int):
+    print(f"\nStarting eligibility audit for term {current_term}...\n")
+    #Get ids of all students
     student_ids = (
         StudentRecord.objects
-        .filter(term=term)
+        .filter(term=current_term)
         .values_list('student_id', flat=True)
         .distinct()
     )
 
+    if student_ids.count() == 0:
+        print("No Students found.")
+
     for sid in student_ids:
         print(f"\nAuditing student ID: {sid}")
+        #Gather information needed for audit
+        first_term = StudentRecord.objects.filter(student = sid).first().first_term
+        num_terms = get_semester_number(sid, current_term, first_term)
+        print(f"Full-time semester number: {num_terms}")
+        credits_c_term = 0
+        total_credits_academic_year = 0
+        da_credits_c_term = 0
+        total_da_credits = 0
+        if num_terms <= 2:
+            terms = (
+                StudentRecord.objects
+                .filter(student_id=sid)
+                .values_list('term', flat=True)
+                .distinct()
+            )
+            latest_full_academic_year = sorted(list(terms))
+        elif current_term % 100 == 30:
+            latest_full_academic_year = [current_term - 100, current_term-20]
+        elif current_term % 100 == 10:
+            latest_full_academic_year = [current_term - 80, current_term]
+        else:
+            latest_full_academic_year = [current_term - 90, current_term-10]
+        records = StudentRecord.objects.filter(student_id=sid)
+        major = Student.objects.filter(student_id = sid).first().major
+        major_requirements = create_req_list(major)
 
-        all_terms = (
-            StudentRecord.objects
-            .filter(student_id=sid)
-            .values_list('term', flat=True)
-            .distinct()
-        )
-        sorted_terms = sorted(t for t in all_terms if t >= StudentRecord.objects.filter(student_id=sid).first().first_term)
-
-        if term not in sorted_terms:
-            print(f"Term {term} not found in student's active terms. Skipping.")
-            continue
-
-        semester_number = sorted_terms.index(term) + 1
-        print(f"Full-time semester number: {semester_number}")
-
-        records = StudentRecord.objects.filter(student_id=sid, term=term)
-        student = records.first()
+        # Total up credits
+        for record in records:
+            if passed(record.grade):
+                if record.term == current_term:
+                    credits_c_term += record.credits
+                if record.term in latest_full_academic_year:
+                    total_credits_academic_year += record.credits
+                if check_if_required(major_requirements,record.course):
+                    if record.term == current_term:
+                        da_credits_c_term += record.credits
+                    total_da_credits += record.credits
+        
+        #Checking the Above is correct
+        #print(credits_c_term)
+        #print(total_credits_academic_year)
+        #print(da_credits_c_term)
+        #print(total_da_credits)
+        
+        
+        #Calculate GPA and PTC
         gpa = calculate_gpa(sid)
-        print(f"Calculated GPA: {gpa:.2f}")
+        ptc = (total_da_credits/major.total_credits_required) * 100
 
-        eligible = False
-        for semesters, rule_fn in ELIGIBILITY_RULES:
-            if semester_number in semesters:
-                eligible = rule_fn(student, records)
-                print(f"Applied rule for semesters {list(semesters)} → Eligible: {eligible}")
-                break
+        #Grab correct term numbers for semester number
+        if num_terms in range(1,5):
+            current_term_credits = credits_c_term
+        else :
+            current_term_credits = da_credits_c_term
 
-        total_credits = sum(r.credits for r in records if passed(r.grade))
-        major_credits = sum(r.credits for r in records if passed(r.grade) and r.counts_toward_major)
-        ptc_major = round((major_credits / 120) * 100, 2)
+        #Check GPA
+        satisfactory_gpa = False
+        if num_terms < 3:
+            satisfactory_gpa = gpa >= 1.8
+        elif num_terms < 5:
+            satisfactory_gpa = gpa >= 1.9
+        else:
+            satisfactory_gpa = gpa >= 2.0
 
+        #Check PTC
+        satisfactory_ptc = False
+        if num_terms == 4:
+            satisfactory_ptc = ptc > 40.0
+        elif num_terms == 6:
+            satisfactory_ptc = ptc > 60.0
+        elif num_terms == 8:
+            satisfactory_ptc = ptc > 80.0
+        else:
+            satisfactory_ptc = True
+        
+        #Check Term Credits
+        satisfactory_term_credits = current_term_credits >= 6
+
+        #Check Academic Year Credits
+        satisfactory_year_credits = False
+        if num_terms == 1:
+            satisfactory_year_credits = True
+        elif num_terms ==2:
+            satisfactory_year_credits = total_credits_academic_year >= 24
+        else:
+            satisfactory_year_credits = total_credits_academic_year >= 18
+
+        #Checking the Above is correct
+        #print(satisfactory_gpa)
+        #print(satisfactory_ptc)
+        #print(satisfactory_term_credits)
+        #print(satisfactory_year_credits)
+
+        #Check Elegiblity
+        eligible = satisfactory_gpa and satisfactory_ptc and satisfactory_term_credits and satisfactory_year_credits
+
+        #Pass info to db
         with transaction.atomic():
             audit, created = StudentAudit.objects.update_or_create(
-                student=student,
-                term=term,
+                student = Student.objects.filter(student_id = sid).first,
+                term = current_term,
                 defaults={
-                    'total_credits': total_credits,
-                    'major_credits': major_credits,
-                    'ptc_major': ptc_major,
-                    'gpa': gpa,
-                    'eligible': eligible
+                    'total_term_credits' : current_term_credits,
+                    'da_credits' : total_da_credits,
+                    'total_academic_year_credits' : total_credits_academic_year,
+                    'ptc_major': ptc,
+                    'satisfactory_ptc_major': satisfactory_ptc,
+                    'eligible': eligible,
+                    'gpa' : gpa,
+                    'satisfactory_gpa' : satisfactory_gpa
                 }
             )
             status = "created" if created else "updated"
