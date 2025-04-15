@@ -30,5 +30,3 @@ if __name__ == "__main__":
     elapsed = datetime.now() - start
     diff_ct = MajorMapping.objects.all().count() - start_ct
     print(f"created: {diff_ct} in {elapsed.total_seconds()} seconds")
-
-    # print_requirement_tree(510)

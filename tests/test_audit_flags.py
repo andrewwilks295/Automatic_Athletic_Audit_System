@@ -3,6 +3,7 @@ from src.models import Student, Course, MajorMapping, StudentRecord, StudentAudi
 
 class AuditFlagTests(TestCase):
     def setUp(self):
+        print("Running AuditFlagTests setUp")
         self.major = MajorMapping.objects.create(
             major_code="EXSC",
             catalog_year=202430,
@@ -20,7 +21,7 @@ class AuditFlagTests(TestCase):
         )
 
         self.student = Student.objects.create(
-            student_id=1001,
+            student_id="T00000001",
             major=self.major
         )
 

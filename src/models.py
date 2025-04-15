@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Student(models.Model):
-    student_id = models.IntegerField(primary_key=True)  # aligns with "ID" field from CSV
+    student_id = models.CharField(max_length=9, primary_key=True)  # aligns with "ID" field from CSV
     major = models.ForeignKey("MajorMapping", null=True, blank=True, on_delete=models.SET_NULL)
     declared_major_code = models.CharField(max_length=20, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -65,7 +65,7 @@ class NodeCourse(models.Model):
 
 class StudentRecord(models.Model):
     id = models.AutoField(primary_key=True)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, to_field="student_id", on_delete=models.CASCADE)
     high_school_grad = models.IntegerField()
     first_term = models.IntegerField()
     term = models.IntegerField()
@@ -88,7 +88,7 @@ class StudentRecord(models.Model):
 
 
 class StudentAudit(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, to_field="student_id", on_delete=models.CASCADE)
     term = models.IntegerField()
     total_term_credits = models.IntegerField()
     da_credits = models.IntegerField()
