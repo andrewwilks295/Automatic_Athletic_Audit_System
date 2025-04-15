@@ -121,6 +121,7 @@ class CSVImportTests(TestCase):
 
         student = Student.objects.get(student_id=1001)
         self.assertEqual(student.major.major_code, "PSY")
+        self.assertEqual(student.declared_major_code, "PSY")
         self.assertEqual(StudentRecord.objects.count(), 2)
 
     def test_skips_invalid_major(self):
@@ -148,4 +149,13 @@ class CSVImportTests(TestCase):
         f = tempfile.NamedTemporaryFile(mode="w+", delete=False, suffix=".csv")
         df.to_csv(f.name, index=False)
         return f.name
+
+    def test_declared_major_defaults_to_major_if_no_concentration(self):
+        df = pd.DataFrame([self.row], columns=self.columns)
+        path = self._save_temp_csv(df)
+        result = import_student_data_from_csv(path)
+
+        self.assertTrue(result["success"])
+        student = Student.objects.get(student_id=1001)
+        self.assertEqual(student.declared_major_code, student.major.major_code)
 

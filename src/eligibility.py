@@ -48,54 +48,34 @@ class Requirement:
     def __str__(self):
         return f"Complete: {self.__complete}, Required Credits: {self.__required_credits}, Current credits: {self.credits}, Courses: {self.__courses}"
 
-    def isComplete(self) -> bool:
+    def is_complete(self) -> bool:
         return self.__complete
     
     def completed(self):
         self.__complete = True
 
-    def isRequiredCourse(self, StuRecCourse: Course) -> bool:
+    def is_required_course(self, stu_rec_course: Course) -> bool:
         for c in self.__courses:
-            if c.course.course_id == StuRecCourse.course_id:
-                self.credits += StuRecCourse.credits
+            if c.course.course_id == stu_rec_course.course_id:
+                self.credits += stu_rec_course.credits
                 if self.__required_credits <= self.credits:
                     self.completed()
                 return True
         return False
+
 
 #Creates list of all requirements for the major with the provided major id
 def create_req_list(major_id):
     requirements = RequirementNode.objects.filter(major = major_id)
     return [Requirement(r) for r in requirements if r.required_credits is not None]
 
+
 def check_if_required(req_list: List[Requirement], course_id) -> bool:
     for req in req_list:
         #print("check")
-        if not req.isComplete() and req.isRequiredCourse(course_id):
+        if not req.is_complete() and req.is_required_course(course_id):
             return True
     return False
-
-#TODO Remove Eligibilty Rules
-# Define rules for particular semesters in a function decorated with @rule.
-
-ELIGIBILITY_RULES = []
-
-def rule(semesters):
-    def decorator(func):
-        ELIGIBILITY_RULES.append((semesters, func))
-        return func
-
-    return decorator
-
-
-@rule(range(1, 11))  # Check if credits are greater than six(The switch between DA credits and normal credits is handeled elsewhere)
-def credits_rule(sid, term):
-    return StudentAudit.objects.filter(student = sid, term = term).first().total_term_credits >= 6
-
-@rule([2])
-def freshman_check(sid, term):
-    record = StudentAudit.objects.filter(student = sid, term = term).first()
-    return record.total_academic_year_credits >= 24 and record.gpa
 
 
 def calculate_gpa(sid):

@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup, Tag
 import re
-from typing import List, Optional
+from typing import List, Optional, Generator
 from dataclasses import dataclass, field
+
+from src.models import RequirementNode
 
 
 @dataclass
@@ -19,6 +21,13 @@ class RequirementNodeData:
     required_credits: Optional[int]
     courses: List[CourseData] = field(default_factory=list)
     children: List['RequirementNodeData'] = field(default_factory=list)
+
+
+def walk_tree(nodes: List[RequirementNodeData]) -> Generator[RequirementNodeData, None, None]:
+    for node in nodes:
+        yield node
+        if node.children:
+            yield from walk_tree(node.children)
 
 
 def extract_credits_from_text(text: str) -> Optional[int]:
@@ -127,3 +136,23 @@ def parse_course_structure_as_tree(html: str) -> List[RequirementNodeData]:
     apply_credit_fallbacks(root_nodes)
 
     return root_nodes
+
+
+def print_requirement_tree(major):
+    roots = RequirementNode.objects.filter(major=major, parent__isnull=True)
+
+    def print_node(node, depth=0):
+        indent = "  " * depth
+        print(f"{indent}- {node.name} [{node.type}] ({node.required_credits} credits)")
+
+        # Show courses under this node
+        courses = node.courses.all()
+        for course in courses:
+            print(f"{indent}  - {course.course_id}")
+
+        # Recurse to children
+        for child in node.children.all():
+            print_node(child, depth + 1)
+
+    for root in roots:
+        print_node(root)

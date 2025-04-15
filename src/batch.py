@@ -23,28 +23,41 @@ def scrape_catalog_year(year, majors, major_code_df, threshold=85, dry_run=False
 
     def scrape_major(major_name_web):
         try:
-            major_code, _, _ = match_major_name_web_to_registrar(major_name_web, major_code_df)
-            if MajorMapping.objects.filter(major_code=major_code, catalog_year=catalog_year).exists():
-                return {"status": "skipped", "major_name_web": major_name_web, "reason": "Already imported"}
+            match_result = match_major_name_web_to_registrar(major_name_web, major_code_df)
+            score = match_result["score"]
+
+            if score < threshold:
+                return {
+                    "status": "skipped",
+                    "major_name_web": major_name_web,
+                    "reason": f"Low match confidence ({score:.2f}%)"
+                }
+
+            if MajorMapping.objects.filter(
+                major_code=match_result["major_code"], catalog_year=catalog_year
+            ).exists():
+                return {
+                    "status": "skipped",
+                    "major_name_web": major_name_web,
+                    "reason": "Already imported"
+                }
 
             program_url = find_degree(all_programs_link, major_name_web)
             if not program_url:
-                return {"status": "failed", "major_name_web": major_name_web, "reason": "Could not find program URL"}
+                return {
+                    "status": "failed",
+                    "major_name_web": major_name_web,
+                    "reason": "Could not find program URL"
+                }
 
             html = requests.get(program_url + "&print").text
             total_credits = fetch_total_credits(html)
             structure = parse_course_structure_as_tree(html)
 
-            major_code, major_name_registrar, score = match_major_name_web_to_registrar(major_name_web, major_code_df)
-
-            if score < threshold:
-                return {"status": "skipped", "major_name_web": major_name_web, "reason": f"Low match ({score}%)"}
-
             payload = prepare_django_inserts(
                 parsed_tree=structure,
-                major_code=major_code,
+                match_result=match_result,
                 major_name_web=major_name_web,
-                major_name_registrar=major_name_registrar,
                 total_credits_required=total_credits,
                 catalog_year=catalog_year
             )
@@ -56,7 +69,11 @@ def scrape_catalog_year(year, majors, major_code_df, threshold=85, dry_run=False
             }
 
         except Exception as e:
-            return {"status": "failed", "major_name_web": major_name_web, "reason": str(e)}
+            return {
+                "status": "failed",
+                "major_name_web": major_name_web,
+                "reason": str(e)
+            }
 
     # Parallel scraping
     with ThreadPoolExecutor(max_workers=max_threads) as executor:
@@ -96,10 +113,10 @@ def batch_scrape_all_catalogs(
     max_threads=4
 ):
     logger = CatalogBatchLogger()
+
     # Get catalog years and their catoid mappings
     catalog_year_map = get_catalog_years(base_url)
 
-    # Filter years if specified
     if selected_years:
         catalog_year_map = {k: v for k, v in catalog_year_map.items() if k in selected_years}
 
@@ -122,15 +139,29 @@ def batch_scrape_all_catalogs(
                 max_threads=max_threads
             )
             for r in results:
+                base_major_code = None
+                major_code = None
+                if "payload" in r:
+                    major_code = r["payload"]["major"]["major_code"]
+                    base_major_code = r["payload"]["major"].get("base_major_code")
+
                 match r["status"]:
                     case "parsed":
                         logger.parsed(r["major_name_web"])
                     case "imported":
                         logger.imported(r["major_name_web"])
                     case "skipped":
-                        logger.skipped(r["major_name_web"], r.get("reason"))
+                        logger.skipped(
+                            r["major_name_web"],
+                            reason=r.get("reason"),
+                            extra=f"major_code={major_code}, base_major_code={base_major_code}"
+                        )
                     case "failed":
-                        logger.failed(r["major_name_web"], r.get("reason"))
+                        logger.failed(
+                            r["major_name_web"],
+                            reason=r.get("reason"),
+                            extra=f"major_code={major_code}, base_major_code={base_major_code}"
+                        )
         except Exception as e:
             print(f"❌ ERROR in catalog year {year_str}: {e}")
 
