@@ -10,6 +10,9 @@ from src.utils import load_major_code_lookup, match_major_name_web_to_registrar,
 
 
 class CatalogDBTest(TestCase):
+    def setUp(self):
+        print("Running CatalogDBTest setUp")
+
     def test_parent_links_saved_in_db(self):
         year = "2024-2025"
         catalog_year = int(year[:4] + "30")

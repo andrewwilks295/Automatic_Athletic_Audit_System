@@ -8,6 +8,7 @@ from src.data import import_student_data_from_csv
 class CSVImportTests(TestCase):
 
     def setUp(self):
+        print("Running CSVImportTests setUp")
         self.major = MajorMapping.objects.create(
             major_code="EXSC",
             catalog_year=202430,
