@@ -1,192 +1,170 @@
-Major Code,Major Name Registrar,2018 (2024),2019 (2025),2020 (2026),2021 (2027),2022 (2028),2023 (2029),2024 (2030)
-ACCT,Major in Accounting,,OK,OK,OK,OK,OK,OK
-BE,Major in Business Education,,OK,OK,OK,OK,OK,OK
-ECON,Major in Economics,,OK,OK,OK,OK,OK,OK
-ANLY,Business Analytics Concentration,,OK,OK,OK,OK,OK,OK
-FIN,Major in Finance,,OK,OK,OK,OK,OK,OK
-HRHM,"Major in Hotel, Resort & Hospitality Mgmt",,OK,OK,OK,OK,OK,OK
-EVNT,Event Planning and Management Concentration,,OK,OK,OK,OK,OK,OK
-FABM,Food and Beverage Management Concentration,,OK,OK,OK,OK,OK,OK
-LODG,Lodging Management Concentration,,OK,OK,OK,OK,OK,OK
-MGMT,Major in Management,,OK,OK,OK,OK,OK,OK
-MKTG,Major in Marketing,,OK,OK,OK,OK,OK,OK
-AERO,Major in Aerospace/Aviation Sciences,,OK,OK,OK,OK,OK,OK
-FXWG,Fixed-Wing Pilot Concentration,,OK,OK,OK,OK,OK,OK
-RTWG,Rotor-Wing Pilot Concentration,,OK,OK,OK,OK,OK,OK
-AVAL,Major in Aviation Administration and Leadership,,,,OK,OK,OK,OK
-CIEN,Major in Civil Engineering,,,,,OK,OK,OK
-CENG,Construction Engineering Concentration,,,,,,,OK
-ENEN,Environmental Engineering Concentration,,,,,,,OK
-WRE,Water Resources Engineering Concentration,,,,,,,OK
-CNMT,Major in Construction Management,,OK,OK,OK,OK,OK,OK
-CS,Major in Computer Science,,OK,OK,OK,OK,OK,OK
-CYBR,Major in Cybersecurity,,,,OK,OK,OK,OK
-DATA,Major in Data Science,,,,,,,OK
-ELEN,Major in Electrical Engineering,,,,,,,OK
-ENTC,Major in Engineering Technology,,OK,OK,OK,OK,OK,OK
-ARCD,CAD Architectural/Civil Design Concentration,,OK,OK,OK,OK,OK,OK
-CCET,CAD/CAM Concentration,,OK,OK,OK,OK,OK,OK
-EET,Electronics Concentration,,OK,OK,OK,,,
-ELMC,Electromechanical Concentration,,,,,OK,OK,OK
-FITC,Major in Financial Technology,,,,,,,OK
-IENG,Major in Engineering,,OK,OK,OK,,,
-CIVE,Civil Engineering Concentration,,,,OK,,,
-ELCE,Electrical Engineering Concentration,,,,OK,,,
-IS,Major in Information Systems,,OK,OK,,,,
-CYBR,Cybersecurity Concentration,,OK,OK,,,,
-MIS,Management Information Systems Concentration,,OK,OK,,,,
-NETA,Network Administration Concentration,,OK,OK,,,,
-MATH,Major in Mathematical Science,,OK,OK,OK,OK,,
-ACT,Actuarial Science Concentration,,OK,OK,OK,OK,,
-APPL,Applied Mathematics Concentration,,OK,OK,OK,OK,,
-PURE,Pure Mathematics Concentration,,OK,OK,OK,OK,,
-MEEN,Major in Mechanical Engineering,,OK,OK,OK,OK,OK,OK
-MTHS,Major in Mathematics,,,,,,OK,OK
-ACT,Actuarial Science Concentration,,,,,,OK,OK
-APPL,Applied Mathematics Concentration,,,,,,OK,OK
-PURE,Pure Mathematics Concentration,,,,,,OK,OK
-MTHT,Major in Mathematics Education,,OK,OK,OK,OK,OK,OK
-SOFD,Major in Software Development,,,,,,,OK
-ELEM,Major in Elementary Education,,OK,OK,OK,OK,OK,OK
-EESL,English as a Second Language Concentration,,OK,OK,,,,
-MM,Special Education Mild/Moderate Concentration,,OK,OK,OK,OK,OK,OK
-MTHS,Mathematics Concentration,,OK,OK,OK,OK,OK,OK
-FLHD,Major in Family Life & Human Development,,OK,OK,OK,OK,OK,OK
-ECD,Early Childhood Development Concentration,,OK,OK,OK,OK,OK,OK
-FMST,Family Studies Concentration,,,OK,OK,OK,OK,OK
-FS,Family Services Concentration,,OK,OK,OK,OK,OK,OK
-PSW,Pre-Social Work,,,,OK,OK,OK,OK
-SOCW,Major in Social Work,,,,OK,OK,OK,OK
-AG,Major in Agriculture,,,OK,OK,OK,OK,OK
-AGBU,Agribusiness Concentration,,,OK,OK,OK,OK,OK
-AGED,Agriculture Education Concentration,,,OK,OK,OK,OK,
-ASIN,Animal Science & Industries Concentration,,,OK,OK,OK,OK,OK
-GENA,General Agriculture Concentration,,,OK,OK,OK,OK,OK
-NRRM,Natural Resources/Range Mgmt Concentration,,,OK,OK,OK,OK,OK
-PSIN,Plant Science & Industries Concentration,,,OK,OK,OK,OK,OK
-AGED,Major in Agriculture Education,,,,,,,OK
-AGIN,Major in Agricultural Science and Industry,,OK,,,,,
-AGBU,Agribusiness Concentration,,OK,,,,,
-AGED,Agriculture Education,,OK,,,,,
-ASIN,Animal Science & Industries Concentration,,OK,,,,,
-GENA,General Agriculture Concentration,,OK,,,,,
-NRRM,Natural Resources/Range Mgmt Concentration,,OK,,,,,
-PSIN,Plant Science & Industries Concentration,,OK,,,,,
-EXSC,Major in Exercise Science,,OK,OK,OK,OK,OK,OK
-PATH,Pre-Athletic Training Concentration,,,,,,,OK
-HUNU,Major in Human Nutrition,,OK,OK,OK,OK,OK,OK
-ALHE,Allied Health Concentration,,OK,OK,OK,OK,OK,OK
-DIET,Dietetics Concentration,,,,,,OK,OK
-PDET,Pre-Dietetics Concentration,,OK,OK,OK,OK,,
-IHS,Major in Integrative Health Sciences,,,,,,,OK
-NURS,Major in Nursing BSN,,OK,OK,OK,OK,OK,OK
-HBSN,Health Professionals to BSN Concentration,,,,OK,OK,OK,OK
-LPNB,LPN to BSN Concentration,,,OK,,,,
-PLIC,Pre-Licensure Concentration,,,OK,OK,OK,OK,OK
-RNBS,RN to BSN Concentration,,,OK,OK,OK,OK,OK
-RNMS,RN to MSN Concentration,,,,,,OK,OK
-ORPT,Major in Outdoor Recreation in Parks & Tourism,,OK,OK,OK,OK,OK,OK
-NNR,Natural Resource Recreation Concentration,,OK,OK,OK,OK,OK,OK
-OE,Outdoor Education Concentration,,OK,OK,OK,OK,OK,OK
-ORT,Outdoor Recreation Tourism Concentration,,OK,OK,OK,OK,OK,OK
-PDET,Pre-Dietetics,,,,,,OK,OK
-PE,Major in Physical Education,,,,,,OK,OK
-COCH,Coaching Concentration,,,,,,OK,OK
-TE,Teaching Concentration,,,,,,OK,OK
-PETC,Major in Physical Education Teaching/Coaching,,OK,OK,OK,OK,,
-PNUR,Pre-Nursing,,OK,OK,OK,OK,OK,OK
-ANTH,Major in Anthropology,,OK,OK,OK,OK,OK,OK
-BGS,Major in General Studies BGS,,,,OK,OK,OK,OK
-CJ,Major in Criminal Justice,,OK,OK,OK,OK,OK,OK
-GEN,General Concentration,,OK,,,,,
-FRSC,Forensic Concentration,,OK,,,,,
-COMC,Major in Communication Composite,,OK,OK,OK,OK,OK,OK
-COMS,Communication Studies Concentration,,OK,,,,,
-MBMD,"New Media, Branding, and Message Design Concentration",,,,,OK,OK,OK
-MEDA,Media Studies Concentration,,OK,OK,OK,OK,OK,OK
-MHUI,Messaging & Human Interaction Concentration,,,OK,OK,OK,OK,OK
-SMHI,Strategic Message & Human Interaction Concentration,,,OK,OK,,,
-SPCO,Sports Communication Concentration,,,,,,OK,OK
-STCO,Strategic Communication Concentration,,OK,OK,OK,OK,OK,OK
-COMM,Major in Communication,,OK,OK,OK,OK,OK,OK
-COMS,Communication Studies Concentration,,OK,,,,,
-MBMD,"New Media, Branding, and Message Design Concentration",,,,,OK,OK,OK
-MEDA,Media Studies Concentration,,OK,OK,OK,OK,OK,OK
-MHUI,Messaging & Human Interaction Concentration,,,OK,OK,OK,OK,OK
-SMHI,Strategic Message & Human Interaction Concentration,,,OK,OK,,,
-SPCO,Sports Communication Concentration,,,,,,OK,OK
-STCO,Strategic Communication Concentration,,OK,OK,OK,OK,OK,OK
-ENGL,Major in English,,OK,OK,OK,OK,OK,OK
-CW,Creative Writing Concentration,,OK,OK,OK,OK,OK,OK
-LIT,Literature Concentration,,OK,OK,OK,OK,OK,OK
-RHET,Rhetoric and Writing,,OK,OK,OK,OK,OK,OK
-ENGT,Major in English Education,,OK,OK,OK,OK,OK,OK
-CW,Creative Writing/Teaching Concentration,,OK,,,,,
-TE,Teaching Concentration,,OK,,,,,
-FREN,Major in French,,OK,OK,OK,OK,OK,OK
-FRET,Major in French Education,,OK,OK,OK,OK,OK,OK
-GENS,Major in Exploratory Studies,,OK,OK,OK,OK,OK,OK
-GS,Major in General Studies BA/BS,,OK,OK,OK,OK,OK,OK
-HIST,Major in History,,OK,OK,OK,OK,OK,OK
-HSTT,Major in History Education,,OK,OK,OK,OK,OK,OK
-PHIL,Major in Philosophy,,OK,OK,OK,OK,OK,OK
-POSC,Major in Political Science,,OK,OK,OK,OK,OK,OK
-PSY,Major in Psychology,,OK,OK,OK,OK,OK,OK
-HSER,Human Services Concentration,,OK,OK,OK,OK,OK,OK
-SOC,Major in Sociology,,OK,OK,OK,OK,OK,OK
-SOSC,Major in Social Science Teaching Comp,,OK,OK,OK,OK,OK,
-SPAN,Major in Spanish,,OK,OK,OK,OK,OK,OK
-SPAT,Major in Spanish Education,,OK,OK,OK,OK,OK,OK
-SSEC,Major in Social Studies Education Composite,,,,,,,OK
-USLI,Major in Interdisciplinary Studies,,OK,OK,OK,OK,OK,OK
-ART,Major in Art,,OK,OK,OK,OK,OK,OK
-ARTH,Major in Art History,,OK,OK,OK,OK,OK,OK
-ARTT,Major in Art Education,,OK,OK,OK,OK,OK,OK
-COMU,Major in Commercial Music,,,,,OK,OK,OK
-DNCE,Major in Dance,,OK,OK,OK,OK,OK,OK
-DNCT,Major in Dance Education,,OK,OK,OK,OK,OK,OK
-FLMM,Major in Filmmaking,,,,,OK,OK,OK
-GRDS,Major in Graphic Design,,OK,OK,OK,OK,OK,OK
-UXUI,UX/UI Concentration,,,,,,OK,OK
-MUS,Major in Music BA,,,,,,OK,OK
-MUSC,Major in Music BA,,OK,OK,OK,OK,,
-MUSC,Major in Music BMU,,OK,OK,OK,OK,OK,OK
-INSP,Instrumental Performance Concentration,,OK,OK,OK,OK,OK,OK
-PIPR,Piano Performance Concentration,,OK,OK,OK,OK,OK,OK
-VOCP,Vocal Performance Concentration,,OK,OK,OK,OK,OK,OK
-MUST,Major in Music Education,,OK,OK,OK,OK,OK,OK
-SCHV,Secondary Choral Concentration,,OK,OK,OK,OK,OK,OK
-SINS,Secondary Instrumental Concentration,,OK,OK,OK,OK,OK,OK
-MUTH,Major in Musical Theatre,,,,OK,OK,OK,OK
-PFLM,Pre-Filmmaking,,,,,,,OK
-STDA,Major in Studio Arts,,OK,OK,OK,OK,OK,OK
-CERC,Ceramics Concentration,,OK,OK,OK,OK,OK,OK
-CERM,Ceramics and Sculpture Concentration,,,,,,,
-ILL,Illustration Concentration,,OK,OK,OK,OK,OK,OK
-PAIN,Painting/Drawing/Printmaking Concentration,,OK,OK,OK,OK,OK,OK
-PHTO,Photography Concentration,,OK,OK,OK,OK,OK,OK
-TA,Major in Theatre Arts BA/BS,,OK,OK,OK,OK,OK,OK
-TA,Major in Theatre Arts BFA,,OK,OK,,,,
-CLAC,Classical Acting Concentration,,OK,OK,,,,
-MUT,Musical Theatre Concentration,,OK,OK,,,,
-TDT,Theatre Design & Technology Concentration,,OK,OK,,,,
-TACT,Major in Acting,,,,OK,OK,OK,OK
-TAT,Major in Theatre Arts Education,,OK,OK,OK,OK,OK,OK
-TDP,Major in Theatre Design & Production,,,,OK,OK,OK,OK
-BIOL,Major in Biology,,OK,OK,OK,OK,OK,OK
-BIOT,Major in Biology Education,,OK,OK,OK,OK,OK,OK
-BSED,Major in Biological Sciences Education,,,,,,,OK
-CHEM,Major in Chemistry,,OK,OK,OK,OK,OK,OK
-FRCH,Forensic Chemistry Concentration,,OK,,,,,
-HC,Health Care Concentration,,OK,OK,OK,OK,OK,OK
-LAB,Laboratory Science Concentration,,,,OK,OK,OK,OK
-PROF,Professional Concentration,,OK,OK,OK,OK,OK,OK
-CHET,Major in Chemistry Teacher Education,,,,,,OK,
-CHME,Major in Chemistry Education,,OK,OK,OK,OK,,OK
-ENSC,Major in Environmental Science,,,,,OK,OK,OK
-ESTD,Major in Environmental Studies,,,,,OK,OK,OK
-GEO,Major in Geosciences,,OK,OK,OK,OK,OK,OK
-GEOL,Major in Geology,,OK,OK,OK,OK,OK,OK
-GSPC,Major in Geospatial Science,,,,,OK,OK,OK
-PHSE,Major in Physics Education,,,,,,,OK
-PSTE,Major in Physical Science Education,,OK,OK,OK,OK,OK,
+Major Code,Major Name Registrar,Major Name Web,2018 (2024),2019 (2025),2020 (2026),2021 (2027),2022 (2028),2023 (2029),2024 (2030)
+ACCT,Major in Accounting,"Accounting (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+BE,Major in Business Education,"Business Education (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+ECON,Major in Economics,"Economics (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+ANLY,Business Analytics Concentration,"Economics - Business Analytics Emphasis (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+FIN,Major in Finance,"Finance (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+HRHM,"Major in Hotel, Resort & Hospitality Mgmt",,,OK,OK,OK,OK,OK,OK
+EVNT,Event Planning and Management Concentration,"Hotel, Resort, and Hospitality Management - Event Planning and Management Emphasis (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+FABM,Food and Beverage Management Concentration,"Hotel, Resort, and Hospitality Management - Food and Beverage Management Emphasis (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+LODG,Lodging Management Concentration,"Hotel, Resort, and Hospitality Management - Lodging Management Emphasis (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+MGMT,Major in Management,"Management (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+MKTG,Major in Marketing,"Marketing (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+AERO,Major in Aerospace/Aviation Sciences,,,OK,OK,OK,OK,OK,OK
+FXWG,Fixed-Wing Pilot Concentration,Aerospace/Aviation Sciences - Fixed-Wing Emphasis (B.S.),,OK,OK,OK,OK,OK,OK
+RTWG,Rotor-Wing Pilot Concentration,Aerospace/Aviation Sciences - Rotor-Wing Emphasis (B.S.),,OK,OK,OK,OK,OK,OK
+AVAL,Major in Aviation Administration and Leadership,"Aviation Administration and Leadership (B.A., B.S.)",,,,OK,OK,OK,OK
+CIEN,Major in Civil Engineering,Civil Engineering (B.S.),,,,,OK,OK,OK
+CENG,Construction Engineering Concentration,Civil Engineering - Construction Engineering Emphasis (B.S.),,,,,,,OK
+ENEN,Environmental Engineering Concentration,Civil Engineering - Environmental Engineering Emphasis (B.S.),,,,,,,OK
+WRE,Water Resources Engineering Concentration,Civil Engineering - Water Resources Engineering Emphasis (B.S.),,,,,,,OK
+CNMT,Major in Construction Management,"Construction Management (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+CS,Major in Computer Science,Computer Science (B.S.),,OK,OK,OK,OK,OK,OK
+CYBR,Major in Cybersecurity,Cybersecurity (B.S.),,,,OK,OK,OK,OK
+DATA,Major in Data Science,Data Science (B.S.),,,,,,,OK
+ELEN,Major in Electrical Engineering,Electrical Engineering (B.S.),,,,,,,OK
+ENTC,Major in Engineering Technology,,,OK,OK,OK,OK,OK,OK
+ARCD,CAD Architectural/Civil Design Concentration,Engineering Technology - CAD-Architectural/Civil Design Emphasis (B.S.),,OK,OK,OK,OK,OK,OK
+CCET,CAD/CAM Concentration,Engineering Technology - CAD/CAM Emphasis (B.S.),,OK,OK,OK,OK,OK,OK
+EET,Electronics Concentration,,,OK,OK,OK,,,
+ELMC,Electromechanical Concentration,Engineering Technology - Electromechanical Emphasis (B.S.),,,,,OK,OK,OK
+FITC,Major in Financial Technology,Financial Technology (B.S.),,,,,,,OK
+IENG,Major in Engineering, ,,OK,OK,OK,,,
+CIVE,Civil Engineering Concentration,,,,,OK,,,
+ELCE,Electrical Engineering Concentration,,,,,OK,,,
+IS,Major in Information Systems,,,OK,OK,,,,
+CYBR,Cybersecurity Concentration,,,OK,OK,,,,
+MIS,Management Information Systems Concentration,,,OK,OK,,,,
+NETA,Network Administration Concentration,,,OK,OK,,,,
+MATH,Major in Mathematical Science,,,OK,OK,OK,OK,,
+ACT,Actuarial Science Concentration,Mathematics - Actuarial Science Emphasis (B.S.),,OK,OK,OK,OK,,
+APPL,Applied Mathematics Concentration,Mathematics - Applied Mathematics Emphasis (B.S.),,OK,OK,OK,OK,,
+PURE,Pure Mathematics Concentration,Mathematics - Pure Mathematics Emphasis (B.S.),,OK,OK,OK,OK,,
+MEEN,Major in Mechanical Engineering,Mechanical Engineering (B.S.),,OK,OK,OK,OK,OK,OK
+MTHT,Major in Mathematics Education,Mathematics Education (B.S.),,OK,OK,OK,OK,OK,OK
+SOFD,Major in Software Development,Software Development (B.S.),,,,,,,OK
+ELEM,Major in Elementary Education,"Elementary Education (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+EESL,English as a Second Language Concentration,,,OK,OK,,,,
+MM,Special Education Mild/Moderate Concentration,,,OK,OK,OK,OK,OK,OK
+MTHS,Mathematics Concentration,,,OK,OK,OK,OK,OK,OK
+FLHD,Major in Family Life & Human Development,,,OK,OK,OK,OK,OK,OK
+ECD,Early Childhood Development Concentration,,,OK,OK,OK,OK,OK,OK
+FMST,Family Studies Concentration,,,,OK,OK,OK,OK,OK
+FS,Family Services Concentration,,,OK,OK,OK,OK,OK,OK
+PSW,Pre-Social Work,,,,,OK,OK,OK,OK
+SOCW,Major in Social Work,Social Work (B.S.W.),,,,OK,OK,OK,OK
+AG,Major in Agriculture,,,,OK,OK,OK,OK,OK
+AGBU,Agribusiness Concentration,Agriculture - Agribusiness Emphasis (B.S.),,,OK,OK,OK,OK,OK
+ASIN,Animal Science & Industries Concentration,Agriculture - Animal Science and Industries Emphasis (B.S.),,,OK,OK,OK,OK,OK
+GENA,General Agriculture Concentration,Agriculture - General Agriculture Emphasis (B.S.),,,OK,OK,OK,OK,OK
+NRRM,Natural Resources/Range Mgmt Concentration,Agriculture - Natural Resources/Range Management Emphasis (B.S.),,,OK,OK,OK,OK,OK
+PSIN,Plant Science & Industries Concentration,Agriculture - Plant Science and Industries Emphasis (B.S.),,,OK,OK,OK,OK,OK
+AGED,Major in Agriculture Education,Agriculture Education (B.S.),,,,,,,OK
+EXSC,Major in Exercise Science,Exercise Science (B.S.),,OK,OK,OK,OK,OK,OK
+PATH,Pre-Athletic Training Concentration,Exercise Science - Pre-Athletic Training Emphasis (B.S.),,,,,,,OK
+HUNU,Major in Human Nutrition,,,OK,OK,OK,OK,OK,OK
+ALHE,Allied Health Concentration,Human Nutrition - Allied Health Emphasis (B.S.),,OK,OK,OK,OK,OK,OK
+DIET,Dietetics Concentration,,,,,,,OK,OK
+PDET,Pre-Dietetics Concentration,,,OK,OK,OK,OK,,
+IHS,Major in Integrative Health Sciences,Integrative Health Sciences (B.S.),,,,,,,OK
+NURS,Major in Nursing BSN,,,OK,OK,OK,OK,OK,OK
+HBSN,Health Professionals to BSN Concentration,Nursing - Health Professionals to BSN Emphasis (B.S.N.),,,,OK,OK,OK,OK
+LPNB,LPN to BSN Concentration,,,,OK,,,,
+PLIC,Pre-Licensure Concentration,Nursing - Pre-Licensure Emphasis (B.S.N.),,,OK,OK,OK,OK,OK
+RNBS,RN to BSN Concentration,Nursing - RN to BSN Emphasis (B.S.N.),,,OK,OK,OK,OK,OK
+RNMS,RN to MSN Concentration,,,,,,,OK,OK
+ORPT,Major in Outdoor Recreation in Parks & Tourism,,,OK,OK,OK,OK,OK,OK
+NNR,Natural Resource Recreation Concentration,Outdoor Recreation in Parks and Tourism - Natural Resource Recreation Emphasis (B.S.),,OK,OK,OK,OK,OK,OK
+OE,Outdoor Education Concentration,Outdoor Recreation in Parks and Tourism - Outdoor Education Emphasis (B.S.),,OK,OK,OK,OK,OK,OK
+ORT,Outdoor Recreation Tourism Concentration,Outdoor Recreation in Parks and Tourism - Tourism Emphasis (B.S.),,OK,OK,OK,OK,OK,OK
+PDET,Pre-Dietetics,,,,,,,OK,OK
+PE,Major in Physical Education,,,,,,,OK,OK
+COCH,Coaching Concentration,Physical Education - Coaching Emphasis (B.S.),,,,,,OK,OK
+TE,Teaching Concentration,Physical Education - Teaching Emphasis (B.S.),,,,,,OK,OK
+PETC,Major in Physical Education Teaching/Coaching,,,OK,OK,OK,OK,,
+PNUR,Pre-Nursing,,,OK,OK,OK,OK,OK,OK
+ANTH,Major in Anthropology,"Anthropology (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+BGS,Major in General Studies BGS,General Studies (B.G.S.),,,,OK,OK,OK,OK
+CJ,Major in Criminal Justice,"Criminal Justice (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+GEN,General Concentration,,,OK,,,,,
+FRSC,Forensic Concentration,,,OK,,,,,
+COMC,Major in Communication Composite,"Communication Composite (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+COMS,Communication Studies Concentration,,,OK,,,,,
+MBMD,"New Media, Branding, and Message Design Concentration",,,,,,OK,OK,OK
+MEDA,Media Studies Concentration,"Communication - Media Studies Emphasis (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+MHUI,Messaging & Human Interaction Concentration,"Communication - Messaging and Human Interaction Emphasis (B.A., B.S.)",,,OK,OK,OK,OK,OK
+SMHI,Strategic Message & Human Interaction Concentration,,,,OK,OK,,,
+SPCO,Sports Communication Concentration,"Communication - Sports Communication Emphasis (B.A., B.S.)",,,,,,OK,OK
+STCO,Strategic Communication Concentration,"Communication - Strategic Communication Emphasis (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+ENGL,Major in English,,,OK,OK,OK,OK,OK,OK
+CW,Creative Writing Concentration,English - Creative Writing Emphasis (B.A.),,OK,OK,OK,OK,OK,OK
+LIT,Literature Concentration,English - Literature Emphasis (B.A.),,OK,OK,OK,OK,OK,OK
+RHET,Rhetoric and Writing,English - Rhetoric and Writing Emphasis (B.A.),,OK,OK,OK,OK,OK,OK
+ENGT,Major in English Education,English Education (B.A.),,OK,OK,OK,OK,OK,OK
+FREN,Major in French,French (B.A.),,OK,OK,OK,OK,OK,OK
+FRET,Major in French Education,French Education (B.A.),,OK,OK,OK,OK,OK,OK
+GENS,Major in Exploratory Studies,,,OK,OK,OK,OK,OK,OK
+GS,Major in General Studies BA/BS,"General Studies (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+HIST,Major in History,,,OK,OK,OK,OK,OK,OK
+HSTT,Major in History Education,,,OK,OK,OK,OK,OK,OK
+PHIL,Major in Philosophy,,,OK,OK,OK,OK,OK,OK
+POSC,Major in Political Science,,,OK,OK,OK,OK,OK,OK
+PSY,Major in Psychology,,,OK,OK,OK,OK,OK,OK
+HSER,Human Services Concentration,,,OK,OK,OK,OK,OK,OK
+SOC,Major in Sociology,,,OK,OK,OK,OK,OK,OK
+SOSC,Major in Social Science Teaching Comp,,,OK,OK,OK,OK,OK,
+SPAN,Major in Spanish,,,OK,OK,OK,OK,OK,OK
+SPAT,Major in Spanish Education,,,OK,OK,OK,OK,OK,OK
+SSEC,Major in Social Studies Education Composite,,,,,,,,OK
+USLI,Major in Interdisciplinary Studies,,,OK,OK,OK,OK,OK,OK
+ART,Major in Art,,,OK,OK,OK,OK,OK,OK
+ARTH,Major in Art History,,,OK,OK,OK,OK,OK,OK
+ARTT,Major in Art Education,,,OK,OK,OK,OK,OK,OK
+COMU,Major in Commercial Music,,,,,,OK,OK,OK
+DNCE,Major in Dance,,,OK,OK,OK,OK,OK,OK
+DNCT,Major in Dance Education,,,OK,OK,OK,OK,OK,OK
+FLMM,Major in Filmmaking,,,,,,OK,OK,OK
+GRDS,Major in Graphic Design,,,OK,OK,OK,OK,OK,OK
+UXUI,UX/UI Concentration,,,,,,,OK,OK
+MUS,Major in Music BA,,,,,,,OK,OK
+MUSC,Major in Music BA,,,OK,OK,OK,OK,,
+MUSC,Major in Music BMU,,,OK,OK,OK,OK,OK,OK
+INSP,Instrumental Performance Concentration,,,OK,OK,OK,OK,OK,OK
+PIPR,Piano Performance Concentration,,,OK,OK,OK,OK,OK,OK
+VOCP,Vocal Performance Concentration,,,OK,OK,OK,OK,OK,OK
+MUST,Major in Music Education,,,OK,OK,OK,OK,OK,OK
+SCHV,Secondary Choral Concentration,,,OK,OK,OK,OK,OK,OK
+SINS,Secondary Instrumental Concentration,,,OK,OK,OK,OK,OK,OK
+MUTH,Major in Musical Theatre,,,,,OK,OK,OK,OK
+PFLM,Pre-Filmmaking,,,,,,,,OK
+STDA,Major in Studio Arts,,,OK,OK,OK,OK,OK,OK
+CERC,Ceramics Concentration,,,OK,OK,OK,OK,OK,OK
+CERM,Ceramics and Sculpture Concentration,,,,,,,,
+ILL,Illustration Concentration,,,OK,OK,OK,OK,OK,OK
+PAIN,Painting/Drawing/Printmaking Concentration,,,OK,OK,OK,OK,OK,OK
+PHTO,Photography Concentration,,,OK,OK,OK,OK,OK,OK
+TA,Major in Theatre Arts BA/BS,,,OK,OK,OK,OK,OK,OK
+TA,Major in Theatre Arts BFA,,,OK,OK,,,,
+CLAC,Classical Acting Concentration,,,OK,OK,,,,
+MUT,Musical Theatre Concentration,,,OK,OK,,,,
+TDT,Theatre Design & Technology Concentration,,,OK,OK,,,,
+TACT,Major in Acting,,,,,OK,OK,OK,OK
+TAT,Major in Theatre Arts Education,,,OK,OK,OK,OK,OK,OK
+TDP,Major in Theatre Design & Production,,,,,OK,OK,OK,OK
+BIOL,Major in Biology,,,OK,OK,OK,OK,OK,OK
+BIOT,Major in Biology Education,,,OK,OK,OK,OK,OK,OK
+BSED,Major in Biological Sciences Education,,,,,,,,OK
+CHEM,Major in Chemistry,,,OK,OK,OK,OK,OK,OK
+FRCH,Forensic Chemistry Concentration,,,OK,,,,,
+HC,Health Care Concentration,,,OK,OK,OK,OK,OK,OK
+LAB,Laboratory Science Concentration,,,,,OK,OK,OK,OK
+PROF,Professional Concentration,,,OK,OK,OK,OK,OK,OK
+CHET,Major in Chemistry Teacher Education,,,,,,,OK,
+CHME,Major in Chemistry Education,,,OK,OK,OK,OK,,OK
+ENSC,Major in Environmental Science,,,,,,OK,OK,OK
+ESTD,Major in Environmental Studies,,,,,,OK,OK,OK
+GEO,Major in Geosciences,,,OK,OK,OK,OK,OK,OK
+GEOL,Major in Geology,,,OK,OK,OK,OK,OK,OK
+GSPC,Major in Geospatial Science,,,,,,OK,OK,OK
+PHSE,Major in Physics Education,,,,,,,,OK
+PSTE,Major in Physical Science Education,,,OK,OK,OK,OK,OK,
