@@ -13,6 +13,7 @@ class Student(models.Model):
 
 class MajorMapping(models.Model):
     major_code = models.CharField(max_length=20)
+    base_major_code = models.CharField(max_length=20, null=True, blank=True)
     catalog_year = models.IntegerField()
     major_name_web = models.CharField(max_length=255)
     major_name_registrar = models.CharField(max_length=255)

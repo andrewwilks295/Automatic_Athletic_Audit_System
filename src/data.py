@@ -2,7 +2,7 @@ import pandas as pd
 from django.core.exceptions import ValidationError
 from django.db import transaction
 
-from src.models import Student, StudentRecord, MajorMapping, Course, NodeCourse
+from src.models import Student, StudentRecord, MajorMapping, Course, NodeCourse, RequirementNode
 from src.utils import load_major_code_lookup
 
 
@@ -91,9 +91,8 @@ def import_student_data_from_csv(file_path):
     except Exception as e:
         return {"success": False, "message": f"Unexpected error: {e}"}
 
+
 def populate_catalog_from_payload(payload):
-    from src.models import MajorMapping, Course, RequirementNode, NodeCourse
-    from django.db import transaction
 
     with transaction.atomic():
         major_data = payload["major"]
