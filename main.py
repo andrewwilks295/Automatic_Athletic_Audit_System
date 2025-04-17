@@ -30,7 +30,13 @@ def main():
     StudentAudit.objects.all().delete()
     run_audit(202430)
     output_to_csv(202430)
+    output_to_xlsx(202430)
 
 
 if __name__ == "__main__":
+    start = datetime.now()
+    start_ct = MajorMapping.objects.all().count()
     main()
+    elapsed = datetime.now() - start
+    diff_ct = MajorMapping.objects.all().count() - start_ct
+    print(f"created: {diff_ct} in {elapsed.total_seconds()} seconds")
