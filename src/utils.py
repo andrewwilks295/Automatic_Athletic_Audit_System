@@ -1,9 +1,7 @@
 import re
 import pandas as pd
-from collections import namedtuple
+from collections import namedtuple, deque
 from rapidfuzz import process, fuzz
-
-from src.models import RequirementNode
 
 
 def extract_credits(text, prefer="min"):
@@ -28,44 +26,54 @@ CourseData = namedtuple("CourseData", ["subject", "number", "name", "credits"])
 
 
 def match_major_name_web_to_registrar(web_name, major_code_df, scorer=fuzz.WRatio):
+    """
+    Match a major_name_web to the closest major_name_registrar using RapidFuzz.
+    Returns a dictionary with major_code, base_major_code, major_name_registrar, and score.
+    """
     web_name = normalize_major_name_web(web_name)
 
-    choices = major_code_df.apply(normalize_major_name_registrar, axis=1).tolist()
-    match, score, idx = process.extractOne(web_name, choices, scorer=scorer)
+    # Create a list of tuples: (index, normalized_name, major_code, is_concentration, base_major_code)
+    enriched = []
+    current_base_code = None
+    for idx, row in major_code_df.iterrows():
+        name = normalize_major_name_registrar(row["Major Name Registrar"])
+        code = row["Major Code"]
+        is_conc = "concentration" in name.lower()
+        if not is_conc:
+            current_base_code = code
+        enriched.append({
+            "index": idx,
+            "normalized_name": name,
+            "major_code": code,
+            "is_concentration": is_conc,
+            "base_major_code": current_base_code
+        })
 
-    matched_row = major_code_df.iloc[idx]
-    return matched_row["Major Code"], match, score
+    # Match against all normalized registrar names
+    match, score, idx = process.extractOne(
+        query=web_name,
+        choices=[row["normalized_name"] for row in enriched],
+        scorer=scorer
+    )
+
+    matched_row = enriched[idx]
+    raw_row = major_code_df.iloc[matched_row["index"]]
+
+    return {
+        "major_code": matched_row["major_code"],
+        "base_major_code": matched_row["base_major_code"],
+        "major_name_registrar": raw_row["Major Name Registrar"],
+        "score": score
+    }
 
 
 def normalize_major_name_web(name):
-    """
-    Normalize catalog names scraped from the web.
+    return re.sub(r"\s*\((.*?)\)\s*$", "", name).strip()
 
-    Examples:
-        "Communication - Sports Communication Emphasis (B.A., B.S.)" → "Communication - Sports Communication"
-        "Software Development (B.S.)" → "Software Development"
-    """
-    # Remove degree suffixes (e.g., "(B.S.)")
-    name = re.sub(r"\s*\(.*?\)\s*$", "", name)
-
-    # Remove known trailing descriptors
-    name = re.sub(r"\b(Emphasis|Concentration|Track|Option|Pathway)\b", "", name, flags=re.IGNORECASE)
-
-    return re.sub(r"\s+", " ", name).strip().lower()
-
-
-def normalize_major_name_registrar(row: pd.Series) -> str:
-    """
-    Normalizes and combines base major name with concentration name (if applicable).
-    """
-    registrar_name = re.sub(r"^Major in\s+", "", row["Major Name Registrar"], flags=re.IGNORECASE).strip()
-    base_name = re.sub(r"^Major in\s+", "", row.get("base_major_name", ""), flags=re.IGNORECASE).strip()
-
-    # Combine for concentrations
-    if "Concentration" in registrar_name:
-        registrar_name = f"{base_name} - {registrar_name}"
-
-    return re.sub(r"\s+", " ", registrar_name).strip()
+def normalize_major_name_registrar(name):
+    name = re.sub(r"^Major in\s+", "", name, flags=re.IGNORECASE)
+    name = name.strip()
+    return re.sub(r"\s+", " ", name)
 
 
 # Loading functions for major code lookup
@@ -91,82 +99,77 @@ def annotate_major_code_base_names(df: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(result)
 
 
-def prepare_django_inserts(parsed_tree, major_code, major_name_web, major_name_registrar, total_credits_required,
-                           catalog_year):
-    """
-    Converts a nested requirement tree into flat Django model inserts.
-    """
+from src.course_parser import walk_tree
 
-    major_record = {
-        "major_code": major_code,
-        "major_name_web": major_name_web,
-        "major_name_registrar": major_name_registrar,
-        "total_credits_required": total_credits_required,
-        "catalog_year": catalog_year
-    }
-
-    courses = {}
+def prepare_django_inserts(parsed_tree, match_result, major_name_web, total_credits_required, catalog_year):
+    """
+    Converts a parsed tree into a payload for populate_catalog_from_payload().
+    Accepts match_result from match_major_name_web_to_registrar(), which includes
+    both major_code and base_major_code.
+    """
     requirement_nodes = []
     node_courses = []
+    course_set = set()
 
-    def walk(node, parent_id=None):
-        node_id = len(requirement_nodes)
-        node_record = {
-            "id": node_id,  # temporary ID for in-memory linkage
+    id_counter = 0
+    node_id_map = {}
+
+    queue = deque([(node, None) for node in parsed_tree])
+
+    while queue:
+        node, parent_id = queue.popleft()
+
+        node_id = id_counter
+        node_id_map[id(node)] = node_id
+        id_counter += 1
+
+        # Convert RequirementNodeData → dict for DB
+        requirement_nodes.append({
+            "id": node_id,
+            "parent_id": parent_id,
             "name": node.name,
             "type": node.type,
-            "required_credits": node.required_credits,
-            "parent_id": parent_id
-        }
-        requirement_nodes.append(node_record)
+            "required_credits": node.required_credits
+        })
 
-        # Handle courses
         for course in node.courses:
             course_id = f"{course.subject}-{course.number}"
-            if course_id not in courses:
-                courses[course_id] = {
-                    "course_id": course_id,
-                    "subject": course.subject,
-                    "course_number": course.number,
-                    "course_name": course.name,
-                    "credits": course.credits
-                }
+            course_set.add(course_id)
             node_courses.append({
-                "course_id": course_id,
-                "node_id": node_id
+                "node_id": node_id,
+                "course_id": course_id
             })
 
-        # Recurse into children
         for child in node.children:
-            walk(child, parent_id=node_id)
+            queue.append((child, node_id))
 
-    for root in parsed_tree:
-        walk(root)
+    # Build Course entries
+    course_data = []
+    for cid in sorted(course_set):
+        subj, num = cid.split("-")
+        for node in walk_tree(parsed_tree):
+            for course in node.courses:
+                if course.subject == subj and course.number == num:
+                    course_data.append({
+                        "course_id": cid,
+                        "subject": course.subject,
+                        "course_number": course.number,
+                        "course_name": course.name,
+                        "credits": course.credits
+                    })
+                    break
 
+    # Final payload
     return {
-        "major": major_record,
-        "courses": list(courses.values()),
+        "major": {
+            "major_code": match_result["major_code"],
+            "base_major_code": match_result["base_major_code"],
+            "major_name_web": major_name_web,
+            "major_name_registrar": match_result["major_name_registrar"],
+            "total_credits_required": total_credits_required,
+            "catalog_year": catalog_year
+        },
+        "courses": course_data,
         "requirement_nodes": requirement_nodes,
         "node_courses": node_courses
     }
-
-
-# for debugging requirement trees
-def print_requirement_tree(major):
-    roots = RequirementNode.objects.filter(major=major, parent__isnull=True)
-
-    def print_node(node, depth=0):
-        indent = "  " * depth
-        print(f"{indent}- {node.name} [{node.type}] ({node.required_credits} credits)")
-
-        # Show courses under this node
-        courses = node.courses.all()
-        for course in courses:
-            print(f"{indent}  - {course.course_id}")
-
-        # Recurse to children
-        for child in node.children.all():
-            print_node(child, depth + 1)
-
-    for root in roots:
-        print_node(root)
