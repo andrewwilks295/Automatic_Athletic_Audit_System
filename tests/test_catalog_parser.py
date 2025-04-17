@@ -1,9 +1,9 @@
-import unittest
 from django.test import TestCase
 from src.models import MajorMapping, RequirementNode
 from src.course_parser import parse_course_structure_as_tree, print_requirement_tree
-from src.utils import prepare_django_inserts, match_major_name_web_to_registrar, load_major_code_lookup
+from src.utils import prepare_django_inserts, load_major_code_lookup, match_major_name_web_to_registrar
 from src.data import populate_catalog_from_payload
+
 
 class CatalogParseTest(TestCase):
     def test_requirement_node_parent_ids(self):
@@ -20,7 +20,8 @@ class CatalogParseTest(TestCase):
         )
         populate_catalog_from_payload(payload)
         print_requirement_tree(MajorMapping.objects.get(major_code=match_result["major_code"], catalog_year=202430))
-        self.assertTrue(True)  # Dummy assertion
+        self.assertTrue(True)  # Basic smoke test
+
 
 class CatalogDBTest(TestCase):
     def setUp(self):
@@ -45,9 +46,14 @@ class CatalogDBTest(TestCase):
 
     def test_node_hierarchy_preserved(self):
         root_nodes = RequirementNode.objects.filter(parent__isnull=True)
-        self.assertTrue(root_nodes.exists())
+        self.assertTrue(root_nodes.exists(), "No root nodes were created")
 
     def test_parent_links_saved_in_db(self):
         nodes = RequirementNode.objects.all()
         non_roots = nodes.exclude(parent__isnull=True)
-        self.assertTrue(all(n.parent_id for n in non_roots))
+        self.assertTrue(all(n.parent_id for n in non_roots), "Some nodes are missing a parent reference")
+
+    def test_requirement_nodes_linked_to_major(self):
+        major = MajorMapping.objects.get(major_code=self.major_code, catalog_year=202430)
+        node_count = RequirementNode.objects.filter(major=major).count()
+        self.assertGreater(node_count, 0, f"No requirement nodes linked to major {self.major_code}")

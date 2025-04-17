@@ -13,13 +13,14 @@ from src.models import MajorMapping, StudentAudit
 from src.data import import_student_data_from_csv
 from src.eligibility import run_audit
 from src.output import output_to_csv
+from src.maintenance import delete_majors
 
 
 def main():
+    delete_majors()
     batch_scrape_all_catalogs(
         base_url="https://www.suu.edu/academics/catalog/",
         majors_file="majors.txt",
-        threshold=85,
         dry_run=False,  # Set to True for testing without DB writes
         selected_years=["2024-2025"],  # Or set to None to select all.
         max_threads=8
@@ -29,6 +30,7 @@ def main():
     StudentAudit.objects.all().delete()
     run_audit(202430)
     output_to_csv(202430)
+
 
 if __name__ == "__main__":
     main()

@@ -105,18 +105,18 @@ FREN,Major in French,French (B.A.),,OK,OK,OK,OK,OK,OK
 FRET,Major in French Education,French Education (B.A.),,OK,OK,OK,OK,OK,OK
 GENS,Major in Exploratory Studies,,,OK,OK,OK,OK,OK,OK
 GS,Major in General Studies BA/BS,"General Studies (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
-HIST,Major in History,,,OK,OK,OK,OK,OK,OK
-HSTT,Major in History Education,,,OK,OK,OK,OK,OK,OK
-PHIL,Major in Philosophy,,,OK,OK,OK,OK,OK,OK
-POSC,Major in Political Science,,,OK,OK,OK,OK,OK,OK
-PSY,Major in Psychology,,,OK,OK,OK,OK,OK,OK
-HSER,Human Services Concentration,,,OK,OK,OK,OK,OK,OK
-SOC,Major in Sociology,,,OK,OK,OK,OK,OK,OK
+HIST,Major in History,"History (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+HSTT,Major in History Education,"History Education (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+PHIL,Major in Philosophy,"Philosophy (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+POSC,Major in Political Science,"Political Science (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+PSY,Major in Psychology,"Psychology (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+HSER,Human Services Concentration,"Psychology - Human Services Emphasis (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+SOC,Major in Sociology,"Sociology (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
 SOSC,Major in Social Science Teaching Comp,,,OK,OK,OK,OK,OK,
-SPAN,Major in Spanish,,,OK,OK,OK,OK,OK,OK
-SPAT,Major in Spanish Education,,,OK,OK,OK,OK,OK,OK
-SSEC,Major in Social Studies Education Composite,,,,,,,,OK
-USLI,Major in Interdisciplinary Studies,,,OK,OK,OK,OK,OK,OK
+SPAN,Major in Spanish,Spanish (B.A.),,OK,OK,OK,OK,OK,OK
+SPAT,Major in Spanish Education,Spanish Education (B.A.),,OK,OK,OK,OK,OK,OK
+SSEC,Major in Social Studies Education Composite,"Social Studies Education Composite (B.A., B.S.)",,,,,,,OK
+USLI,Major in Interdisciplinary Studies,Interdisciplinary Studies (B.I.S.),,OK,OK,OK,OK,OK,OK
 ART,Major in Art,,,OK,OK,OK,OK,OK,OK
 ARTH,Major in Art History,,,OK,OK,OK,OK,OK,OK
 ARTT,Major in Art Education,,,OK,OK,OK,OK,OK,OK
@@ -151,20 +151,20 @@ TDT,Theatre Design & Technology Concentration,,,OK,OK,,,,
 TACT,Major in Acting,,,,,OK,OK,OK,OK
 TAT,Major in Theatre Arts Education,,,OK,OK,OK,OK,OK,OK
 TDP,Major in Theatre Design & Production,,,,,OK,OK,OK,OK
-BIOL,Major in Biology,,,OK,OK,OK,OK,OK,OK
-BIOT,Major in Biology Education,,,OK,OK,OK,OK,OK,OK
-BSED,Major in Biological Sciences Education,,,,,,,,OK
+BIOL,Major in Biology,"Biology (B.A., B.S.)",,OK,OK,OK,OK,OK,OK
+BIOT,Major in Biology Education,Biology Education (B.A.),,OK,OK,OK,OK,OK,OK
+BSED,Major in Biological Sciences Education,Biological Sciences Education (B.S.),,,,,,,OK
 CHEM,Major in Chemistry,,,OK,OK,OK,OK,OK,OK
 FRCH,Forensic Chemistry Concentration,,,OK,,,,,
-HC,Health Care Concentration,,,OK,OK,OK,OK,OK,OK
-LAB,Laboratory Science Concentration,,,,,OK,OK,OK,OK
-PROF,Professional Concentration,,,OK,OK,OK,OK,OK,OK
+HC,Health Care Concentration,Chemistry - Health Care Emphasis (B.S.),,OK,OK,OK,OK,OK,OK
+LAB,Laboratory Science Concentration,Chemistry - Laboratory Science Emphasis (B.S.),,,,OK,OK,OK,OK
+PROF,Professional Concentration,Chemistry - Professional Emphasis (B.S.),,OK,OK,OK,OK,OK,OK
 CHET,Major in Chemistry Teacher Education,,,,,,,OK,
 CHME,Major in Chemistry Education,,,OK,OK,OK,OK,,OK
-ENSC,Major in Environmental Science,,,,,,OK,OK,OK
-ESTD,Major in Environmental Studies,,,,,,OK,OK,OK
-GEO,Major in Geosciences,,,OK,OK,OK,OK,OK,OK
-GEOL,Major in Geology,,,OK,OK,OK,OK,OK,OK
-GSPC,Major in Geospatial Science,,,,,,OK,OK,OK
-PHSE,Major in Physics Education,,,,,,,,OK
+ENSC,Major in Environmental Science,Environmental Science (B.S.),,,,,OK,OK,OK
+ESTD,Major in Environmental Studies,Environmental Studies (B.A.),,,,,OK,OK,OK
+GEO,Major in Geosciences,Geosciences (B.A.),,OK,OK,OK,OK,OK,OK
+GEOL,Major in Geology,Geology (B.S.),,OK,OK,OK,OK,OK,OK
+GSPC,Major in Geospatial Science,Geospatial Science (B.S.),,,,,OK,OK,OK
+PHSE,Major in Physics Education,"Physics Education (B.A., B.S.)",,,,,,,OK
 PSTE,Major in Physical Science Education,,,OK,OK,OK,OK,OK,

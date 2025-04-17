@@ -8,9 +8,9 @@ from src.data import import_student_data_from_csv
 class CSVImportTests(TestCase):
 
     def setUp(self):
-        print("Running CSVImportTests setUp")
         self.major = MajorMapping.objects.create(
             major_code="EXSC",
+            base_major_code="EXSC",
             catalog_year=202430,
             major_name_web="Exercise Science (B.S.)",
             major_name_registrar="Exercise Science",
@@ -41,14 +41,13 @@ class CSVImportTests(TestCase):
         ]
 
         self.row = [
-            1001, 2022, 202310, "EXSC", "", 202430, 202430, "KIN", "3050",
+            "T00000001", 2022, 202310, "EXSC", "", 202430, 202430, "KIN", "3050",
             "A", 3, "", "SUU"
         ]
 
     def test_basic_import_success(self):
         df = pd.DataFrame([self.row], columns=self.columns)
         path = self._save_temp_csv(df)
-
         result = import_student_data_from_csv(path)
 
         self.assertTrue(result["success"])
@@ -62,9 +61,9 @@ class CSVImportTests(TestCase):
         self.assertTrue(record.counts_toward_major)
 
     def test_concentration_as_effective_major(self):
-        # Add concentration as a separate major
-        concentration = MajorMapping.objects.create(
+        MajorMapping.objects.create(
             major_code="SPCO",
+            base_major_code="COMM",
             catalog_year=202430,
             major_name_web="Communication - Sports Communication Emphasis (BA/BS)",
             major_name_registrar="Sports Communication",
@@ -72,19 +71,19 @@ class CSVImportTests(TestCase):
         )
 
         row = self.row.copy()
+        row[self.columns.index("ID")] = "T00000002"
         row[self.columns.index("MAJOR")] = "COMM"
         row[self.columns.index("CONC")] = "SPCO"
         row[self.columns.index("SUBJ")] = "COMM"
-        row[self.columns.index("CRSE")] = "1111"
-        row[self.columns.index("CREDITS")] = 3
+        row[self.columns.index("CRSE")] = "1010"
 
         df = pd.DataFrame([row], columns=self.columns)
         path = self._save_temp_csv(df)
 
         result = import_student_data_from_csv(path)
-
         self.assertTrue(result["success"])
-        student = Student.objects.get(student_id=1001)
+
+        student = Student.objects.get(student_id="T00000002")
         self.assertEqual(student.major.major_code, "SPCO")
         self.assertEqual(student.declared_major_code, "COMM")
 
@@ -93,7 +92,6 @@ class CSVImportTests(TestCase):
         path = self._save_temp_csv(df)
 
         result = import_student_data_from_csv(path)
-
         self.assertTrue(result["success"])
         self.assertEqual(StudentRecord.objects.count(), 1)
 
@@ -104,6 +102,7 @@ class CSVImportTests(TestCase):
 
         new_major = MajorMapping.objects.create(
             major_code="PSY",
+            base_major_code="PSY",
             catalog_year=202430,
             major_name_web="Psychology (B.A., B.S.)",
             major_name_registrar="Psychology",
@@ -111,15 +110,17 @@ class CSVImportTests(TestCase):
         )
 
         row2 = self.row.copy()
+        row2[self.columns.index("ID")] = "T00000001"
         row2[self.columns.index("MAJOR")] = "PSY"
-        row2[self.columns.index("CRSE")] = "1111"
+        row2[self.columns.index("CONC")] = ""
         row2[self.columns.index("SUBJ")] = "PSY"
-        row2[self.columns.index("CREDITS")] = 3
+        row2[self.columns.index("CRSE")] = "1111"
+
         df2 = pd.DataFrame([row2], columns=self.columns)
         path2 = self._save_temp_csv(df2)
         import_student_data_from_csv(path2)
 
-        student = Student.objects.get(student_id=1001)
+        student = Student.objects.get(student_id="T00000001")
         self.assertEqual(student.major.major_code, "PSY")
         self.assertEqual(student.declared_major_code, "PSY")
         self.assertEqual(StudentRecord.objects.count(), 2)
@@ -127,11 +128,11 @@ class CSVImportTests(TestCase):
     def test_skips_invalid_major(self):
         bad_row = self.row.copy()
         bad_row[self.columns.index("MAJOR")] = "FAKE"
+
         df = pd.DataFrame([bad_row], columns=self.columns)
         path = self._save_temp_csv(df)
 
         result = import_student_data_from_csv(path)
-
         self.assertTrue(result["success"])
         self.assertEqual(StudentRecord.objects.count(), 0)
 
@@ -141,14 +142,8 @@ class CSVImportTests(TestCase):
         path = self._save_temp_csv(df)
 
         result = import_student_data_from_csv(path)
-
         self.assertTrue(result["success"])
         self.assertEqual(Course.objects.filter(course_id="KIN-3050").count(), 1)
-
-    def _save_temp_csv(self, df):
-        f = tempfile.NamedTemporaryFile(mode="w+", delete=False, suffix=".csv")
-        df.to_csv(f.name, index=False)
-        return f.name
 
     def test_declared_major_defaults_to_major_if_no_concentration(self):
         df = pd.DataFrame([self.row], columns=self.columns)
@@ -156,6 +151,10 @@ class CSVImportTests(TestCase):
         result = import_student_data_from_csv(path)
 
         self.assertTrue(result["success"])
-        student = Student.objects.get(student_id=1001)
+        student = Student.objects.get(student_id="T00000001")
         self.assertEqual(student.declared_major_code, student.major.major_code)
 
+    def _save_temp_csv(self, df):
+        f = tempfile.NamedTemporaryFile(mode="w+", delete=False, suffix=".csv")
+        df.to_csv(f.name, index=False)
+        return f.name
