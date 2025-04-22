@@ -173,3 +173,15 @@ def prepare_django_inserts(parsed_tree, match_result, major_name_web, total_cred
         "requirement_nodes": requirement_nodes,
         "node_courses": node_courses
     }
+
+
+def normalize_catalog_term(term: int) -> int:
+    """
+    Given a catalog term like 202510 (Spring) or 202520 (Summer),
+    normalize it to the associated Fall term (e.g., 202430).
+    """
+    year = term // 100
+    season = term % 100
+    if season in (10, 20):  # Spring or Summer
+        return (year - 1) * 100 + 30
+    return term  # Already a Fall term

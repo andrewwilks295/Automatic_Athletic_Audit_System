@@ -1,4 +1,4 @@
-from src.models import MajorMapping
+from src.models import MajorMapping, Student, StudentRecord, StudentAudit
 
 
 def delete_majors(catalog_year: int = None):
@@ -15,3 +15,8 @@ def delete_majors(catalog_year: int = None):
         count = MajorMapping.objects.count()
         MajorMapping.objects.all().delete()
         print(f"Deleted ALL {count} majors from all catalog years")
+
+def delete_students():
+    Student.objects.all().delete()
+    StudentRecord.objects.all().delete()
+    StudentAudit.objects.all().delete()

@@ -1,19 +1,14 @@
 from src.models import Student, StudentRecord, StudentAudit, AuditFlag, MajorMapping
-from src.eligibility import get_semester_number
-import pandas as pd 
+import pandas as pd
 
 
 def change_bool_to_checkmark(b: bool):
-    if b:
-        return chr(ord('✔'))
-    else:
-        return 'X'
-    
+    return '✔' if b else 'X'
+
+
 def eligible_column_output(b: bool):
-    if b:
-        return "X"
-    else:
-        return ""
+    return "X" if b else ""
+
 
 def create_dataframe(term):
     student_ids = (
@@ -26,40 +21,69 @@ def create_dataframe(term):
     data_to_output = []
 
     for sid in student_ids:
-        student = Student.objects.filter(student_id = sid).first()
-        sa = StudentAudit.objects.filter(student = sid).values().first()
-        major = student.major
-        sd = []
-        sd.append(eligible_column_output(sa.get('eligible'))) #Valid 0
-        sd.append(sid) # T# 1
-        sd.append("") # Name 2
-        sd.append("") # Sport 3
-        sd.append(StudentRecord.objects.filter(student_id = sid).values('first_term').first()['first_term']) #First Full Time Term 4
-        sd.append("BS") # Degree 5
-        sd.append(major.major_code) # Program 6
-        sd.append(sa.get('da_credits')) # Degree Applicable Credits 7
-        sd.append(major.total_credits_required) # Total Needed Credits 8
-        sd.append(sa.get('ptc_major')) # Percent towards completion 9
-        sd.append(change_bool_to_checkmark(sa.get('total_term_credits') >= 6)) # 6 credits taken 10
-        sd.append(change_bool_to_checkmark(sa.get('total_term_credits') >= 9)) # 9 credits taken 11
-        sd.append(change_bool_to_checkmark(sa.get('total_term_credits') >= 6)) # 18 credits taken full year 12
-        sd.append(change_bool_to_checkmark(sa.get('total_term_credits') >= 9)) # 24 credits taken full year 13
-        sd.append(sa.get('gpa')) # GPA 14
-        sd.append(change_bool_to_checkmark(sa.get('satisfactory_gpa'))) # Eligible? GPA 15
-        sd.append(change_bool_to_checkmark(sa.get('satisfactory_ptc_major'))) # Eligible? PTC 16
-        sd.append(sa.get('total_term_credits')) #6 DA 17
-        sd.append(sa.get('total_academic_year_credits')) #18 Taken 18
-        data_to_output.append(sd)
-    
-    df = pd.DataFrame(data_to_output)
-    df.columns = ["Valid", "T#", "Name", "Sport", "First FT Term" , "Degree", "Program", "DA Credits", "Total", "PTC","6", "9", "18", "24" , "GPA", "GPA check", "PTC check","6_DA", "18_Taken"]
-    df.set_index("T#",inplace=True)
+        student = Student.objects.filter(student_id=sid).first()
+        sa = StudentAudit.objects.filter(student=sid).first()
+        major = student.major if student else None
 
-    return df   
+        first_term = (
+            StudentRecord.objects
+            .filter(student_id=sid)
+            .values_list('first_term', flat=True)
+            .first()
+        )
+
+        ft_term_cnt = (
+            StudentRecord.objects
+            .filter(student_id=sid)
+            .values_list('student_attributes', flat=True)
+            .first()
+        )
+
+        flags = AuditFlag.objects.filter(student_audit=sa)
+        flag_messages = "; ".join(
+            f"[{f.level.upper()}] {f.code}: {f.message or ''}" for f in flags
+        )
+
+        sd = [
+            eligible_column_output(sa.eligible),                          # [0] Valid
+            sid,                                                          # [1] T#
+            "",                                                           # [2] Name
+            "",                                                           # [3] Sport
+            first_term or "",                                             # [4] First FT Term
+            "BS",                                                         # [5] Degree
+            major.major_code if major else "",                           # [6] Program
+            sa.da_credits,                                                # [7] DA Credits
+            major.total_credits_required if major else "",               # [8] Total
+            sa.ptc_major,                                                 # [9] PTC
+            change_bool_to_checkmark(sa.total_term_credits >= 6),        # [10] 6
+            change_bool_to_checkmark(sa.total_term_credits >= 9),        # [11] 9
+            change_bool_to_checkmark(sa.total_academic_year_credits >= 18),  # [12] 18
+            change_bool_to_checkmark(sa.total_academic_year_credits >= 24),  # [13] 24
+            sa.gpa,                                                       # [14] GPA
+            change_bool_to_checkmark(sa.satisfactory_gpa),               # [15] GPA check
+            change_bool_to_checkmark(sa.satisfactory_ptc_major),         # [16] PTC check
+            sa.total_term_credits,                                        # [17] 6_DA
+            sa.total_academic_year_credits,                               # [18] 18_Taken
+            ft_term_cnt or "",                                            # [19] FT_TERM_CNT
+            flag_messages                                                 # [20] Notes
+        ]
+
+        data_to_output.append(sd)
+
+    df = pd.DataFrame(data_to_output)
+    df.columns = [
+        "Valid", "T#", "Name", "Sport", "First FT Term", "Degree", "Program",
+        "DA Credits", "Total", "PTC", "6", "9", "18", "24", "GPA", "GPA check",
+        "PTC check", "6_DA", "18_Taken", "FT_TERM_CNT", "Notes"
+    ]
+    df.set_index("T#", inplace=True)
+    return df
+
 
 def output_to_csv(term):
     df = create_dataframe(term)
     df.to_csv(str(term) + ".csv")
+
 
 def output_to_xlsx(term):
     df = create_dataframe(term)

@@ -1,0 +1,1224 @@
+📝 Catalog Scraping Log Started: 20250422_104844
+IMPORTED Communication - Sports Communication Emphasis (B.A., B.S.)
+IMPORTED Exercise Science (B.S.)
+IMPORTED Accounting (B.A., B.S.)
+IMPORTED Software Development (B.S.)
+IMPORTED Finance (B.A., B.S.)
+IMPORTED History (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Event Planning and Management Emphasis (B.A., B.S.)
+IMPORTED Business Education (B.A., B.S.)
+IMPORTED Economics (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Lodging Management Emphasis (B.A., B.S.)
+IMPORTED Economics - Business Analytics Emphasis (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Food and Beverage Management Emphasis (B.A., B.S.)
+IMPORTED Marketing (B.A., B.S.)
+IMPORTED Management (B.A., B.S.)
+IMPORTED Aerospace/Aviation Sciences - Fixed-Wing Emphasis (B.S.)
+IMPORTED Civil Engineering - Environmental Engineering Emphasis (B.S.)
+IMPORTED Civil Engineering - Construction Engineering Emphasis (B.S.)
+IMPORTED Civil Engineering - Water Resources Engineering Emphasis (B.S.)
+IMPORTED Computer Science (B.S.)
+IMPORTED Aerospace/Aviation Sciences - Rotor-Wing Emphasis (B.S.)
+IMPORTED Aviation Administration and Leadership (B.A., B.S.)
+IMPORTED Construction Management (B.A., B.S.)
+IMPORTED Data Science (B.S.)
+IMPORTED Civil Engineering (B.S.)
+IMPORTED Cybersecurity (B.S.)
+IMPORTED Electrical Engineering (B.S.)
+IMPORTED Engineering Technology - CAD/CAM Emphasis (B.S.)
+IMPORTED Engineering Technology - CAD-Architectural/Civil Design Emphasis (B.S.)
+IMPORTED Financial Technology (B.S.)
+IMPORTED Mathematics - Actuarial Science Emphasis (B.S.)
+IMPORTED Engineering Technology - Electromechanical Emphasis (B.S.)
+IMPORTED Mathematics - Applied Mathematics Emphasis (B.S.)
+IMPORTED Mathematics - Pure Mathematics Emphasis (B.S.)
+IMPORTED Mechanical Engineering (B.S.)
+IMPORTED Mathematics Education (B.S.)
+IMPORTED Software Development (B.S.)
+IMPORTED Elementary Education (B.A., B.S.)
+IMPORTED Agriculture - Animal Science and Industries Emphasis (B.S.)
+IMPORTED Social Work (B.S.W.)
+IMPORTED Agriculture - Agribusiness Emphasis (B.S.)
+IMPORTED Agriculture - General Agriculture Emphasis (B.S.)
+IMPORTED Agriculture - Natural Resources/Range Management Emphasis (B.S.)
+IMPORTED Agriculture - Plant Science and Industries Emphasis (B.S.)
+IMPORTED Agriculture Education (B.S.)
+IMPORTED Exercise Science - Pre-Athletic Training Emphasis (B.S.)
+IMPORTED Exercise Science (B.S.)
+IMPORTED Human Nutrition - Allied Health Emphasis (B.S.)
+IMPORTED Integrative Health Sciences (B.S.)
+IMPORTED Nursing - Health Professionals to BSN Emphasis (B.S.N.)
+IMPORTED Nursing - RN to BSN Emphasis (B.S.N.)
+IMPORTED Nursing - Pre-Licensure Emphasis (B.S.N.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Natural Resource Recreation Emphasis (B.S.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Outdoor Education Emphasis (B.S.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Tourism Emphasis (B.S.)
+IMPORTED Physical Education - Coaching Emphasis (B.S.)
+IMPORTED Anthropology (B.A., B.S.)
+IMPORTED General Studies (B.G.S.)
+IMPORTED Communication Composite (B.A., B.S.)
+IMPORTED Criminal Justice (B.A., B.S.)
+IMPORTED Communication - Media Studies Emphasis (B.A., B.S.)
+IMPORTED Physical Education - Teaching Emphasis (B.S.)
+IMPORTED Communication - Messaging and Human Interaction Emphasis (B.A., B.S.)
+IMPORTED Communication - Sports Communication Emphasis (B.A., B.S.)
+IMPORTED Communication - Strategic Communication Emphasis (B.A., B.S.)
+FAILED English - Creative Writing Emphasis (B.A.) — UNIQUE constraint failed: src_course.course_id
+IMPORTED English - Rhetoric and Writing Emphasis (B.A.)
+IMPORTED English - Literature Emphasis (B.A.)
+IMPORTED English Education (B.A.)
+IMPORTED French (B.A.)
+IMPORTED General Studies (B.A., B.S.)
+IMPORTED French Education (B.A.)
+IMPORTED History (B.A., B.S.)
+IMPORTED History Education (B.A., B.S.)
+IMPORTED Philosophy (B.A., B.S.)
+FAILED Psychology (B.A., B.S.) — UNIQUE constraint failed: src_course.course_id
+IMPORTED Spanish (B.A.)
+FAILED Psychology - Human Services Emphasis (B.A., B.S.) — UNIQUE constraint failed: src_course.course_id
+IMPORTED Spanish Education (B.A.)
+IMPORTED Social Studies Education Composite (B.A., B.S.)
+FAILED Political Science (B.A., B.S.) — UNIQUE constraint failed: src_course.course_id
+IMPORTED Sociology (B.A., B.S.)
+IMPORTED Biology (B.A., B.S.)
+IMPORTED Interdisciplinary Studies (B.I.S.)
+IMPORTED Chemistry - Health Care Emphasis (B.S.)
+IMPORTED Biology Education (B.A.)
+IMPORTED Chemistry - Laboratory Science Emphasis (B.S.)
+IMPORTED Biological Sciences Education (B.S.)
+IMPORTED Chemistry - Professional Emphasis (B.S.)
+IMPORTED Environmental Science (B.S.)
+IMPORTED Geosciences (B.A.)
+IMPORTED Environmental Studies (B.A.)
+IMPORTED Geology (B.S.)
+IMPORTED Geospatial Science (B.S.)
+IMPORTED Physics Education (B.A., B.S.)
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Civil Engineering - Environmental Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Construction Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Water Resources Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Data Science (B.S.) — Could not find program URL
+FAILED Electrical Engineering (B.S.) — Could not find program URL
+FAILED Financial Technology (B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Agriculture Education (B.S.) — Could not find program URL
+FAILED Exercise Science - Pre-Athletic Training Emphasis (B.S.) — Could not find program URL
+FAILED Integrative Health Sciences (B.S.) — Could not find program URL
+FAILED English Education (B.A.) — Could not find program URL
+FAILED French Education (B.A.) — Could not find program URL
+FAILED History Education (B.A., B.S.) — Could not find program URL
+FAILED Spanish Education (B.A.) — Could not find program URL
+FAILED Social Studies Education Composite (B.A., B.S.) — Could not find program URL
+FAILED Biology Education (B.A.) — Could not find program URL
+FAILED Biological Sciences Education (B.S.) — Could not find program URL
+FAILED Physics Education (B.A., B.S.) — Could not find program URL
+IMPORTED History (B.A., B.S.)
+IMPORTED Communication - Sports Communication Emphasis (B.A., B.S.)
+IMPORTED Exercise Science (B.S.)
+IMPORTED Economics (B.A., B.S.)
+IMPORTED Accounting (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Food and Beverage Management Emphasis (B.A., B.S.)
+IMPORTED Finance (B.A., B.S.)
+IMPORTED Economics - Business Analytics Emphasis (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Event Planning and Management Emphasis (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Lodging Management Emphasis (B.A., B.S.)
+IMPORTED Management (B.A., B.S.)
+IMPORTED Business Education (B.A., B.S.)
+IMPORTED Marketing (B.A., B.S.)
+IMPORTED Aerospace/Aviation Sciences - Fixed-Wing Emphasis (B.S.)
+IMPORTED Aerospace/Aviation Sciences - Rotor-Wing Emphasis (B.S.)
+IMPORTED Aviation Administration and Leadership (B.A., B.S.)
+IMPORTED Civil Engineering (B.S.)
+IMPORTED Construction Management (B.A., B.S.)
+IMPORTED Computer Science (B.S.)
+IMPORTED Cybersecurity (B.S.)
+IMPORTED Engineering Technology - CAD-Architectural/Civil Design Emphasis (B.S.)
+IMPORTED Engineering Technology - CAD/CAM Emphasis (B.S.)
+IMPORTED Engineering Technology - Electromechanical Emphasis (B.S.)
+IMPORTED Mathematics - Actuarial Science Emphasis (B.S.)
+IMPORTED Mathematics - Pure Mathematics Emphasis (B.S.)
+IMPORTED Mechanical Engineering (B.S.)
+IMPORTED Mathematics - Applied Mathematics Emphasis (B.S.)
+IMPORTED Mathematics Education (B.S.)
+IMPORTED Elementary Education (B.A., B.S.)
+IMPORTED Social Work (B.S.W.)
+IMPORTED Agriculture - Agribusiness Emphasis (B.S.)
+IMPORTED Agriculture - Animal Science and Industries Emphasis (B.S.)
+IMPORTED Agriculture - General Agriculture Emphasis (B.S.)
+IMPORTED Agriculture - Natural Resources/Range Management Emphasis (B.S.)
+IMPORTED Agriculture - Plant Science and Industries Emphasis (B.S.)
+IMPORTED Exercise Science (B.S.)
+IMPORTED Human Nutrition - Allied Health Emphasis (B.S.)
+IMPORTED Nursing - Health Professionals to BSN Emphasis (B.S.N.)
+IMPORTED Nursing - Pre-Licensure Emphasis (B.S.N.)
+IMPORTED Nursing - RN to BSN Emphasis (B.S.N.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Natural Resource Recreation Emphasis (B.S.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Outdoor Education Emphasis (B.S.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Tourism Emphasis (B.S.)
+IMPORTED Physical Education - Coaching Emphasis (B.S.)
+IMPORTED Anthropology (B.A., B.S.)
+IMPORTED Physical Education - Teaching Emphasis (B.S.)
+IMPORTED General Studies (B.G.S.)
+IMPORTED Criminal Justice (B.A., B.S.)
+IMPORTED Communication Composite (B.A., B.S.)
+IMPORTED Communication - Media Studies Emphasis (B.A., B.S.)
+IMPORTED Communication - Messaging and Human Interaction Emphasis (B.A., B.S.)
+IMPORTED Communication - Sports Communication Emphasis (B.A., B.S.)
+IMPORTED Communication - Strategic Communication Emphasis (B.A., B.S.)
+FAILED English - Creative Writing Emphasis (B.A.) — UNIQUE constraint failed: src_course.course_id
+IMPORTED English - Literature Emphasis (B.A.)
+IMPORTED English - Rhetoric and Writing Emphasis (B.A.)
+IMPORTED French (B.A.)
+IMPORTED General Studies (B.A., B.S.)
+IMPORTED History (B.A., B.S.)
+IMPORTED Philosophy (B.A., B.S.)
+FAILED Psychology (B.A., B.S.) — UNIQUE constraint failed: src_course.course_id
+FAILED Political Science (B.A., B.S.) — UNIQUE constraint failed: src_course.course_id
+FAILED Psychology - Human Services Emphasis (B.A., B.S.) — UNIQUE constraint failed: src_course.course_id
+IMPORTED Sociology (B.A., B.S.)
+IMPORTED Spanish (B.A.)
+IMPORTED Interdisciplinary Studies (B.I.S.)
+IMPORTED Biology (B.A., B.S.)
+IMPORTED Chemistry - Laboratory Science Emphasis (B.S.)
+IMPORTED Chemistry - Health Care Emphasis (B.S.)
+IMPORTED Chemistry - Professional Emphasis (B.S.)
+IMPORTED Environmental Science (B.S.)
+IMPORTED Environmental Studies (B.A.)
+IMPORTED Geology (B.S.)
+IMPORTED Geospatial Science (B.S.)
+IMPORTED Geosciences (B.A.)
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Civil Engineering - Construction Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Environmental Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Water Resources Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Data Science (B.S.) — Could not find program URL
+FAILED Electrical Engineering (B.S.) — Could not find program URL
+FAILED Financial Technology (B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Agriculture Education (B.S.) — Could not find program URL
+FAILED Exercise Science - Pre-Athletic Training Emphasis (B.S.) — Could not find program URL
+FAILED Integrative Health Sciences (B.S.) — Could not find program URL
+FAILED Physical Education - Coaching Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Teaching Emphasis (B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED English Education (B.A.) — Could not find program URL
+FAILED French Education (B.A.) — Could not find program URL
+FAILED History Education (B.A., B.S.) — Could not find program URL
+FAILED Social Studies Education Composite (B.A., B.S.) — Could not find program URL
+FAILED Spanish Education (B.A.) — Could not find program URL
+FAILED Biology Education (B.A.) — Could not find program URL
+FAILED Biological Sciences Education (B.S.) — Could not find program URL
+FAILED Physics Education (B.A., B.S.) — Could not find program URL
+IMPORTED Finance (B.A., B.S.)
+IMPORTED Accounting (B.A., B.S.)
+IMPORTED Economics - Business Analytics Emphasis (B.A., B.S.)
+IMPORTED History (B.A., B.S.)
+IMPORTED Exercise Science (B.S.)
+IMPORTED Economics (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Event Planning and Management Emphasis (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Food and Beverage Management Emphasis (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Lodging Management Emphasis (B.A., B.S.)
+IMPORTED Business Education (B.A., B.S.)
+IMPORTED Management (B.A., B.S.)
+IMPORTED Marketing (B.A., B.S.)
+IMPORTED Aerospace/Aviation Sciences - Fixed-Wing Emphasis (B.S.)
+IMPORTED Aerospace/Aviation Sciences - Rotor-Wing Emphasis (B.S.)
+IMPORTED Aviation Administration and Leadership (B.A., B.S.)
+IMPORTED Civil Engineering (B.S.)
+IMPORTED Construction Management (B.A., B.S.)
+IMPORTED Computer Science (B.S.)
+IMPORTED Cybersecurity (B.S.)
+IMPORTED Engineering Technology - CAD-Architectural/Civil Design Emphasis (B.S.)
+IMPORTED Engineering Technology - CAD/CAM Emphasis (B.S.)
+IMPORTED Engineering Technology - Electromechanical Emphasis (B.S.)
+IMPORTED Mathematics - Actuarial Science Emphasis (B.S.)
+IMPORTED Mathematics - Pure Mathematics Emphasis (B.S.)
+IMPORTED Mathematics - Applied Mathematics Emphasis (B.S.)
+IMPORTED Mathematics Education (B.S.)
+IMPORTED Mechanical Engineering (B.S.)
+IMPORTED Elementary Education (B.A., B.S.)
+IMPORTED Social Work (B.S.W.)
+IMPORTED Agriculture - Agribusiness Emphasis (B.S.)
+IMPORTED Agriculture - Animal Science and Industries Emphasis (B.S.)
+IMPORTED Agriculture - Natural Resources/Range Management Emphasis (B.S.)
+IMPORTED Agriculture - General Agriculture Emphasis (B.S.)
+IMPORTED Agriculture - Plant Science and Industries Emphasis (B.S.)
+IMPORTED Exercise Science (B.S.)
+IMPORTED Human Nutrition - Allied Health Emphasis (B.S.)
+IMPORTED Nursing - Health Professionals to BSN Emphasis (B.S.N.)
+IMPORTED Nursing - Pre-Licensure Emphasis (B.S.N.)
+IMPORTED Nursing - RN to BSN Emphasis (B.S.N.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Natural Resource Recreation Emphasis (B.S.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Outdoor Education Emphasis (B.S.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Tourism Emphasis (B.S.)
+IMPORTED Anthropology (B.A., B.S.)
+IMPORTED General Studies (B.G.S.)
+IMPORTED Criminal Justice (B.A., B.S.)
+IMPORTED Communication - Media Studies Emphasis (B.A., B.S.)
+IMPORTED Communication Composite (B.A., B.S.)
+IMPORTED Communication - Messaging and Human Interaction Emphasis (B.A., B.S.)
+IMPORTED Communication - Strategic Communication Emphasis (B.A., B.S.)
+FAILED English - Creative Writing Emphasis (B.A.) — UNIQUE constraint failed: src_course.course_id
+IMPORTED English - Rhetoric and Writing Emphasis (B.A.)
+IMPORTED English - Literature Emphasis (B.A.)
+IMPORTED French (B.A.)
+IMPORTED General Studies (B.A., B.S.)
+IMPORTED History (B.A., B.S.)
+FAILED Political Science (B.A., B.S.) — UNIQUE constraint failed: src_course.course_id
+IMPORTED Philosophy (B.A., B.S.)
+FAILED Psychology (B.A., B.S.) — UNIQUE constraint failed: src_course.course_id
+FAILED Psychology - Human Services Emphasis (B.A., B.S.) — UNIQUE constraint failed: src_course.course_id
+IMPORTED Sociology (B.A., B.S.)
+IMPORTED Spanish (B.A.)
+IMPORTED Interdisciplinary Studies (B.I.S.)
+IMPORTED Biology (B.A., B.S.)
+IMPORTED Chemistry - Health Care Emphasis (B.S.)
+IMPORTED Chemistry - Professional Emphasis (B.S.)
+IMPORTED Chemistry - Laboratory Science Emphasis (B.S.)
+IMPORTED Environmental Studies (B.A.)
+IMPORTED Environmental Science (B.S.)
+IMPORTED Geosciences (B.A.)
+IMPORTED Geospatial Science (B.S.)
+IMPORTED Geology (B.S.)
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Civil Engineering (B.S.) — Could not find program URL
+FAILED Civil Engineering - Construction Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Environmental Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Water Resources Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Data Science (B.S.) — Could not find program URL
+FAILED Electrical Engineering (B.S.) — Could not find program URL
+FAILED Engineering Technology - Electromechanical Emphasis (B.S.) — Could not find program URL
+FAILED Financial Technology (B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Agriculture Education (B.S.) — Could not find program URL
+FAILED Exercise Science - Pre-Athletic Training Emphasis (B.S.) — Could not find program URL
+FAILED Integrative Health Sciences (B.S.) — Could not find program URL
+FAILED Physical Education - Coaching Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Teaching Emphasis (B.S.) — Could not find program URL
+FAILED Communication - Messaging and Human Interaction Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED English Education (B.A.) — Could not find program URL
+FAILED French Education (B.A.) — Could not find program URL
+FAILED History Education (B.A., B.S.) — Could not find program URL
+FAILED Spanish Education (B.A.) — Could not find program URL
+FAILED Social Studies Education Composite (B.A., B.S.) — Could not find program URL
+FAILED Biology Education (B.A.) — Could not find program URL
+FAILED Biological Sciences Education (B.S.) — Could not find program URL
+FAILED Environmental Science (B.S.) — Could not find program URL
+FAILED Environmental Studies (B.A.) — Could not find program URL
+FAILED Geospatial Science (B.S.) — Could not find program URL
+FAILED Physics Education (B.A., B.S.) — Could not find program URL
+IMPORTED Accounting (B.A., B.S.)
+IMPORTED History (B.A., B.S.)
+IMPORTED Exercise Science (B.S.)
+IMPORTED Business Education (B.A., B.S.)
+IMPORTED Economics - Business Analytics Emphasis (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Event Planning and Management Emphasis (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Food and Beverage Management Emphasis (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Lodging Management Emphasis (B.A., B.S.)
+IMPORTED Economics (B.A., B.S.)
+IMPORTED Finance (B.A., B.S.)
+IMPORTED Management (B.A., B.S.)
+IMPORTED Marketing (B.A., B.S.)
+IMPORTED Aerospace/Aviation Sciences - Fixed-Wing Emphasis (B.S.)
+IMPORTED Aerospace/Aviation Sciences - Rotor-Wing Emphasis (B.S.)
+IMPORTED Aviation Administration and Leadership (B.A., B.S.)
+IMPORTED Computer Science (B.S.)
+IMPORTED Construction Management (B.A., B.S.)
+IMPORTED Cybersecurity (B.S.)
+IMPORTED Engineering Technology - CAD/CAM Emphasis (B.S.)
+IMPORTED Engineering Technology - CAD-Architectural/Civil Design Emphasis (B.S.)
+IMPORTED Mathematics - Actuarial Science Emphasis (B.S.)
+IMPORTED Mathematics - Applied Mathematics Emphasis (B.S.)
+IMPORTED Mathematics - Pure Mathematics Emphasis (B.S.)
+IMPORTED Mechanical Engineering (B.S.)
+IMPORTED Mathematics Education (B.S.)
+IMPORTED Elementary Education (B.A., B.S.)
+IMPORTED Social Work (B.S.W.)
+IMPORTED Agriculture - Agribusiness Emphasis (B.S.)
+IMPORTED Agriculture - Animal Science and Industries Emphasis (B.S.)
+IMPORTED Agriculture - Natural Resources/Range Management Emphasis (B.S.)
+IMPORTED Agriculture - General Agriculture Emphasis (B.S.)
+IMPORTED Agriculture - Plant Science and Industries Emphasis (B.S.)
+IMPORTED Exercise Science (B.S.)
+IMPORTED Human Nutrition - Allied Health Emphasis (B.S.)
+IMPORTED Nursing - Pre-Licensure Emphasis (B.S.N.)
+IMPORTED Nursing - Health Professionals to BSN Emphasis (B.S.N.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Natural Resource Recreation Emphasis (B.S.)
+IMPORTED Nursing - RN to BSN Emphasis (B.S.N.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Outdoor Education Emphasis (B.S.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Tourism Emphasis (B.S.)
+IMPORTED Anthropology (B.A., B.S.)
+IMPORTED General Studies (B.G.S.)
+IMPORTED Criminal Justice (B.A., B.S.)
+IMPORTED Communication Composite (B.A., B.S.)
+IMPORTED Communication - Media Studies Emphasis (B.A., B.S.)
+IMPORTED Communication - Strategic Communication Emphasis (B.A., B.S.)
+IMPORTED English - Literature Emphasis (B.A.)
+IMPORTED English - Creative Writing Emphasis (B.A.)
+IMPORTED English - Rhetoric and Writing Emphasis (B.A.)
+IMPORTED French (B.A.)
+IMPORTED General Studies (B.A., B.S.)
+IMPORTED History (B.A., B.S.)
+IMPORTED Philosophy (B.A., B.S.)
+FAILED Political Science (B.A., B.S.) — UNIQUE constraint failed: src_course.course_id
+IMPORTED Psychology (B.A., B.S.)
+IMPORTED Sociology (B.A., B.S.)
+IMPORTED Psychology - Human Services Emphasis (B.A., B.S.)
+IMPORTED Spanish (B.A.)
+IMPORTED Interdisciplinary Studies (B.I.S.)
+IMPORTED Chemistry - Laboratory Science Emphasis (B.S.)
+IMPORTED Chemistry - Health Care Emphasis (B.S.)
+IMPORTED Biology (B.A., B.S.)
+IMPORTED Geosciences (B.A.)
+IMPORTED Geology (B.S.)
+IMPORTED Chemistry - Professional Emphasis (B.S.)
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Aviation Administration and Leadership (B.A., B.S.) — Could not find program URL
+FAILED Civil Engineering (B.S.) — Could not find program URL
+FAILED Civil Engineering - Construction Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Water Resources Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Environmental Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Cybersecurity (B.S.) — Could not find program URL
+FAILED Data Science (B.S.) — Could not find program URL
+FAILED Electrical Engineering (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD/CAM Emphasis (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD-Architectural/Civil Design Emphasis (B.S.) — Could not find program URL
+FAILED Financial Technology (B.S.) — Could not find program URL
+FAILED Engineering Technology - Electromechanical Emphasis (B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Social Work (B.S.W.) — Could not find program URL
+FAILED Agriculture Education (B.S.) — Could not find program URL
+FAILED Exercise Science - Pre-Athletic Training Emphasis (B.S.) — Could not find program URL
+FAILED Integrative Health Sciences (B.S.) — Could not find program URL
+FAILED Nursing - Health Professionals to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Physical Education - Coaching Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Teaching Emphasis (B.S.) — Could not find program URL
+FAILED General Studies (B.G.S.) — Could not find program URL
+FAILED Communication - Messaging and Human Interaction Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED English Education (B.A.) — Could not find program URL
+FAILED French Education (B.A.) — Could not find program URL
+FAILED History Education (B.A., B.S.) — Could not find program URL
+FAILED Spanish Education (B.A.) — Could not find program URL
+FAILED Social Studies Education Composite (B.A., B.S.) — Could not find program URL
+FAILED Biology Education (B.A.) — Could not find program URL
+FAILED Biological Sciences Education (B.S.) — Could not find program URL
+FAILED Chemistry - Laboratory Science Emphasis (B.S.) — Could not find program URL
+FAILED Environmental Science (B.S.) — Could not find program URL
+FAILED Environmental Studies (B.A.) — Could not find program URL
+FAILED Geospatial Science (B.S.) — Could not find program URL
+FAILED Physics Education (B.A., B.S.) — Could not find program URL
+IMPORTED Exercise Science (B.S.)
+IMPORTED Accounting (B.A., B.S.)
+IMPORTED History (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Event Planning and Management Emphasis (B.A., B.S.)
+IMPORTED Economics (B.A., B.S.)
+IMPORTED Finance (B.A., B.S.)
+IMPORTED Business Education (B.A., B.S.)
+IMPORTED Economics - Business Analytics Emphasis (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Lodging Management Emphasis (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Food and Beverage Management Emphasis (B.A., B.S.)
+IMPORTED Management (B.A., B.S.)
+IMPORTED Marketing (B.A., B.S.)
+IMPORTED Aerospace/Aviation Sciences - Fixed-Wing Emphasis (B.S.)
+IMPORTED Aerospace/Aviation Sciences - Rotor-Wing Emphasis (B.S.)
+IMPORTED Computer Science (B.S.)
+IMPORTED Construction Management (B.A., B.S.)
+IMPORTED Mathematics - Actuarial Science Emphasis (B.S.)
+IMPORTED Mathematics - Applied Mathematics Emphasis (B.S.)
+IMPORTED Mathematics - Pure Mathematics Emphasis (B.S.)
+IMPORTED Mechanical Engineering (B.S.)
+IMPORTED Mathematics Education (B.S.)
+IMPORTED Agriculture - Agribusiness Emphasis (B.S.)
+IMPORTED Elementary Education (B.A., B.S.)
+IMPORTED Agriculture - Animal Science and Industries Emphasis (B.S.)
+IMPORTED Agriculture - General Agriculture Emphasis (B.S.)
+IMPORTED Agriculture - Natural Resources/Range Management Emphasis (B.S.)
+IMPORTED Agriculture - Plant Science and Industries Emphasis (B.S.)
+IMPORTED Exercise Science (B.S.)
+IMPORTED Human Nutrition - Allied Health Emphasis (B.S.)
+IMPORTED Nursing - Pre-Licensure Emphasis (B.S.N.)
+IMPORTED Nursing - RN to BSN Emphasis (B.S.N.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Natural Resource Recreation Emphasis (B.S.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Outdoor Education Emphasis (B.S.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Tourism Emphasis (B.S.)
+IMPORTED Anthropology (B.A., B.S.)
+IMPORTED Criminal Justice (B.A., B.S.)
+IMPORTED Communication Composite (B.A., B.S.)
+IMPORTED Communication - Media Studies Emphasis (B.A., B.S.)
+IMPORTED Communication - Strategic Communication Emphasis (B.A., B.S.)
+IMPORTED English - Rhetoric and Writing Emphasis (B.A.)
+IMPORTED English - Literature Emphasis (B.A.)
+IMPORTED English - Creative Writing Emphasis (B.A.)
+IMPORTED French (B.A.)
+IMPORTED General Studies (B.A., B.S.)
+IMPORTED History (B.A., B.S.)
+FAILED Political Science (B.A., B.S.) — UNIQUE constraint failed: src_course.course_id
+IMPORTED Philosophy (B.A., B.S.)
+IMPORTED Psychology - Human Services Emphasis (B.A., B.S.)
+IMPORTED Psychology (B.A., B.S.)
+IMPORTED Sociology (B.A., B.S.)
+IMPORTED Spanish (B.A.)
+IMPORTED Interdisciplinary Studies (B.I.S.)
+IMPORTED Biology (B.A., B.S.)
+IMPORTED Chemistry - Professional Emphasis (B.S.)
+IMPORTED Geosciences (B.A.)
+IMPORTED Geology (B.S.)
+IMPORTED Chemistry - Health Care Emphasis (B.S.)
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Aviation Administration and Leadership (B.A., B.S.) — Could not find program URL
+FAILED Civil Engineering (B.S.) — Could not find program URL
+FAILED Civil Engineering - Construction Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Water Resources Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Environmental Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Cybersecurity (B.S.) — Could not find program URL
+FAILED Data Science (B.S.) — Could not find program URL
+FAILED Electrical Engineering (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD-Architectural/Civil Design Emphasis (B.S.) — Could not find program URL
+FAILED Engineering Technology - Electromechanical Emphasis (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD/CAM Emphasis (B.S.) — Could not find program URL
+FAILED Financial Technology (B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Social Work (B.S.W.) — Could not find program URL
+FAILED Agriculture - Agribusiness Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Animal Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - General Agriculture Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Natural Resources/Range Management Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Plant Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture Education (B.S.) — Could not find program URL
+FAILED Exercise Science - Pre-Athletic Training Emphasis (B.S.) — Could not find program URL
+FAILED Integrative Health Sciences (B.S.) — Could not find program URL
+FAILED Nursing - Health Professionals to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Physical Education - Coaching Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Teaching Emphasis (B.S.) — Could not find program URL
+FAILED General Studies (B.G.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Messaging and Human Interaction Emphasis (B.A., B.S.) — Could not find program URL
+FAILED English Education (B.A.) — Could not find program URL
+FAILED French Education (B.A.) — Could not find program URL
+FAILED History Education (B.A., B.S.) — Could not find program URL
+FAILED Spanish Education (B.A.) — Could not find program URL
+FAILED Social Studies Education Composite (B.A., B.S.) — Could not find program URL
+FAILED Biological Sciences Education (B.S.) — Could not find program URL
+FAILED Biology Education (B.A.) — Could not find program URL
+FAILED Chemistry - Laboratory Science Emphasis (B.S.) — Could not find program URL
+FAILED Environmental Science (B.S.) — Could not find program URL
+FAILED Environmental Studies (B.A.) — Could not find program URL
+FAILED Geospatial Science (B.S.) — Could not find program URL
+FAILED Physics Education (B.A., B.S.) — Could not find program URL
+IMPORTED Exercise Science (B.S.)
+IMPORTED History (B.A., B.S.)
+IMPORTED Economics (B.A., B.S.)
+IMPORTED Economics - Business Analytics Emphasis (B.A., B.S.)
+IMPORTED Business Education (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Lodging Management Emphasis (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Event Planning and Management Emphasis (B.A., B.S.)
+IMPORTED Finance (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Food and Beverage Management Emphasis (B.A., B.S.)
+IMPORTED Accounting (B.A., B.S.)
+IMPORTED Management (B.A., B.S.)
+IMPORTED Marketing (B.A., B.S.)
+IMPORTED Aerospace/Aviation Sciences - Fixed-Wing Emphasis (B.S.)
+IMPORTED Aerospace/Aviation Sciences - Rotor-Wing Emphasis (B.S.)
+IMPORTED Computer Science (B.S.)
+IMPORTED Construction Management (B.A., B.S.)
+IMPORTED Mathematics - Actuarial Science Emphasis (B.S.)
+IMPORTED Mathematics - Pure Mathematics Emphasis (B.S.)
+IMPORTED Mathematics - Applied Mathematics Emphasis (B.S.)
+IMPORTED Mechanical Engineering (B.S.)
+IMPORTED Mathematics Education (B.S.)
+IMPORTED Elementary Education (B.A., B.S.)
+IMPORTED Exercise Science (B.S.)
+IMPORTED Human Nutrition - Allied Health Emphasis (B.S.)
+IMPORTED Nursing - Pre-Licensure Emphasis (B.S.N.)
+IMPORTED Nursing - RN to BSN Emphasis (B.S.N.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Outdoor Education Emphasis (B.S.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Natural Resource Recreation Emphasis (B.S.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Tourism Emphasis (B.S.)
+IMPORTED Anthropology (B.A., B.S.)
+IMPORTED Criminal Justice (B.A., B.S.)
+IMPORTED Communication - Media Studies Emphasis (B.A., B.S.)
+IMPORTED Communication Composite (B.A., B.S.)
+IMPORTED Communication - Strategic Communication Emphasis (B.A., B.S.)
+IMPORTED English - Creative Writing Emphasis (B.A.)
+IMPORTED English - Literature Emphasis (B.A.)
+IMPORTED English - Rhetoric and Writing Emphasis (B.A.)
+IMPORTED French (B.A.)
+IMPORTED General Studies (B.A., B.S.)
+IMPORTED History (B.A., B.S.)
+IMPORTED Philosophy (B.A., B.S.)
+FAILED Political Science (B.A., B.S.) — UNIQUE constraint failed: src_course.course_id
+IMPORTED Psychology (B.A., B.S.)
+IMPORTED Psychology - Human Services Emphasis (B.A., B.S.)
+IMPORTED Sociology (B.A., B.S.)
+IMPORTED Spanish (B.A.)
+IMPORTED Biology (B.A., B.S.)
+IMPORTED Interdisciplinary Studies (B.I.S.)
+IMPORTED Chemistry - Health Care Emphasis (B.S.)
+IMPORTED Chemistry - Professional Emphasis (B.S.)
+IMPORTED Geosciences (B.A.)
+IMPORTED Geology (B.S.)
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Lodging Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Event Planning and Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Aviation Administration and Leadership (B.A., B.S.) — Could not find program URL
+FAILED Civil Engineering (B.S.) — Could not find program URL
+FAILED Civil Engineering - Construction Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Environmental Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Water Resources Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Cybersecurity (B.S.) — Could not find program URL
+FAILED Data Science (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD-Architectural/Civil Design Emphasis (B.S.) — Could not find program URL
+FAILED Electrical Engineering (B.S.) — Could not find program URL
+FAILED Engineering Technology - Electromechanical Emphasis (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD/CAM Emphasis (B.S.) — Could not find program URL
+FAILED Financial Technology (B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Social Work (B.S.W.) — Could not find program URL
+FAILED Agriculture - Animal Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Agribusiness Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - General Agriculture Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Natural Resources/Range Management Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Plant Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture Education (B.S.) — Could not find program URL
+FAILED Exercise Science - Pre-Athletic Training Emphasis (B.S.) — Could not find program URL
+FAILED Integrative Health Sciences (B.S.) — Could not find program URL
+FAILED Nursing - Health Professionals to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Physical Education - Teaching Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Coaching Emphasis (B.S.) — Could not find program URL
+FAILED General Studies (B.G.S.) — Could not find program URL
+FAILED Communication - Messaging and Human Interaction Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED English Education (B.A.) — Could not find program URL
+FAILED French Education (B.A.) — Could not find program URL
+FAILED History Education (B.A., B.S.) — Could not find program URL
+FAILED Spanish Education (B.A.) — Could not find program URL
+FAILED Social Studies Education Composite (B.A., B.S.) — Could not find program URL
+FAILED Biology Education (B.A.) — Could not find program URL
+FAILED Biological Sciences Education (B.S.) — Could not find program URL
+FAILED Chemistry - Laboratory Science Emphasis (B.S.) — Could not find program URL
+FAILED Environmental Science (B.S.) — Could not find program URL
+FAILED Environmental Studies (B.A.) — Could not find program URL
+FAILED Physics Education (B.A., B.S.) — Could not find program URL
+FAILED Geospatial Science (B.S.) — Could not find program URL
+IMPORTED History (B.A., B.S.)
+IMPORTED Economics (B.A., B.S.)
+IMPORTED Exercise Science (B.S.)
+IMPORTED Finance (B.A., B.S.)
+IMPORTED Economics - Business Analytics Emphasis (B.A., B.S.)
+IMPORTED Hotel, Resort, and Hospitality Management - Food and Beverage Management Emphasis (B.A., B.S.)
+IMPORTED Accounting (B.A., B.S.)
+IMPORTED Business Education (B.A., B.S.)
+IMPORTED Management (B.A., B.S.)
+IMPORTED Marketing (B.A., B.S.)
+IMPORTED Aerospace/Aviation Sciences - Fixed-Wing Emphasis (B.S.)
+IMPORTED Aerospace/Aviation Sciences - Rotor-Wing Emphasis (B.S.)
+IMPORTED Computer Science (B.S.)
+IMPORTED Construction Management (B.A., B.S.)
+IMPORTED Mathematics - Actuarial Science Emphasis (B.S.)
+IMPORTED Mathematics - Pure Mathematics Emphasis (B.S.)
+IMPORTED Mathematics - Applied Mathematics Emphasis (B.S.)
+IMPORTED Mathematics Education (B.S.)
+IMPORTED Elementary Education (B.A., B.S.)
+IMPORTED Mechanical Engineering (B.S.)
+IMPORTED Exercise Science (B.S.)
+IMPORTED Human Nutrition - Allied Health Emphasis (B.S.)
+IMPORTED Nursing - RN to BSN Emphasis (B.S.N.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Natural Resource Recreation Emphasis (B.S.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Outdoor Education Emphasis (B.S.)
+IMPORTED Nursing - Pre-Licensure Emphasis (B.S.N.)
+IMPORTED Outdoor Recreation in Parks and Tourism - Tourism Emphasis (B.S.)
+IMPORTED Anthropology (B.A., B.S.)
+IMPORTED Criminal Justice (B.A., B.S.)
+IMPORTED Communication Composite (B.A., B.S.)
+IMPORTED Communication - Media Studies Emphasis (B.A., B.S.)
+IMPORTED Communication - Strategic Communication Emphasis (B.A., B.S.)
+IMPORTED English - Creative Writing Emphasis (B.A.)
+IMPORTED English - Literature Emphasis (B.A.)
+IMPORTED English - Rhetoric and Writing Emphasis (B.A.)
+IMPORTED General Studies (B.A., B.S.)
+IMPORTED History (B.A., B.S.)
+FAILED Political Science (B.A., B.S.) — UNIQUE constraint failed: src_course.course_id
+IMPORTED Philosophy (B.A., B.S.)
+IMPORTED Psychology (B.A., B.S.)
+IMPORTED Psychology - Human Services Emphasis (B.A., B.S.)
+IMPORTED French (B.A.)
+IMPORTED Spanish (B.A.)
+IMPORTED Sociology (B.A., B.S.)
+IMPORTED Interdisciplinary Studies (B.I.S.)
+IMPORTED Biology (B.A., B.S.)
+IMPORTED Chemistry - Health Care Emphasis (B.S.)
+IMPORTED Chemistry - Professional Emphasis (B.S.)
+IMPORTED Geosciences (B.A.)
+IMPORTED Geology (B.S.)
+FAILED Economics (B.A., B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED History (B.A., B.S.) — Could not find program URL
+FAILED Business Education (B.A., B.S.) — Could not find program URL
+FAILED Exercise Science (B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Event Planning and Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Lodging Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Economics - Business Analytics Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Finance (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Food and Beverage Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Accounting (B.A., B.S.) — Could not find program URL
+FAILED Marketing (B.A., B.S.) — Could not find program URL
+FAILED Management (B.A., B.S.) — Could not find program URL
+FAILED Aerospace/Aviation Sciences - Rotor-Wing Emphasis (B.S.) — Could not find program URL
+FAILED Aerospace/Aviation Sciences - Fixed-Wing Emphasis (B.S.) — Could not find program URL
+FAILED Aviation Administration and Leadership (B.A., B.S.) — Could not find program URL
+FAILED Civil Engineering (B.S.) — Could not find program URL
+FAILED Civil Engineering - Environmental Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Construction Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Water Resources Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Construction Management (B.A., B.S.) — Could not find program URL
+FAILED Computer Science (B.S.) — Could not find program URL
+FAILED Cybersecurity (B.S.) — Could not find program URL
+FAILED Data Science (B.S.) — Could not find program URL
+FAILED Electrical Engineering (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD-Architectural/Civil Design Emphasis (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD/CAM Emphasis (B.S.) — Could not find program URL
+FAILED Engineering Technology - Electromechanical Emphasis (B.S.) — Could not find program URL
+FAILED Financial Technology (B.S.) — Could not find program URL
+FAILED Mathematics - Applied Mathematics Emphasis (B.S.) — Could not find program URL
+FAILED Mathematics - Actuarial Science Emphasis (B.S.) — Could not find program URL
+FAILED Mechanical Engineering (B.S.) — Could not find program URL
+FAILED Mathematics Education (B.S.) — Could not find program URL
+FAILED Elementary Education (B.A., B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Social Work (B.S.W.) — Could not find program URL
+FAILED Agriculture - Agribusiness Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Animal Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - General Agriculture Emphasis (B.S.) — Could not find program URL
+FAILED Mathematics - Pure Mathematics Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Plant Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Natural Resources/Range Management Emphasis (B.S.) — Could not find program URL
+FAILED Exercise Science - Pre-Athletic Training Emphasis (B.S.) — Could not find program URL
+FAILED Exercise Science (B.S.) — Could not find program URL
+FAILED Agriculture Education (B.S.) — Could not find program URL
+FAILED Integrative Health Sciences (B.S.) — Could not find program URL
+FAILED Human Nutrition - Allied Health Emphasis (B.S.) — Could not find program URL
+FAILED Nursing - Health Professionals to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Nursing - Pre-Licensure Emphasis (B.S.N.) — Could not find program URL
+FAILED Nursing - RN to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Natural Resource Recreation Emphasis (B.S.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Outdoor Education Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Coaching Emphasis (B.S.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Tourism Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Teaching Emphasis (B.S.) — Could not find program URL
+FAILED Anthropology (B.A., B.S.) — Could not find program URL
+FAILED General Studies (B.G.S.) — Could not find program URL
+FAILED Criminal Justice (B.A., B.S.) — Could not find program URL
+FAILED Communication Composite (B.A., B.S.) — Could not find program URL
+FAILED Communication - Media Studies Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Messaging and Human Interaction Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Strategic Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED English - Creative Writing Emphasis (B.A.) — Could not find program URL
+FAILED English - Literature Emphasis (B.A.) — Could not find program URL
+FAILED English - Rhetoric and Writing Emphasis (B.A.) — Could not find program URL
+FAILED English Education (B.A.) — Could not find program URL
+FAILED French (B.A.) — Could not find program URL
+FAILED French Education (B.A.) — Could not find program URL
+FAILED General Studies (B.A., B.S.) — Could not find program URL
+FAILED History (B.A., B.S.) — Could not find program URL
+FAILED Philosophy (B.A., B.S.) — Could not find program URL
+FAILED History Education (B.A., B.S.) — Could not find program URL
+FAILED Political Science (B.A., B.S.) — Could not find program URL
+FAILED Sociology (B.A., B.S.) — Could not find program URL
+FAILED Psychology (B.A., B.S.) — Could not find program URL
+FAILED Psychology - Human Services Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Spanish Education (B.A.) — Could not find program URL
+FAILED Spanish (B.A.) — Could not find program URL
+FAILED Social Studies Education Composite (B.A., B.S.) — Could not find program URL
+FAILED Interdisciplinary Studies (B.I.S.) — Could not find program URL
+FAILED Biology (B.A., B.S.) — Could not find program URL
+FAILED Biology Education (B.A.) — Could not find program URL
+FAILED Chemistry - Health Care Emphasis (B.S.) — Could not find program URL
+FAILED Biological Sciences Education (B.S.) — Could not find program URL
+FAILED Chemistry - Laboratory Science Emphasis (B.S.) — Could not find program URL
+FAILED Chemistry - Professional Emphasis (B.S.) — Could not find program URL
+FAILED Environmental Studies (B.A.) — Could not find program URL
+FAILED Geology (B.S.) — Could not find program URL
+FAILED Geosciences (B.A.) — Could not find program URL
+FAILED Environmental Science (B.S.) — Could not find program URL
+FAILED Physics Education (B.A., B.S.) — Could not find program URL
+FAILED Geospatial Science (B.S.) — Could not find program URL
+FAILED History (B.A., B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Accounting (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Food and Beverage Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Exercise Science (B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Lodging Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Finance (B.A., B.S.) — Could not find program URL
+FAILED Business Education (B.A., B.S.) — Could not find program URL
+FAILED Economics - Business Analytics Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Event Planning and Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Economics (B.A., B.S.) — Could not find program URL
+FAILED Management (B.A., B.S.) — Could not find program URL
+FAILED Marketing (B.A., B.S.) — Could not find program URL
+FAILED Aerospace/Aviation Sciences - Fixed-Wing Emphasis (B.S.) — Could not find program URL
+FAILED Aerospace/Aviation Sciences - Rotor-Wing Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering (B.S.) — Could not find program URL
+FAILED Civil Engineering - Construction Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Environmental Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Water Resources Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Construction Management (B.A., B.S.) — Could not find program URL
+FAILED Computer Science (B.S.) — Could not find program URL
+FAILED Cybersecurity (B.S.) — Could not find program URL
+FAILED Data Science (B.S.) — Could not find program URL
+FAILED Electrical Engineering (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD-Architectural/Civil Design Emphasis (B.S.) — Could not find program URL
+FAILED Aviation Administration and Leadership (B.A., B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD/CAM Emphasis (B.S.) — Could not find program URL
+FAILED Engineering Technology - Electromechanical Emphasis (B.S.) — Could not find program URL
+FAILED Financial Technology (B.S.) — Could not find program URL
+FAILED Mathematics - Actuarial Science Emphasis (B.S.) — Could not find program URL
+FAILED Mathematics - Applied Mathematics Emphasis (B.S.) — Could not find program URL
+FAILED Mathematics - Pure Mathematics Emphasis (B.S.) — Could not find program URL
+FAILED Mechanical Engineering (B.S.) — Could not find program URL
+FAILED Mathematics Education (B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Social Work (B.S.W.) — Could not find program URL
+FAILED Elementary Education (B.A., B.S.) — Could not find program URL
+FAILED Agriculture - Agribusiness Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Animal Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - General Agriculture Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Natural Resources/Range Management Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Plant Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Exercise Science (B.S.) — Could not find program URL
+FAILED Agriculture Education (B.S.) — Could not find program URL
+FAILED Exercise Science - Pre-Athletic Training Emphasis (B.S.) — Could not find program URL
+FAILED Human Nutrition - Allied Health Emphasis (B.S.) — Could not find program URL
+FAILED Integrative Health Sciences (B.S.) — Could not find program URL
+FAILED Nursing - Health Professionals to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Nursing - Pre-Licensure Emphasis (B.S.N.) — Could not find program URL
+FAILED Nursing - RN to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Natural Resource Recreation Emphasis (B.S.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Outdoor Education Emphasis (B.S.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Tourism Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Coaching Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Teaching Emphasis (B.S.) — Could not find program URL
+FAILED Anthropology (B.A., B.S.) — Could not find program URL
+FAILED General Studies (B.G.S.) — Could not find program URL
+FAILED Communication Composite (B.A., B.S.) — Could not find program URL
+FAILED Criminal Justice (B.A., B.S.) — Could not find program URL
+FAILED Communication - Media Studies Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Messaging and Human Interaction Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Strategic Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED English - Creative Writing Emphasis (B.A.) — Could not find program URL
+FAILED English - Rhetoric and Writing Emphasis (B.A.) — Could not find program URL
+FAILED English - Literature Emphasis (B.A.) — Could not find program URL
+FAILED English Education (B.A.) — Could not find program URL
+FAILED French (B.A.) — Could not find program URL
+FAILED French Education (B.A.) — Could not find program URL
+FAILED General Studies (B.A., B.S.) — Could not find program URL
+FAILED History Education (B.A., B.S.) — Could not find program URL
+FAILED History (B.A., B.S.) — Could not find program URL
+FAILED Philosophy (B.A., B.S.) — Could not find program URL
+FAILED Political Science (B.A., B.S.) — Could not find program URL
+FAILED Psychology - Human Services Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Psychology (B.A., B.S.) — Could not find program URL
+FAILED Sociology (B.A., B.S.) — Could not find program URL
+FAILED Spanish (B.A.) — Could not find program URL
+FAILED Spanish Education (B.A.) — Could not find program URL
+FAILED Social Studies Education Composite (B.A., B.S.) — Could not find program URL
+FAILED Interdisciplinary Studies (B.I.S.) — Could not find program URL
+FAILED Biology (B.A., B.S.) — Could not find program URL
+FAILED Biology Education (B.A.) — Could not find program URL
+FAILED Biological Sciences Education (B.S.) — Could not find program URL
+FAILED Chemistry - Health Care Emphasis (B.S.) — Could not find program URL
+FAILED Chemistry - Laboratory Science Emphasis (B.S.) — Could not find program URL
+FAILED Chemistry - Professional Emphasis (B.S.) — Could not find program URL
+FAILED Environmental Science (B.S.) — Could not find program URL
+FAILED Environmental Studies (B.A.) — Could not find program URL
+FAILED Geosciences (B.A.) — Could not find program URL
+FAILED Physics Education (B.A., B.S.) — Could not find program URL
+FAILED Geology (B.S.) — Could not find program URL
+FAILED Geospatial Science (B.S.) — Could not find program URL
+FAILED History (B.A., B.S.) — Could not find program URL
+FAILED Economics - Business Analytics Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Exercise Science (B.S.) — Could not find program URL
+FAILED Accounting (B.A., B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Economics (B.A., B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Lodging Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Business Education (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Food and Beverage Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Event Planning and Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Finance (B.A., B.S.) — Could not find program URL
+FAILED Management (B.A., B.S.) — Could not find program URL
+FAILED Marketing (B.A., B.S.) — Could not find program URL
+FAILED Aerospace/Aviation Sciences - Fixed-Wing Emphasis (B.S.) — Could not find program URL
+FAILED Aerospace/Aviation Sciences - Rotor-Wing Emphasis (B.S.) — Could not find program URL
+FAILED Aviation Administration and Leadership (B.A., B.S.) — Could not find program URL
+FAILED Civil Engineering (B.S.) — Could not find program URL
+FAILED Civil Engineering - Construction Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Environmental Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Construction Management (B.A., B.S.) — Could not find program URL
+FAILED Civil Engineering - Water Resources Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Computer Science (B.S.) — Could not find program URL
+FAILED Cybersecurity (B.S.) — Could not find program URL
+FAILED Electrical Engineering (B.S.) — Could not find program URL
+FAILED Data Science (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD-Architectural/Civil Design Emphasis (B.S.) — Could not find program URL
+FAILED Engineering Technology - Electromechanical Emphasis (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD/CAM Emphasis (B.S.) — Could not find program URL
+FAILED Mathematics - Actuarial Science Emphasis (B.S.) — Could not find program URL
+FAILED Financial Technology (B.S.) — Could not find program URL
+FAILED Mathematics - Applied Mathematics Emphasis (B.S.) — Could not find program URL
+FAILED Mechanical Engineering (B.S.) — Could not find program URL
+FAILED Mathematics - Pure Mathematics Emphasis (B.S.) — Could not find program URL
+FAILED Mathematics Education (B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Elementary Education (B.A., B.S.) — Could not find program URL
+FAILED Agriculture - Agribusiness Emphasis (B.S.) — Could not find program URL
+FAILED Social Work (B.S.W.) — Could not find program URL
+FAILED Agriculture - Animal Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - General Agriculture Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Natural Resources/Range Management Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture Education (B.S.) — Could not find program URL
+FAILED Agriculture - Plant Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Exercise Science (B.S.) — Could not find program URL
+FAILED Exercise Science - Pre-Athletic Training Emphasis (B.S.) — Could not find program URL
+FAILED Human Nutrition - Allied Health Emphasis (B.S.) — Could not find program URL
+FAILED Integrative Health Sciences (B.S.) — Could not find program URL
+FAILED Nursing - Health Professionals to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Nursing - Pre-Licensure Emphasis (B.S.N.) — Could not find program URL
+FAILED Nursing - RN to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Natural Resource Recreation Emphasis (B.S.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Outdoor Education Emphasis (B.S.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Tourism Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Coaching Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Teaching Emphasis (B.S.) — Could not find program URL
+FAILED Anthropology (B.A., B.S.) — Could not find program URL
+FAILED Criminal Justice (B.A., B.S.) — Could not find program URL
+FAILED General Studies (B.G.S.) — Could not find program URL
+FAILED Communication Composite (B.A., B.S.) — Could not find program URL
+FAILED Communication - Media Studies Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Messaging and Human Interaction Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED English - Creative Writing Emphasis (B.A.) — Could not find program URL
+FAILED Communication - Strategic Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED English - Literature Emphasis (B.A.) — Could not find program URL
+FAILED English - Rhetoric and Writing Emphasis (B.A.) — Could not find program URL
+FAILED French (B.A.) — Could not find program URL
+FAILED English Education (B.A.) — Could not find program URL
+FAILED French Education (B.A.) — Could not find program URL
+FAILED General Studies (B.A., B.S.) — Could not find program URL
+FAILED History Education (B.A., B.S.) — Could not find program URL
+FAILED History (B.A., B.S.) — Could not find program URL
+FAILED Philosophy (B.A., B.S.) — Could not find program URL
+FAILED Political Science (B.A., B.S.) — Could not find program URL
+FAILED Psychology (B.A., B.S.) — Could not find program URL
+FAILED Psychology - Human Services Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Sociology (B.A., B.S.) — Could not find program URL
+FAILED Spanish (B.A.) — Could not find program URL
+FAILED Social Studies Education Composite (B.A., B.S.) — Could not find program URL
+FAILED Interdisciplinary Studies (B.I.S.) — Could not find program URL
+FAILED Spanish Education (B.A.) — Could not find program URL
+FAILED Biology (B.A., B.S.) — Could not find program URL
+FAILED Biology Education (B.A.) — Could not find program URL
+FAILED Biological Sciences Education (B.S.) — Could not find program URL
+FAILED Chemistry - Health Care Emphasis (B.S.) — Could not find program URL
+FAILED Chemistry - Laboratory Science Emphasis (B.S.) — Could not find program URL
+FAILED Chemistry - Professional Emphasis (B.S.) — Could not find program URL
+FAILED Environmental Studies (B.A.) — Could not find program URL
+FAILED Environmental Science (B.S.) — Could not find program URL
+FAILED Geosciences (B.A.) — Could not find program URL
+FAILED Geospatial Science (B.S.) — Could not find program URL
+FAILED Geology (B.S.) — Could not find program URL
+FAILED Physics Education (B.A., B.S.) — Could not find program URL
+FAILED Exercise Science (B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED History (B.A., B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Event Planning and Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Economics (B.A., B.S.) — Could not find program URL
+FAILED Economics - Business Analytics Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Lodging Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Finance (B.A., B.S.) — Could not find program URL
+FAILED Accounting (B.A., B.S.) — Could not find program URL
+FAILED Business Education (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Food and Beverage Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Management (B.A., B.S.) — Could not find program URL
+FAILED Marketing (B.A., B.S.) — Could not find program URL
+FAILED Aerospace/Aviation Sciences - Fixed-Wing Emphasis (B.S.) — Could not find program URL
+FAILED Aerospace/Aviation Sciences - Rotor-Wing Emphasis (B.S.) — Could not find program URL
+FAILED Aviation Administration and Leadership (B.A., B.S.) — Could not find program URL
+FAILED Civil Engineering (B.S.) — Could not find program URL
+FAILED Civil Engineering - Construction Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Environmental Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Water Resources Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Construction Management (B.A., B.S.) — Could not find program URL
+FAILED Computer Science (B.S.) — Could not find program URL
+FAILED Data Science (B.S.) — Could not find program URL
+FAILED Cybersecurity (B.S.) — Could not find program URL
+FAILED Electrical Engineering (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD/CAM Emphasis (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD-Architectural/Civil Design Emphasis (B.S.) — Could not find program URL
+FAILED Engineering Technology - Electromechanical Emphasis (B.S.) — Could not find program URL
+FAILED Financial Technology (B.S.) — Could not find program URL
+FAILED Mathematics - Actuarial Science Emphasis (B.S.) — Could not find program URL
+FAILED Mathematics - Applied Mathematics Emphasis (B.S.) — Could not find program URL
+FAILED Mathematics - Pure Mathematics Emphasis (B.S.) — Could not find program URL
+FAILED Mechanical Engineering (B.S.) — Could not find program URL
+FAILED Mathematics Education (B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Elementary Education (B.A., B.S.) — Could not find program URL
+FAILED Social Work (B.S.W.) — Could not find program URL
+FAILED Agriculture - Agribusiness Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - General Agriculture Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Animal Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Natural Resources/Range Management Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Plant Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Exercise Science (B.S.) — Could not find program URL
+FAILED Agriculture Education (B.S.) — Could not find program URL
+FAILED Exercise Science - Pre-Athletic Training Emphasis (B.S.) — Could not find program URL
+FAILED Integrative Health Sciences (B.S.) — Could not find program URL
+FAILED Human Nutrition - Allied Health Emphasis (B.S.) — Could not find program URL
+FAILED Nursing - Health Professionals to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Nursing - Pre-Licensure Emphasis (B.S.N.) — Could not find program URL
+FAILED Nursing - RN to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Outdoor Education Emphasis (B.S.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Natural Resource Recreation Emphasis (B.S.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Tourism Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Coaching Emphasis (B.S.) — Could not find program URL
+FAILED Anthropology (B.A., B.S.) — Could not find program URL
+FAILED Physical Education - Teaching Emphasis (B.S.) — Could not find program URL
+FAILED General Studies (B.G.S.) — Could not find program URL
+FAILED Criminal Justice (B.A., B.S.) — Could not find program URL
+FAILED Communication Composite (B.A., B.S.) — Could not find program URL
+FAILED Communication - Media Studies Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Messaging and Human Interaction Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Strategic Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED English - Literature Emphasis (B.A.) — Could not find program URL
+FAILED English - Creative Writing Emphasis (B.A.) — Could not find program URL
+FAILED English - Rhetoric and Writing Emphasis (B.A.) — Could not find program URL
+FAILED English Education (B.A.) — Could not find program URL
+FAILED French (B.A.) — Could not find program URL
+FAILED General Studies (B.A., B.S.) — Could not find program URL
+FAILED French Education (B.A.) — Could not find program URL
+FAILED History (B.A., B.S.) — Could not find program URL
+FAILED History Education (B.A., B.S.) — Could not find program URL
+FAILED Philosophy (B.A., B.S.) — Could not find program URL
+FAILED Psychology (B.A., B.S.) — Could not find program URL
+FAILED Political Science (B.A., B.S.) — Could not find program URL
+FAILED Psychology - Human Services Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Sociology (B.A., B.S.) — Could not find program URL
+FAILED Spanish (B.A.) — Could not find program URL
+FAILED Spanish Education (B.A.) — Could not find program URL
+FAILED Social Studies Education Composite (B.A., B.S.) — Could not find program URL
+FAILED Biology (B.A., B.S.) — Could not find program URL
+FAILED Interdisciplinary Studies (B.I.S.) — Could not find program URL
+FAILED Biology Education (B.A.) — Could not find program URL
+FAILED Biological Sciences Education (B.S.) — Could not find program URL
+FAILED Chemistry - Health Care Emphasis (B.S.) — Could not find program URL
+FAILED Environmental Science (B.S.) — Could not find program URL
+FAILED Chemistry - Laboratory Science Emphasis (B.S.) — Could not find program URL
+FAILED Chemistry - Professional Emphasis (B.S.) — Could not find program URL
+FAILED Environmental Studies (B.A.) — Could not find program URL
+FAILED Geosciences (B.A.) — Could not find program URL
+FAILED Geology (B.S.) — Could not find program URL
+FAILED Geospatial Science (B.S.) — Could not find program URL
+FAILED Physics Education (B.A., B.S.) — Could not find program URL
+FAILED History (B.A., B.S.) — Could not find program URL
+FAILED Economics (B.A., B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Exercise Science (B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Accounting (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Lodging Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Finance (B.A., B.S.) — Could not find program URL
+FAILED Business Education (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Food and Beverage Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Economics - Business Analytics Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Management (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Event Planning and Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Aerospace/Aviation Sciences - Fixed-Wing Emphasis (B.S.) — Could not find program URL
+FAILED Marketing (B.A., B.S.) — Could not find program URL
+FAILED Aviation Administration and Leadership (B.A., B.S.) — Could not find program URL
+FAILED Aerospace/Aviation Sciences - Rotor-Wing Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering (B.S.) — Could not find program URL
+FAILED Civil Engineering - Construction Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Water Resources Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Environmental Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Construction Management (B.A., B.S.) — Could not find program URL
+FAILED Computer Science (B.S.) — Could not find program URL
+FAILED Cybersecurity (B.S.) — Could not find program URL
+FAILED Data Science (B.S.) — Could not find program URL
+FAILED Electrical Engineering (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD-Architectural/Civil Design Emphasis (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD/CAM Emphasis (B.S.) — Could not find program URL
+FAILED Financial Technology (B.S.) — Could not find program URL
+FAILED Engineering Technology - Electromechanical Emphasis (B.S.) — Could not find program URL
+FAILED Mathematics - Actuarial Science Emphasis (B.S.) — Could not find program URL
+FAILED Mathematics - Applied Mathematics Emphasis (B.S.) — Could not find program URL
+FAILED Mathematics - Pure Mathematics Emphasis (B.S.) — Could not find program URL
+FAILED Mechanical Engineering (B.S.) — Could not find program URL
+FAILED Mathematics Education (B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Elementary Education (B.A., B.S.) — Could not find program URL
+FAILED Agriculture - Animal Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Social Work (B.S.W.) — Could not find program URL
+FAILED Agriculture - General Agriculture Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Natural Resources/Range Management Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Plant Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture Education (B.S.) — Could not find program URL
+FAILED Exercise Science - Pre-Athletic Training Emphasis (B.S.) — Could not find program URL
+FAILED Exercise Science (B.S.) — Could not find program URL
+FAILED Human Nutrition - Allied Health Emphasis (B.S.) — Could not find program URL
+FAILED Nursing - Health Professionals to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Nursing - Pre-Licensure Emphasis (B.S.N.) — Could not find program URL
+FAILED Integrative Health Sciences (B.S.) — Could not find program URL
+FAILED Nursing - RN to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Agriculture - Agribusiness Emphasis (B.S.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Natural Resource Recreation Emphasis (B.S.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Outdoor Education Emphasis (B.S.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Tourism Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Coaching Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Teaching Emphasis (B.S.) — Could not find program URL
+FAILED Anthropology (B.A., B.S.) — Could not find program URL
+FAILED General Studies (B.G.S.) — Could not find program URL
+FAILED Criminal Justice (B.A., B.S.) — Could not find program URL
+FAILED Communication - Media Studies Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication Composite (B.A., B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Messaging and Human Interaction Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Strategic Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED English - Creative Writing Emphasis (B.A.) — Could not find program URL
+FAILED English - Literature Emphasis (B.A.) — Could not find program URL
+FAILED English Education (B.A.) — Could not find program URL
+FAILED English - Rhetoric and Writing Emphasis (B.A.) — Could not find program URL
+FAILED French (B.A.) — Could not find program URL
+FAILED French Education (B.A.) — Could not find program URL
+FAILED History Education (B.A., B.S.) — Could not find program URL
+FAILED General Studies (B.A., B.S.) — Could not find program URL
+FAILED Philosophy (B.A., B.S.) — Could not find program URL
+FAILED History (B.A., B.S.) — Could not find program URL
+FAILED Political Science (B.A., B.S.) — Could not find program URL
+FAILED Psychology (B.A., B.S.) — Could not find program URL
+FAILED Psychology - Human Services Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Sociology (B.A., B.S.) — Could not find program URL
+FAILED Spanish Education (B.A.) — Could not find program URL
+FAILED Spanish (B.A.) — Could not find program URL
+FAILED Social Studies Education Composite (B.A., B.S.) — Could not find program URL
+FAILED Interdisciplinary Studies (B.I.S.) — Could not find program URL
+FAILED Biology (B.A., B.S.) — Could not find program URL
+FAILED Biology Education (B.A.) — Could not find program URL
+FAILED Chemistry - Health Care Emphasis (B.S.) — Could not find program URL
+FAILED Biological Sciences Education (B.S.) — Could not find program URL
+FAILED Chemistry - Professional Emphasis (B.S.) — Could not find program URL
+FAILED Chemistry - Laboratory Science Emphasis (B.S.) — Could not find program URL
+FAILED Environmental Science (B.S.) — Could not find program URL
+FAILED Environmental Studies (B.A.) — Could not find program URL
+FAILED Geosciences (B.A.) — Could not find program URL
+FAILED Geospatial Science (B.S.) — Could not find program URL
+FAILED Geology (B.S.) — Could not find program URL
+FAILED Physics Education (B.A., B.S.) — Could not find program URL
+FAILED History (B.A., B.S.) — Could not find program URL
+FAILED Business Education (B.A., B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Economics (B.A., B.S.) — Could not find program URL
+FAILED Exercise Science (B.S.) — Could not find program URL
+FAILED Management (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Lodging Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Accounting (B.A., B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Finance (B.A., B.S.) — Could not find program URL
+FAILED Marketing (B.A., B.S.) — Could not find program URL
+FAILED Aerospace/Aviation Sciences - Fixed-Wing Emphasis (B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Food and Beverage Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Aerospace/Aviation Sciences - Rotor-Wing Emphasis (B.S.) — Could not find program URL
+FAILED Economics - Business Analytics Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Aviation Administration and Leadership (B.A., B.S.) — Could not find program URL
+FAILED Hotel, Resort, and Hospitality Management - Event Planning and Management Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Civil Engineering (B.S.) — Could not find program URL
+FAILED Civil Engineering - Construction Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Water Resources Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Civil Engineering - Environmental Engineering Emphasis (B.S.) — Could not find program URL
+FAILED Construction Management (B.A., B.S.) — Could not find program URL
+FAILED Computer Science (B.S.) — Could not find program URL
+FAILED Cybersecurity (B.S.) — Could not find program URL
+FAILED Data Science (B.S.) — Could not find program URL
+FAILED Electrical Engineering (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD-Architectural/Civil Design Emphasis (B.S.) — Could not find program URL
+FAILED Engineering Technology - CAD/CAM Emphasis (B.S.) — Could not find program URL
+FAILED Engineering Technology - Electromechanical Emphasis (B.S.) — Could not find program URL
+FAILED Financial Technology (B.S.) — Could not find program URL
+FAILED Mathematics - Actuarial Science Emphasis (B.S.) — Could not find program URL
+FAILED Mathematics - Applied Mathematics Emphasis (B.S.) — Could not find program URL
+FAILED Mathematics - Pure Mathematics Emphasis (B.S.) — Could not find program URL
+FAILED Mathematics Education (B.S.) — Could not find program URL
+FAILED Mechanical Engineering (B.S.) — Could not find program URL
+FAILED Software Development (B.S.) — Could not find program URL
+FAILED Elementary Education (B.A., B.S.) — Could not find program URL
+FAILED Social Work (B.S.W.) — Could not find program URL
+FAILED Agriculture - Agribusiness Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Animal Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Natural Resources/Range Management Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - General Agriculture Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture - Plant Science and Industries Emphasis (B.S.) — Could not find program URL
+FAILED Agriculture Education (B.S.) — Could not find program URL
+FAILED Exercise Science (B.S.) — Could not find program URL
+FAILED Human Nutrition - Allied Health Emphasis (B.S.) — Could not find program URL
+FAILED Exercise Science - Pre-Athletic Training Emphasis (B.S.) — Could not find program URL
+FAILED Nursing - Health Professionals to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Integrative Health Sciences (B.S.) — Could not find program URL
+FAILED Nursing - Pre-Licensure Emphasis (B.S.N.) — Could not find program URL
+FAILED Nursing - RN to BSN Emphasis (B.S.N.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Outdoor Education Emphasis (B.S.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Natural Resource Recreation Emphasis (B.S.) — Could not find program URL
+FAILED Outdoor Recreation in Parks and Tourism - Tourism Emphasis (B.S.) — Could not find program URL
+FAILED Physical Education - Coaching Emphasis (B.S.) — Could not find program URL
+FAILED Anthropology (B.A., B.S.) — Could not find program URL
+FAILED Physical Education - Teaching Emphasis (B.S.) — Could not find program URL
+FAILED General Studies (B.G.S.) — Could not find program URL
+FAILED Communication Composite (B.A., B.S.) — Could not find program URL
+FAILED Criminal Justice (B.A., B.S.) — Could not find program URL
+FAILED Communication - Media Studies Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Messaging and Human Interaction Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Sports Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Communication - Strategic Communication Emphasis (B.A., B.S.) — Could not find program URL
+FAILED English - Creative Writing Emphasis (B.A.) — Could not find program URL
+FAILED English - Literature Emphasis (B.A.) — Could not find program URL
+FAILED English - Rhetoric and Writing Emphasis (B.A.) — Could not find program URL
+FAILED English Education (B.A.) — Could not find program URL
+FAILED French (B.A.) — Could not find program URL
+FAILED French Education (B.A.) — Could not find program URL
+FAILED General Studies (B.A., B.S.) — Could not find program URL
+FAILED History (B.A., B.S.) — Could not find program URL
+FAILED History Education (B.A., B.S.) — Could not find program URL
+FAILED Philosophy (B.A., B.S.) — Could not find program URL
+FAILED Political Science (B.A., B.S.) — Could not find program URL
+FAILED Psychology (B.A., B.S.) — Could not find program URL
+FAILED Psychology - Human Services Emphasis (B.A., B.S.) — Could not find program URL
+FAILED Sociology (B.A., B.S.) — Could not find program URL
+FAILED Spanish Education (B.A.) — Could not find program URL
+FAILED Spanish (B.A.) — Could not find program URL
+FAILED Social Studies Education Composite (B.A., B.S.) — Could not find program URL
+FAILED Interdisciplinary Studies (B.I.S.) — Could not find program URL
+FAILED Biology (B.A., B.S.) — Could not find program URL
+FAILED Biology Education (B.A.) — Could not find program URL
+FAILED Biological Sciences Education (B.S.) — Could not find program URL
+FAILED Chemistry - Health Care Emphasis (B.S.) — Could not find program URL
+FAILED Chemistry - Laboratory Science Emphasis (B.S.) — Could not find program URL
+FAILED Chemistry - Professional Emphasis (B.S.) — Could not find program URL
+FAILED Environmental Science (B.S.) — Could not find program URL
+FAILED Environmental Studies (B.A.) — Could not find program URL
+FAILED Geosciences (B.A.) — Could not find program URL
+FAILED Geology (B.S.) — Could not find program URL
+FAILED Geospatial Science (B.S.) — Could not find program URL
+FAILED Physics Education (B.A., B.S.) — Could not find program URL
+✅ Batch scrape complete.

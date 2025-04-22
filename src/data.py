@@ -1,9 +1,8 @@
 import pandas as pd
-from django.core.exceptions import ValidationError
 from django.db import transaction
 
 from src.models import Student, StudentRecord, MajorMapping, Course, NodeCourse, RequirementNode
-from src.utils import load_major_code_lookup
+from src.utils import load_major_code_lookup, normalize_catalog_term
 
 
 # Data Import Functions
@@ -22,7 +21,7 @@ def import_student_data_from_csv(file_path):
         col_map = {
             "ID": "student_id",
             "HS_GRAD": "high_school_grad",
-            "FT_SEM": "first_term",
+            "FT_TERM": "first_term",
             "MAJOR": "major_code",
             "CONC": "concentration_code",
             "CATALOG": "catalog_year",
@@ -32,7 +31,8 @@ def import_student_data_from_csv(file_path):
             "GRADE": "grade",
             "CREDITS": "credits",
             "CRSE_ATTR": "course_attributes",
-            "INSTITUTION": "institution"
+            "INSTITUTION": "institution",
+            "FT_TERM_CNT": "ft_term_cnt"
         }
 
         required_cols = set(col_map.keys()) - {"CONC", "CRSE_ATTR"}
@@ -58,7 +58,7 @@ def import_student_data_from_csv(file_path):
                 major_code = str(row["MAJOR"]).strip()
                 conc_code = str(row["CONC"]).strip() if "CONC" in row and pd.notna(row["CONC"]) else None
                 effective_code = conc_code or major_code
-                catalog_year = int(row["CATALOG"])
+                catalog_year = normalize_catalog_term(int(row["CATALOG"]))
                 term = int(row["TERM"])
                 course_id = f"{row['SUBJ']}-{row['CRSE']}"
 
@@ -100,21 +100,24 @@ def import_student_data_from_csv(file_path):
                 else:
                     course = course_map[course_id]
 
-                # Prevent duplicate StudentRecord
                 if StudentRecord.objects.filter(student=student, term=term, course=course).exists():
-                    continue
+                    continue  # skip duplicate records
+
+                if not pd.notna(row.get("CREDITS")):
+                    continue  # skip any rows without CREDITS since those are likely incomplete.
 
                 record = StudentRecord(
                     student=student,
-                    high_school_grad=row["HS_GRAD"],
-                    first_term=row["FT_SEM"],
+                    high_school_grad=row.get("HS_GRAD", row.get("FT_TERM")),
+                    first_term=row["FT_TERM"],
                     term=term,
                     course=course,
                     grade=row["GRADE"],
-                    credits=row["CREDITS"],
+                    credits=int(row["CREDITS"]),
                     course_attributes=row.get("CRSE_ATTR", "") if pd.notna(row.get("CRSE_ATTR", "")) else "",
                     institution=row["INSTITUTION"],
-                    counts_toward_major=False
+                    counts_toward_major=False,
+                    ft_term_cnt=int(row.get("FT_TERM_CNT", 0))
                 )
 
                 # Determine degree applicability
