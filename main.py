@@ -22,14 +22,17 @@ def main():
         base_url="https://www.suu.edu/academics/catalog/",
         majors_file="majors.txt",
         dry_run=False,  # Set to True for testing without DB writes
-        selected_years=None,
-        max_threads=8
+        selected_years=[
+            "2023-2024",
+            "2024-2025"
+        ],
+        max_threads=12
     )
-    filepath = "cleaned_bogus_data.csv"
+    filepath = "Bogus_data_2.csv"
     print(import_student_data_from_csv(filepath))
     StudentAudit.objects.all().delete()
-    # run_audit(202430)
-    # output_to_xlsx(202430)
+    run_audit(202430)
+    output_to_xlsx(202430)
 
 
 if __name__ == "__main__":

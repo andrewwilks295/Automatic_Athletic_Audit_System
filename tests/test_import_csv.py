@@ -3,6 +3,7 @@ import pandas as pd
 from django.test import TestCase
 from src.models import Student, Course, MajorMapping, StudentRecord, RequirementNode, NodeCourse
 from src.data import import_student_data_from_csv
+from src.utils import normalize_catalog_term
 
 
 class CSVImportTests(TestCase):
@@ -11,7 +12,7 @@ class CSVImportTests(TestCase):
         self.major = MajorMapping.objects.create(
             major_code="EXSC",
             base_major_code="EXSC",
-            catalog_year=202430,
+            catalog_year=normalize_catalog_term(202430),
             major_name_web="Exercise Science (B.S.)",
             major_name_registrar="Exercise Science",
             total_credits_required=120
@@ -36,12 +37,12 @@ class CSVImportTests(TestCase):
         NodeCourse.objects.create(node=self.node, course=self.course)
 
         self.columns = [
-            "ID", "HS_GRAD", "FT_SEM", "MAJOR", "CONC", "CATALOG", "TERM", "SUBJ",
+            "ID", "HS_GRAD", "FT_SEM", "FT_TERM_CNT", "MAJOR", "CONC", "CATALOG", "TERM", "SUBJ",
             "CRSE", "GRADE", "CREDITS", "CRSE_ATTR", "INSTITUTION"
         ]
 
         self.row = [
-            "T00000001", 2022, 202310, "EXSC", "", 202430, 202430, "KIN", "3050",
+            "T00000001", 2022, 202310, 2, "EXSC", "", 202430, 202430, "KIN", "3050",
             "A", 3, "", "SUU"
         ]
 
@@ -64,7 +65,7 @@ class CSVImportTests(TestCase):
         MajorMapping.objects.create(
             major_code="SPCO",
             base_major_code="COMM",
-            catalog_year=202430,
+            catalog_year=normalize_catalog_term(202430),
             major_name_web="Communication - Sports Communication Emphasis (BA/BS)",
             major_name_registrar="Sports Communication",
             total_credits_required=120
@@ -100,21 +101,21 @@ class CSVImportTests(TestCase):
         path1 = self._save_temp_csv(df1)
         import_student_data_from_csv(path1)
 
-        new_major = MajorMapping.objects.create(
+        MajorMapping.objects.create(
             major_code="PSY",
             base_major_code="PSY",
-            catalog_year=202430,
+            catalog_year=normalize_catalog_term(202430),
             major_name_web="Psychology (B.A., B.S.)",
             major_name_registrar="Psychology",
             total_credits_required=120
         )
 
         row2 = self.row.copy()
-        row2[self.columns.index("ID")] = "T00000001"
         row2[self.columns.index("MAJOR")] = "PSY"
         row2[self.columns.index("CONC")] = ""
         row2[self.columns.index("SUBJ")] = "PSY"
         row2[self.columns.index("CRSE")] = "1111"
+        row2[self.columns.index("ID")] = "T00000001"
 
         df2 = pd.DataFrame([row2], columns=self.columns)
         path2 = self._save_temp_csv(df2)

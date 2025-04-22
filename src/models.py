@@ -77,6 +77,7 @@ class StudentRecord(models.Model):
     institution = models.CharField(max_length=255)
     student_attributes = models.BigIntegerField(blank=True, null=True)
     counts_toward_major = models.BooleanField(default=False, null=True)
+    ft_term_cnt = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.student.student_id} - {self.course.course_id} ({self.grade})"
