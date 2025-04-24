@@ -36,9 +36,4 @@ def main():
 
 
 if __name__ == "__main__":
-    start = datetime.now()
-    start_ct = MajorMapping.objects.all().count()
     main()
-    elapsed = datetime.now() - start
-    diff_ct = MajorMapping.objects.all().count() - start_ct
-    print(f"created: {diff_ct} in {elapsed.total_seconds()} seconds")
