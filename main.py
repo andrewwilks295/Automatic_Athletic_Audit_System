@@ -30,7 +30,6 @@ def main():
     )
     filepath = "Bogus_data_2.csv"
     print(import_student_data_from_csv(filepath))
-    StudentAudit.objects.all().delete()
     run_audit(202430)
     output_to_xlsx(202430)
 
