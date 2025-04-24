@@ -17,12 +17,12 @@ from src.maintenance import delete_majors
 
 
 def main():
-    delete_majors()
     batch_scrape_all_catalogs(
         base_url="https://www.suu.edu/academics/catalog/",
         majors_file="majors.txt",
         dry_run=False,  # Set to True for testing without DB writes
         selected_years=[
+            "2022-2024",
             "2023-2024",
             "2024-2025"
         ],
