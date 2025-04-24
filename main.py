@@ -4,8 +4,10 @@ from datetime import datetime
 import django
 
 # initialize django (sqlite ORM only)
+# THE FOLLOWING TWO LINES ARE REQUIRED FOR DJANGO ORM TO WORK AND MUST BE CALLED BEFORE ANY DJANGO IMPORTS.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 django.setup()
+# end of django initialization
 
 from src.batch import batch_scrape_all_catalogs
 from src.course_parser import print_requirement_tree
